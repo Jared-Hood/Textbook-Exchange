@@ -11,4 +11,4 @@ def index(request):
     return render(request, 'txtbook/index.html')
 
 def addTextbook(request):
-    return render(request, 'txtbook/addtextbook.html')
+    return render(request, 'txtbook/addTextbook.html')
