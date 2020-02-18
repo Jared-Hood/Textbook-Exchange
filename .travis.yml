@@ -3,3 +3,5 @@ deploy:
   provider: heroku
   api_key:
     secure: fa08ea17-ce58-48d0-81c2-81731aeb9141
+script:
+  python manage.py test
