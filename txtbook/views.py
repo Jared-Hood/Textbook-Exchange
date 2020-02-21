@@ -41,7 +41,7 @@ class PostView(generic.DetailView):
         return TextbookPost.objects.filter(datePublished__lte=timezone.now())
 
 def addTextbook(request):
-<<<<<<< HEAD
+# <<<<<<< HEAD
     try:
         newTitle = request.POST['title']
         newAuthor = request.POST['author']
@@ -88,6 +88,6 @@ def addTextbook(request):
         )
         tp.save()
         return HttpResponseRedirect(reverse('txtbook:addTextbook'))
-=======
+# =======
     return render(request, 'txtbook/addTextbook.html')
->>>>>>> 0b2597a8a7905ec2e8f13a8e580f82950ccaf5eb
+# >>>>>>> 0b2597a8a7905ec2e8f13a8e580f82950ccaf5eb
