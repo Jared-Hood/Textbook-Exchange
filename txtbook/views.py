@@ -59,12 +59,12 @@ def addTextbook(request):
         newFormat = request.POST['format']
 
         if (newTitle == '' or newPrice == ''):
-            return render(request, 'txtbook/addTextbook.html', {
+            return render(request, 'txtbook/addtextbook.html', {
                 'error_message': "Your textbook must have a TITLE and PRICE."
             })
 
     except (KeyError, TextbookPost.DoesNotExist):
-        return render(request, 'txtbook/addTextbook.html', {
+        return render(request, 'txtbook/addtextbook.html', {
             # 'error_message': "One or more of the fields is empty."
         })
 
