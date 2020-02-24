@@ -11,7 +11,7 @@ from .models import Textbook, TextbookPost
 
 
 def index(request):
-    return render(request, 'txtbook/index.html')
+    return render(request, 'txtbook/bootstrap-landing.html')
 
 # def addTextbook(request):
 #     return render(request, 'txtbook/addtextbook.html')
