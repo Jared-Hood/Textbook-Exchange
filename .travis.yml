@@ -8,7 +8,8 @@ services:
   - postgresql
 
 before_script:
-  - psql -c 'create database postgres;' -U postgres
+  - psql -c 'create user postgres with password "password";' -U postgres
+  - psql -c 'alter user test createdb;' -U postgres
 
 script:
   python manage.py test
