@@ -2,6 +2,7 @@
 
     {% load static %}
     {% block content %}
+
     <div class="jumbotron text-center">
         <h1><b>
                 <font color="brown"> Search Results for: {{search_term}} </font>
@@ -11,10 +12,11 @@
     {% if books %}
     <ul class="text-center">
         {% for book in books %}
-        <p class="text-center"><a class="text-center" href="{% url 'txtbook:transfer' pk=book.id %}">{{ book.title }}</a></p>
+        <p class="text-center"><a class="text-center" href="{% url 'txtbook:text' pk=book.id %}">{{ book.title }}</a></p>
         {% endfor %}
     </ul>
     {% else %}
     <p class="text-center">No textbooks matched the search.</p>
     {% endif %}
+
     {% endblock %}

@@ -8,6 +8,15 @@ body {
   font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
+.page-wrap{
+  min-height: calc(100vh - 150px);
+}
+
+.page-wrap:after{
+  content: "";
+  display: block;
+}
+
 h1,
 h2,
 h3,

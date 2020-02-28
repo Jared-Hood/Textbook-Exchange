@@ -1,54 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <title>Add Textbook</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+{% extends 'txtbook/base.html' %}
 
     {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}">
-
-</head>
-
-<body>
-
-    <!-- <div class="container-fluid"> -->
-
-    <!-- Code for navbar from https://www.w3schools.com/bootstrap4/bootstrap_navbar.asp-->
-    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-        <ul class="navbar-nav">
-            <li class="nav-item active">
-                <a class="nav-link" href="/">Home</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/addtextbook">Add a Textbook</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="">Textbook List</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/allposts">Posts</a>
-            </li>
-        </ul>
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
-    </nav>
-
+    {% block content %}
     <div class="jumbotron text-center">
         <h1><b>
                 <font color="brown"> Make a textbook post!</font>
             </b></h1>
     </div>
     <!-- </div> -->
-
-
 
     <p class="text-center"> Search for your textbook with the ISBN, title, or author:</p>
     <div class="d-flex justify-content-center">
@@ -276,14 +235,4 @@
         </div>
 
     </div>
-    <!--/container-->
-    <!------------------------------------------------------------------------------------------------>
-
-    <footer class="page-footer font-small blue">
-        <div class="footer-copyright text-center py-3">Red Robins © 2020 Copyright:
-        </div>
-    </footer>
-
-</body>
-
-</html>
+    {% endblock %}

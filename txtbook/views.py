@@ -13,7 +13,7 @@ from django.shortcuts import redirect
 from .models import Textbook, TextbookPost
 
 
-
+# Homepage
 def index(request):
     return render(request, 'txtbook/bootstrap-landing.html')
 
@@ -24,17 +24,16 @@ def index(request):
 #     return render(request, 'txtbook/allposts.html')
 
 
-def TextView(request, pk):
-    if(request.method == 'POST'):
-        return render(request,'txtbook/addExistingTextbook.html',{'textbook': Textbook.objects.get(id=pk)})
+def text(request, pk):
     return render(request, 'txtbook/text.html', {'textbook': Textbook.objects.get(id=pk)})
 
-"""class TextView(generic.DetailView):
-    model = Textbook
-    template_name = 'txtbook/text.html'
-    context = Textbook """
 
+def textView(request):
+    all_text = Textbook.objects.all()
+    context = {'books': all_text}
+    return render(request,'txtbook/textlist.html',context)
 
+# Lists all Posts
 class allPostsView(generic.ListView):
     template_name = 'txtbook/allPosts.html'
     context_object_name = 'latest_post_list'
@@ -47,6 +46,7 @@ class allPostsView(generic.ListView):
             date_published__lte=timezone.now()
         ).order_by('-date_published')
 
+# Shows a post individually
 class PostView(generic.DetailView):
     model = TextbookPost
     template_name = 'txtbook/post.html'
@@ -57,12 +57,19 @@ class PostView(generic.DetailView):
         """
         return TextbookPost.objects.filter(date_published__lte=timezone.now())
 
-
+# The function that is called when the search bar is used on the addTextbook page.
 def search(request):
     template = 'txtbook/addTextbook.html'
     query = request.GET.get('q')
     if query:
         if(query[0].isnumeric()):
+            output = ""
+            for char in query:
+                if char == '-':
+                    pass
+                else:
+                    output += char
+            query = output
             results = Textbook.objects.filter(Q(isbn__icontains=query))
             context = {
                 'books':results, 'search_term':query
@@ -75,11 +82,13 @@ def search(request):
                 }
             return render(request, 'txtbook/search_results.html', context)
 
+# an intermediary function that allows addExistingTextbook to utilize context
 def transfer(request,pk):
     current = Textbook.objects.get(id=pk)
-    print(current.id)
     return render(request,'txtbook/addExistingTextbook.html', {'textbook': current})
 
+# The function which is called when 'post' is clicked on a add existing textbook page.
+# Should redirect to
 def addExistingTextbook(request,pk):
     try:
         new_price = request.POST['price']
@@ -118,7 +127,7 @@ def addExistingTextbook(request,pk):
     return render(request, 'txtbook/addExistingTextbook.html', {'textbook':Textbook.objects.get(id=pk)})
     # >>>>>>> 0b2597a8a7905ec2e8f13a8e580f82950ccaf5eb
 
-
+# Main page to add a textbook.
 def addTextbook(request):
 # <<<<<<< HEAD
     if 'search' in request.GET:
@@ -197,6 +206,9 @@ def addTextbook(request):
     # >>>>>>> 0b2597a8a7905ec2e8f13a8e580f82950ccaf5eb
 
 
+
+# The view function to upload a database to the mysite
+# TODO: add admin protection to the url.
 def textbook_upload(request):
     template = "txtbook/textbook_upload.html"
     prompt = {
