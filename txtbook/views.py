@@ -69,7 +69,7 @@ def search(request):
                 }
             return render(request, 'txtbook/search_results.html', context)
         else:
-            results = Textbook.objects.filter(Q(title__icontains=query))
+            results = Textbook.objects.filter(Q(title__icontains=query)|Q(author__icontains=query))
             context = {
                 'books':results, 'search_term':query
                 }
