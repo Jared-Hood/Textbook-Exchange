@@ -5,14 +5,16 @@
 
     <div class="jumbotron text-center">
         <h1><b>
-                <font color="brown"> Search Results for: {{search_term}} </font>
+                <font color="brown"> Textbooks from UVa:</font>
             </b></h1>
     </div>
 
     {% if books %}
     <ul class="text-center">
         {% for book in books %}
-        <p class="text-center"><a class="text-center" href="{% url 'txtbook:text' pk=book.id %}">{{ book.title }}</a></p>
+          {% if book.user_created == False %}
+            <p class="text-center"><a class="text-center" href="{% url 'txtbook:text' pk=book.id %}">{{ book.title }}</a></p>
+          {% endif %}
         {% endfor %}
     </ul>
     {% else %}
