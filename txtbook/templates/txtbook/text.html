@@ -43,8 +43,13 @@
     </div> -->
 </div>
 
-<h1 class="text-center">Textbook: {{ textbookpost.textbook.title }}</h1>
-<h3 class="text-center">Price: ${{ textbookpost.price }}</h3>
+<h1 class="text-center">Title: {{ textbook.title }}</h1>
+<h3 class="text-center">Author(s): {{ textbook.author }}</h3>
+
+<form method="post">
+  {% csrf_token %}
+  <button href="addexistingtextbook/" class="btn btn-primary">Go</button>
+</form>
 <!-- <h3 class="text-center">Format: {{ textbookpost.format }}</h3> -->
 
 <!--  -->

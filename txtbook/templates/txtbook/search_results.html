@@ -26,7 +26,7 @@
                 <a class="nav-link" href="/">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="addtextbook">Add a Textbook</a>
+                <a class="nav-link" href="{% url 'txtbook:addTextbook' %}">Add a Textbook</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="">Textbook List</a>
@@ -43,18 +43,18 @@
 
     <div class="jumbotron text-center">
         <h1><b>
-                <font color="brown"> Current Posts </font>
+                <font color="brown"> Search Results for: {{search_term}} </font>
             </b></h1>
     </div>
 
-    {% if latest_post_list %}
+    {% if books %}
     <ul class="text-center">
-        {% for post in latest_post_list %}
-        <p class="text-center"><a class="text-center" href="{% url 'txtbook:post' post.id%}"> {{ post.textbook }}</a></p>
+        {% for book in books %}
+        <p class="text-center"><a class="text-center" href="{% url 'txtbook:transfer' pk=book.id %}">{{ book.title }}</a></p>
         {% endfor %}
     </ul>
     {% else %}
-    <p class="text-center">No posts are available.</p>
+    <p class="text-center">No textbooks matched the search.</p>
     {% endif %}
 
 </body>

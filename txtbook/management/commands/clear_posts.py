@@ -5,4 +5,3 @@ from txtbook.models import Textbook, TextbookPost
 class Command(BaseCommand):
     def handle(self, *args,**options):
         TextbookPost.objects.all().delete()
-        Textbook.objects.all().delete()

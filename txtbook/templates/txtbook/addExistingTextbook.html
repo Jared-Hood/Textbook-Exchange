@@ -49,22 +49,7 @@
     <!-- </div> -->
 
 
-
-    <p class="text-center"> Search for your textbook with the ISBN, title, or author:</p>
-    <div class="d-flex justify-content-center">
-        <form class="form-inline my-2 my-lg-0 text-center" method="GET" action="{% url 'txtbook:search' %}">
-            <div>
-                <input class="form-control mr-sm-2" name = "q" value="{{request.GET.q}}" placeholder="ISBN, Title, or Author" aria-label="Search" >
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-            </div>
-
-        </form>
-    </div>
-
-    <br>
-    <p class="text-center">OR</p>
-    <p class="text-center">Fill out the Textbook Information section below. All posts must have the Sale Information
-        section filled out.</p>
+    <p class="text-center">All posts must have the Sale Information section filled out.</p>
 
     {% if error_message %}<p class="text-center"><strong>{{ error_message }}</strong></p>
     {% endif %}
@@ -87,25 +72,24 @@
 
                     <!--- Body -->
                     <div class="card-body">
-                        <form class="form" role="form" autocomplete="off" action="{% url 'txtbook:addTextbook' %}"
-                            method="post">
+                        <form class="form" role="form" autocomplete="off"  action="{% url 'txtbook:addExistingTextbook' pk=textbook.id %}" method="post">
                             {% csrf_token %}
                             <!-- Form row: Textbook Title -->
                             <div class="form-group row">
                                 <label class="col-lg-2 col-form-label form-control-label">Textbook Title</label>
                                 <div class="col-lg-10">
-                                    <input class="form-control" type="text" name="title" id="title">
+                                    <h4>{{textbook.title}}</h4>
                                 </div>
                             </div>
                             <!-- Form row: Author, Department, Class # -->
                             <div class="form-row mt-4">
                                 <div class="col-sm-6 pb-3">
                                     <label for="author">Author(s)</label>
-                                    <input type="text" class="form-control" name="author" id="author">
+                                    <h4>{{textbook.author}}</h4>
                                 </div>
                                 <div class="col-sm-6 pb-3">
                                     <label for="author">ISBN #</label>
-                                    <input type="text" class="form-control" id="isbn" name="isbn">
+                                    <h4>{{textbook.isbn}}</h4>
                                 </div>
                             </div>
 
@@ -113,17 +97,15 @@
                             <div class="form-row mt-1">
                                 <div class="col-sm-4 pb-3">
                                     <label for="dept">Department </label>
-                                    <input type="text" class="form-control" id="dept" name="dept">
-                                    <small class="text-info">e.g., BIOL</small>
+                                    <h4>{{textbook.dept}}</h4>
                                 </div>
                                 <div class="col-sm-4 pb-3">
                                     <label for="classnum">Class #</label>
-                                    <input type="text" class="form-control" id="classnum" name="classnum">
-                                    <small class="text-info">e.g., from BIOL 3100, type 3100</small>
+                                    <h4>{{textbook.classnum}}</h4>
                                 </div>
                                 <div class="col-sm-4 pb-3">
-                                    <label for="ibsn">Section #</label>
-                                    <input type="text" class="form-control" id="sect" name="sect">
+                                    <label for="isbn">Section #</label>
+                                    <h4>{{textbook.sect}}</h4>
                                 </div>
                             </div>
                             <!-- </form> -->
