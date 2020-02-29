@@ -34,50 +34,66 @@
 
                     <!--- Body -->
                     <div class="card-body">
-                        <form class="form" role="form" autocomplete="off"  action="{% url 'txtbook:addExistingTextbook' pk=textbook.id %}" method="post">
-                            {% csrf_token %}
-                            <!-- Form row: Textbook Title -->
+                          <!-- Form row: Textbook Title -->
                             <div class="form-group row">
-                                <label class="col-lg-2 col-form-label form-control-label">Textbook Title</label>
-                                <div class="col-lg-10">
-                                    <h4>{{textbook.title}}</h4>
+                              <div class="col-3 big-col float-left">
+                                <img src="/static/txtbook/thumbnails/{{textbook.isbn}}.jpg" style="width:100%;padding-top:5px">
+                              </div>
+                              <div class="col-9 big-col">
+                                <div class="form-group header-row">
+                                  <h3 class="text-left">{{ textbook.title }}</h3>
                                 </div>
-                            </div>
-                            <!-- Form row: Author, Department, Class # -->
-                            <div class="form-row mt-4">
-                                <div class="col-sm-6 pb-3">
-                                    <label for="author">Author(s)</label>
-                                    <h4>{{textbook.author}}</h4>
+                                <div class="form-group row">
+                                  <div class="col-6 my-col">
+                                    <h5 class="text-left">Author(s):      {{textbook.author}}</h5>
+                                  </div>
+                                  <div class="col-6 my-col">
+                                    <div class="text-left">
+                                      <h5 class="text-left">ISBN:     {{textbook.isbn}}</h5>
+                                    </div>
+                                  </div>
                                 </div>
-                                <div class="col-sm-6 pb-3">
-                                    <label for="author">ISBN #</label>
-                                    <h4>{{textbook.isbn}}</h4>
+                                <div class="form-group row">
+                                  <div class="col-6 row-col">
+                                    <div class="row">
+                                      <div class="col-6  my-col">
+                                        <h5 class="text-left">
+                                            Classes: {{textbook.dept}}{{textbook.classnum}}
+                                        </h5>
+                                      </div>
+                                      <div class="col-6  my-col">
+                                        <h5 class="text-left">
+                                          {% if textbook.sect|length == 1 %}
+                                            Section: 00{{textbook.sect}}
+                                          {% else %}
+                                            Section: {{textbook.sect}}
+                                          {% endif %}
+                                        </h5>
+                                      </div>
+                                    </div>
+                                    <div class="form-group mt-1 sm-row">
+                                      <div class="row sm-row">
+                                        <div class="col-sm-8  pb-3 my-col">
+                                          <h6 class='text-left'>Bookstore Pricing:      {{textbook.new_price_bookstore}} (new) {{textbook.used_price_bookstore}} (used)</h6>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="col-6 row-col">
+                                    <a href="{{ textbook.amazon_link}}" target="_blank">
+                                      <img src="/static/txtbook/img/amazon.jpg" class="rounded float-left" alt="amazon_logo" style="width:50%">
+                                    </a>
+                                  </div>
                                 </div>
-                            </div>
-
-                            <!-- Form row: IBSN #, Price, Negotiable Price Option -->
-                            <div class="form-row mt-1">
-                                <div class="col-sm-4 pb-3">
-                                    <label for="dept">Department </label>
-                                    <h4>{{textbook.dept}}</h4>
-                                </div>
-                                <div class="col-sm-4 pb-3">
-                                    <label for="classnum">Class #</label>
-                                    <h4>{{textbook.classnum}}</h4>
-                                </div>
-                                <div class="col-sm-4 pb-3">
-                                    <label for="isbn">Section #</label>
-                                    <h4>{{textbook.sect}}</h4>
-                                </div>
-                            </div>
+                              </div>
                             <!-- </form> -->
                     </div>
+                </div>
                 </div>
                 <br><br>
 
                 <!--------------------------------------- Sale Info ---------------------------------------------->
                 <div class="card card-outline-secondary">
-
                     <!--- Header Info -->
                     <div class="card-header">
                         <h3 class="mb-0">Sale Information</h3>
@@ -85,6 +101,8 @@
 
                     <!--- Body -->
                     <div class="card-body">
+                      <form class="form" role="form" autocomplete="off"  action="{% url 'txtbook:addExistingTextbook' pk=textbook.id %}" method="post">
+                      {% csrf_token %}
                         <!-- <form class="form" role="form" autocomplete="off" action="{% url 'txtbook:addTextbook' %}" method="post">
                         {% csrf_token %} -->
 

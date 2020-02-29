@@ -11,7 +11,7 @@ from urllib.parse import urlencode
 import csv, io
 from django.shortcuts import redirect
 from .models import Textbook, TextbookPost
-
+from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
 
 # Homepage
 def index(request):
@@ -30,8 +30,21 @@ def text(request, pk):
 
 def textView(request):
     all_text = Textbook.objects.all()
-    context = {'books': all_text}
-    return render(request,'txtbook/textlist.html',context)
+    paginator = Paginator(all_text, 20)
+    page = request.GET.get('page',1)
+    try:
+        books = paginator.page(page)
+    except PageNotAnInteger:
+        books = paginator.page(1)
+    except EmptyPage:
+        books = paginator.page(paginator.num_pages)
+
+    index = books.number - 1
+    max_index = len(paginator.page_range)
+    start_index = index - 5 if index >= 5 else 0
+    end_index = index + 5 if index <= max_index - 5 else max_index
+    page_range = paginator.page_range[start_index:end_index]
+    return render(request,'txtbook/textlist.html', {'books': books, 'page_range':page_range})
 
 # Lists all Posts
 class allPostsView(generic.ListView):
@@ -61,26 +74,31 @@ class PostView(generic.DetailView):
 def search(request):
     template = 'txtbook/addTextbook.html'
     query = request.GET.get('q')
+    query_numeric=""
+    results = []
     if query:
         if(query[0].isnumeric()):
-            output = ""
             for char in query:
-                if char == '-':
-                    pass
+                if not char.isnumeric():
+                    continue
                 else:
-                    output += char
-            query = output
-            results = Textbook.objects.filter(Q(isbn__icontains=query))
-            context = {
-                'books':results, 'search_term':query
-                }
-            return render(request, 'txtbook/search_results.html', context)
-        else:
-            results = Textbook.objects.filter(Q(title__icontains=query)|Q(author__icontains=query))
-            context = {
-                'books':results, 'search_term':query
-                }
-            return render(request, 'txtbook/search_results.html', context)
+                    query_numeric += char
+        results = Textbook.objects.filter(Q(isbn__icontains=query_numeric) | Q(title__icontains=query) | Q(author__icontains=query)).distinct()
+    paginator = Paginator(results, 20)
+    page_request_var = 'page'
+    page = request.GET.get(page_request_var)
+    try:
+        books = paginator.page(page)
+    except PageNotAnInteger:
+        books = paginator.page(1)
+    except EmptyPage:
+        books = paginator.page(paginator.num_pages)
+    index = books.number - 1
+    max_index = len(paginator.page_range)
+    start_index = index - 5 if index >= 5 else 0
+    end_index = index + 5 if index <= max_index - 5 else max_index
+    page_range = paginator.page_range[start_index:end_index]
+    return render(request,'txtbook/search_results.html', {'books': books, 'page_range':page_range, 'search_term':query})
 
 # an intermediary function that allows addExistingTextbook to utilize context
 def transfer(request,pk):
@@ -130,34 +148,6 @@ def addExistingTextbook(request,pk):
 # Main page to add a textbook.
 def addTextbook(request):
 # <<<<<<< HEAD
-    if 'search' in request.GET:
-        template = 'txtbook/search_results.html'
-        if(request.GET['search'][0].isnumeric()):
-            search_term = request.GET['search']
-            temp = ''
-            if '-' in search_term:
-                for char in search_term:
-                    if char == '-':
-                        continue
-                    else:
-                        temp+=char
-                search_term = temp
-            output = []
-            books = Textbook.objects.all()
-            for book in books:
-                if(search_term in book.isbn):
-                    output.append(book)
-            return render(request, template,  {'books': output, 'search_term': search_term})
-        else:
-            search_term = request.GET['search']
-            output = []
-            books = Textbook.objects.all()
-            for book in books:
-                if(search_term in book.title or search_term in book.author):
-                    output.append(book)
-            return render(request, template,  {'books': output, 'search_term': search_term})
-
-    else:
         try:
             new_title = request.POST['title']
             new_author = request.POST['author']

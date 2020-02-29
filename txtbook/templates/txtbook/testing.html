@@ -1,0 +1,223 @@
+{% extends 'txtbook/base.html' %}
+
+        {% load static %}
+        {% block content %}
+
+        <div class="jumbotron text-center">
+            <h1><b>
+                    <font color="brown"> Make a textbook post!</font>
+                </b></h1>
+        </div>
+        <!-- </div> -->
+
+
+        <p class="text-center">All posts must have the Sale Information section filled out.</p>
+
+        {% if error_message %}<p class="text-center"><strong>{{ error_message }}</strong></p>
+        {% endif %}
+
+        <!----- Code for Forms: https://www.codeply.com/go/JVP2nxfv0p/bootstrap-4-forms ------------------------>
+        <!----- Additional Formatting Information from: https://getbootstrap.com/docs/4.0/components/forms/ ---->
+        <div class="container py-5">
+            <div class="row">
+                <div class="col-md-10 offset-md-1">
+                    <span class="anchor" id="formUserEdit"></span>
+
+
+                    <!--------------------------------------- Textbook Info ---------------------------------------------->
+                    <div class="card card-outline-secondary">
+
+                        <!--- Header Info -->
+                        <div class="card-header">
+                            <h3 class="mb-0">Textbook Information</h3>
+                        </div>
+
+                        <!--- Body -->
+                        <div class="card-body">
+                            <form class="form" role="form" autocomplete="off"  action="{% url 'txtbook:addExistingTextbook' pk=textbook.id %}" method="post">
+                                {% csrf_token %}
+                                <!-- Form row: Textbook Title -->
+                                <div class="form-group row">
+                                    <label class="col-lg-2 col-form-label form-control-label">Textbook Title</label>
+                                    <div class="col-lg-10">
+                                        <h4>{{textbook.title}}</h4>
+                                    </div>
+                                </div>
+                                <!-- Form row: Author, Department, Class # -->
+                                <div class="form-row mt-4">
+                                    <div class="col-sm-6 pb-3">
+                                        <label for="author">Author(s)</label>
+                                        <h4>{{textbook.author}}</h4>
+                                    </div>
+                                    <div class="col-sm-6 pb-3">
+                                        <label for="author">ISBN #</label>
+                                        <h4>{{textbook.isbn}}</h4>
+                                    </div>
+                                </div>
+
+                                <!-- Form row: IBSN #, Price, Negotiable Price Option -->
+                                <div class="form-row mt-1">
+                                    <div class="col-sm-4 pb-3">
+                                        <label for="dept">Department </label>
+                                        <h4>{{textbook.dept}}</h4>
+                                    </div>
+                                    <div class="col-sm-4 pb-3">
+                                        <label for="classnum">Class #</label>
+                                        <h4>{{textbook.classnum}}</h4>
+                                    </div>
+                                    <div class="col-sm-4 pb-3">
+                                        <label for="isbn">Section #</label>
+                                        <h4>{{textbook.sect}}</h4>
+                                    </div>
+                                </div>
+                                <!-- </form> -->
+                        </div>
+                    </div>
+                    <br><br>
+
+                    <!--------------------------------------- Sale Info ---------------------------------------------->
+                    <div class="card card-outline-secondary">
+
+                        <!--- Header Info -->
+                        <div class="card-header">
+                            <h3 class="mb-0">Sale Information</h3>
+                        </div>
+
+                        <!--- Body -->
+                        <div class="card-body">
+                            <!-- <form class="form" role="form" autocomplete="off" action="{% url 'txtbook:addTextbook' %}" method="post">
+                            {% csrf_token %} -->
+
+                            <!-- Form row: Textbook Format, Price, Negotiable Price Option -->
+                            <div class="form-row mt-1">
+                                <div class="col-sm-5 pb-3">
+                                    <label for="negotiable">Textbook Format</label>
+                                    <select class="form-control" id="format" name="format">
+                                        <option>Hard Cover</option>
+                                        <option>Loose Leaf</option>
+                                        <option>Other (specify in Additional Information)</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-4 pb-3">
+                                    <label for="price">Price</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend"><span class="input-group-text">$</span></div>
+                                        <input type="text" class="form-control" id="price" name="price">
+                                    </div>
+                                </div>
+                                <div class="col-sm-3 pb-3">
+                                    <label for="negotiable">Negotiable Price</label>
+                                    <select class="form-control" id="negotiable" name="negotiable">
+                                        <option>Yes</option>
+                                        <option>No</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Form row: Exchangable, Max Price Diff, Payment Method -->
+                            <div class="form-row mt-3">
+                                <div class="col-sm-2 pb-3">
+                                    <label for="exchangable">Exchangable</label>
+                                    <select class="form-control" id="exchangable" name="exchangable">
+                                        <option>Yes</option>
+                                        <option>No</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-sm-5 pb-3">
+                                    <label for="maxdiff">If exchangable, maximum price difference:</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend"><span class="input-group-text">$</span></div>
+                                        <input type="text" class="form-control" id="maxDiff" name="maxDiff">
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-5 pb-3">
+                                    <label for="payment">Preferred Method of Payment</label>
+                                    <select class="form-control" id="payment" name="payment">
+                                        <option>Venmo</option>
+                                        <option>Cash</option>
+                                        <option>Other (specify in Additional Information)</option>
+                                    </select>
+                                </div>
+
+                                <!-- Condition -->
+                                <div class="col-md-6 pb-3">
+                                    <label for="condition">Condition</label>
+                                    <div class="form-group small">
+                                        <div class="form-check form-check-inline">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="1/5"
+                                                    value="option1"> 1
+                                            </label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="2/5"
+                                                    value="option2"> 2
+                                            </label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="3/5"
+                                                    value="option3"> 3
+                                            </label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="4/5"
+                                                    value="option3"> 4
+                                            </label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="5/5"
+                                                    value="option3" checked="checked"> 5
+                                            </label>
+                                        </div>
+                                        <div>
+                                            <small class="text-info">
+                                                1 = very worn to 5 = almost new
+                                            </small>
+                                        </div>
+                                    </div>
+
+                                    <!-- Upload Image -->
+                                    <br>
+                                    <div class="form-group">
+                                        <label for="exampleFormControlFile1">Upload Image</label>
+                                        <input type="file" class="form-control-file" id="image" name="image">
+                                    </div>
+                                </div>
+
+                                <!-- Additional Info -->
+                                <div class="col-md-6 pb-3">
+                                    <label for="moreInfo">Additional Information</label>
+                                    <textarea class="form-control" id="additionalInfo" rows=5 name="additionalInfo"></textarea>
+                                    <small class="text-info">
+                                        Add any other details/information here.
+                                    </small>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </div><br>
+                    <!--- End pf Form Buttons -->
+                    <div class="col-lg-9">
+                        <input type="button" class="btn btn-secondary" value="Cancel">
+                        <input type="submit" class="btn btn-primary" value="Post">
+                    </div>
+                    </form>
+                    <br><br>
+
+
+                    <br><br><br><br>
+
+                </div>
+                <!--/col-->
+            </div>
+
+        </div>
+        {% endblock %}
