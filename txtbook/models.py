@@ -1,9 +1,11 @@
 import datetime
 from django.db import models
+from django.contrib.auth.models import User
 from django.utils import timezone
 from django.urls import reverse
 
 # Create your models here.
+
 class Textbook(models.Model):
     title = models.CharField(max_length=200, default='N/A')
     author = models.CharField(max_length=200, default='N/A',)

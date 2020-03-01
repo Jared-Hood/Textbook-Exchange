@@ -42,12 +42,16 @@
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'txtbook:allPosts' %}">Posts</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="">Login</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="">Sign Up</a>
-            </li>
+            {% if user.is_active %}
+                <li>
+                <a class="nav-link" href="{% url 'txtbook:logout_request' %}">Logout? Logged in as {{ user.first_name }}</a>
+                </li>
+            {%  else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}">Login</a>
+                </li>
+            {% endif %}
+
         </ul>
         <form class="form-inline my-2 my-lg-0">
             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">

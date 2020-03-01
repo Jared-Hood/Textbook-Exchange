@@ -1,6 +1,8 @@
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
+from django.urls import include, path, re_path
+from django.conf.urls import url
 
 from . import views
 from txtbook import views as txtbook_views
@@ -17,6 +19,7 @@ urlpatterns = [
     path('allposts', views.allPostsView.as_view(), name='allPosts'),
     path('post/<int:pk>/', views.PostView.as_view(), name='post'),
     path('upload-database',views.textbook_upload,name="textbook_upload"),
+    path('logout', views.logout_request, name="logout_request"), # logout request
 ]
 
 if settings.DEBUG:
