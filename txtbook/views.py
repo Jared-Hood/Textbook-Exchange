@@ -12,6 +12,7 @@ import csv, io
 from django.shortcuts import redirect
 from .models import Textbook, TextbookPost
 from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
+from django.contrib.auth import logout
 
 # Homepage
 def index(request):
@@ -26,6 +27,11 @@ def index(request):
 
 def text(request, pk):
     return render(request, 'txtbook/text.html', {'textbook': Textbook.objects.get(id=pk)})
+
+
+def logout_request(request):
+    logout(request) # logout the user
+    return HttpResponseRedirect("/")
 
 
 def textView(request):
