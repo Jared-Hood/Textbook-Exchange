@@ -114,11 +114,11 @@ def addExistingTextbook(request,pk):
         new_condition = request.POST['inlineRadioOptions']
         new_additional_info = request.POST['additionalInfo']
         new_format = request.POST['format']
-        new_image = request.FILES['image']
+        new_image = request.FILES.get('image', False)
 
         if (new_price == ''):
             print("no new price")
-            return render(request, 'txtbook/addExistingTextbook.html', {'textbook':Textbook.objects.get(id=pk), 'error_message': "Your posting MUST have price"})
+            return render(request, 'txtbook/addExistingTextbook.html', {'textbook':Textbook.objects.get(id=pk), 'error_message': "Your posting MUST have a price."})
 
     except (KeyError, TextbookPost.DoesNotExist):
         return render(request, 'txtbook/addExistingTextbook.html', {
@@ -159,7 +159,7 @@ def addTextbook(request):
             new_condition = request.POST['inlineRadioOptions']
             new_additional_info = request.POST['additionalInfo']
             new_format = request.POST['format']
-            new_image = request.FILES['image']
+            new_image = request.FILES.get('image', False)
 
             if (new_title == '' or new_price == ''):
                 return render(request, 'txtbook/addTextbook.html', {

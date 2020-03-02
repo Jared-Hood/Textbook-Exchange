@@ -1,22 +1,96 @@
 {% extends 'txtbook/base.html' %}
 
 {% load static %}
-    <!-- <div class="container-fluid"> -->
+<!-- <div class="container-fluid"> -->
 
-    {% block content %}
-      <div class="jumbotron text-center">
-          <h1><b>
-                  <font color="brown"> Current Posts </font>
-              </b></h1>
-      </div>
+{% block content %}
+<div class="jumbotron text-center">
+    <h1><b>
+            <font color="brown"> Current Posts </font>
+        </b></h1>
+</div>
 
-      {% if latest_post_list %}
-      <ul class="text-center">
-          {% for post in latest_post_list %}
-          <p class="text-center"><a class="text-center" href="{% url 'txtbook:post' post.id%}"> {{ post.textbook }}</a></p>
-          {% endfor %}
-      </ul>
-      {% else %}
-      <p class="text-center">No posts are available.</p>
-      {% endif %}
-    {% endblock %}
+<!-- {% if latest_post_list %}
+<ul class="text-center">
+    {% for post in latest_post_list %}
+    <p class="text-center"><a class="text-center" href="{% url 'txtbook:post' post.id%}"> {{ post.textbook }}</a></p>
+    {% endfor %}
+</ul>
+{% else %}
+<p class="text-center">No posts are available.</p>
+{% endif %} -->
+
+
+<style>
+    .my-container {
+        border: 1px solid lightgray;
+        margin-top: 10px;
+    }
+
+    .big-col {
+        padding-top: 15px;
+        padding-left: 15px;
+        padding-right: 15px;
+        padding-bottom: 15px;
+    }
+
+    .header-row {
+        padding-top: 15px;
+        padding-left: 15px;
+        padding-right: 15px;
+        padding-bottom: 2px;
+    }
+
+    .my-row {
+        padding-top: 15px;
+        padding-bottom: 5px;
+    }
+
+    .sm-row {
+        padding-top: 0px;
+        padding-bottom: 7px;
+    }
+
+    .big-col {
+        padding: 10px;
+    }
+</style>
+{% if latest_post_list %}
+<ul class="text-center">
+    {% for post in latest_post_list %}
+    <div class="container my-container">
+        <div class="row big-row">
+            <div class="col-2 big-col float-left">
+                {% if post.image != 'False' %}
+                <img src="/media/{{ post.image }}" style="display: block; width: 150px; height: 175px; margin-left: auto; margin-right: auto">
+                {% else %}
+                <img src="/media/images/no_image_available.png" style="display: block; width: 150px; height: 175px; margin-left: auto; margin-right: auto">
+                <!--https://image.flaticon.com/icons/png/512/130/130304.png-->
+                {% endif %}
+            </div>
+            <div class="col-10 big-col">
+                <div class="row header-row">
+                    <h3 class="text-left"><a href="{% url 'txtbook:post' post.id%}">{{ post.textbook.title }}</a></h3>
+                </div>
+                <div class="row my-row">
+                    <div class="col-6 row-col">
+                        <div class="sm-row">
+                            <div class="row sm-row">
+                                <div class="col-6 my-col">
+                                    <h5 class='text-left'>Price: ${{ post.price }}</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</ul>
+{% else %}
+<p class="text-center">No posts are available.</p>
+{% endif %}
+{% include 'txtbook/pagination.html' %}
+
+{% endblock %}

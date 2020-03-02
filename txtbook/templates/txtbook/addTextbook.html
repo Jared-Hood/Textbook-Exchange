@@ -9,6 +9,9 @@
 </div>
 <!-- </div> -->
 
+{% if error_message %}<p class="text-center"><strong>{{ error_message }}</strong></p>
+{% endif %}
+
 <p class="text-center"> Search for your textbook with the ISBN, title, or author:</p>
 <div class="d-flex justify-content-center">
     <form class="form-inline my-2 my-lg-0 text-center" method="GET" action="{% url 'txtbook:search' %}">
@@ -26,8 +29,6 @@
 <p class="text-center">Fill out the Textbook Information section below. All posts must have the Sale Information
     section filled out.</p>
 
-{% if error_message %}<p class="text-center"><strong>{{ error_message }}</strong></p>
-{% endif %}
 
 <!----- Code for Forms: https://www.codeply.com/go/JVP2nxfv0p/bootstrap-4-forms ------------------------>
 <!----- Additional Formatting Information from: https://getbootstrap.com/docs/4.0/components/forms/ ---->
