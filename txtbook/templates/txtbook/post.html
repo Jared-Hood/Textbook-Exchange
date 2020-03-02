@@ -21,14 +21,14 @@
       <img class="img-fluid" src="/static/txtbook/thumbnails/{{textbookpost.textbook.isbn}}.jpg" style="display: block; width: 100px; height: 125 px;">
       <small>Database image.</small>
     </div>
-    {% endif %}
-    {% if textbookpost.image != 'False' %}
+    {% elif textbookpost.image != 'False' %}
     <div class="col-md-2 col-sm-3 mb-4">
       <img class="img-fluid" src="/media/{{ textbookpost.image }}" style="display: block; width: 100px; height: 125px;">
       <small>User uploaded.</small>
     </div>
     {% else %}
-    <p>No images available.</p>
+    <small style="margin-left: 20px; margin-bottom: 20px; color: gray;">No images available.</small>
     {% endif %}
   </div>
+
   {% endblock %}
