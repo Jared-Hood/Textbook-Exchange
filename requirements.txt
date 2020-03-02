@@ -17,3 +17,4 @@ whitenoise==5.0.1
 bootstrap4
 social-auth-app-django
 social-auth-core
+pillow
