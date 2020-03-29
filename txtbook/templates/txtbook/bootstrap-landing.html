@@ -2,6 +2,7 @@
 
 {% load static %}
   <!-- Masthead -->
+  <!-- Template for landing page found here: https://github.com/BlackrockDigital/startbootstrap-landing-page -->
   {% block content %}
   <header class="masthead text-white text-center">
     <div class="overlay"></div>
@@ -35,7 +36,7 @@
         <div class="col-lg-4">
           <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
             <div class="features-icons-icon d-flex">
-              <i class="icon-screen-desktop m-auto text-primary"></i>
+              <img class="img-fluid" src="static/txtbook/img/searchbar.png" alt="">
             </div>
             <h3>Search by Class</h3>
             <p class="lead mb-0">Find all the textbooks you need for classes in one place!</p>
@@ -44,7 +45,8 @@
         <div class="col-lg-4">
           <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
             <div class="features-icons-icon d-flex">
-              <i class="icon-layers m-auto text-primary"></i>
+              <img class="img-fluid" src="static/txtbook/img/bookclip.png
+" alt="">
             </div>
             <h3>Sell Old Textbooks</h3>
             <p class="lead mb-0">Make a textbook posting and sell your old textbook without having to worry about shipping</p>
@@ -53,10 +55,10 @@
         <div class="col-lg-4">
           <div class="features-icons-item mx-auto mb-0 mb-lg-3">
             <div class="features-icons-icon d-flex">
-              <i class="icon-check m-auto text-primary"></i>
+              <img class="img-fluid" src="static/txtbook/img/email.png" alt="">
             </div>
             <h3>Easy to Use</h3>
-            <p class="lead mb-0">Just make an account with us and become a buyer and/or a seller!</p>
+            <p class="lead mb-0">Just make an login with your email and become a buyer and/or a seller!</p>
           </div>
         </div>
       </div>
@@ -70,22 +72,22 @@
 
         <div class="col-lg-6 order-lg-2 text-white showcase-img" style="background-image: url({% static 'txtbook/img/bg-showcase-1.jpg' %});"></div>
         <div class="col-lg-6 order-lg-1 my-auto showcase-text">
-          <h2>Fully Responsive Design</h2>
+          <h2>Buy and Sell</h2>
           <p class="lead mb-0">Whether you are looking to buy or trying to sell, we can help! Seach books by class and view different postings. </p>
         </div>
       </div>
       <div class="row no-gutters">
-        <div class="col-lg-6 text-white showcase-img" style="background-image: url({% static 'txtbook/img/bg-showcase-2.jpg' %});"></div>
+        <div class="col-lg-6 text-white showcase-img" style="background-image: url({% static 'txtbook/img/library.jpg' %});"></div>
         <div class="col-lg-6 my-auto showcase-text">
           <h2>Flexibility</h2>
           <p class="lead mb-0">We provide you with contact info when you decide you want to buy/sell. Then, meet-up time/location and method of payment is what's most convenient for you!</p>
         </div>
       </div>
       <div class="row no-gutters">
-        <div class="col-lg-6 order-lg-2 text-white showcase-img" style="background-image: url({% static 'txtbook/img/bg-showcase-3.jpg' %});"></div>
+        <div class="col-lg-6 order-lg-2 text-white showcase-img" style="background-image: url({% static 'txtbook/img/logo1.png' %});"></div>
         <div class="col-lg-6 order-lg-1 my-auto showcase-text">
           <h2>About Us</h2>
-          <p class="lead mb-0"> We are UVA Spring 2020 CS 3240 students. We have all experienced the pain of buying textbooks and wanted to facilitate the process! </p>
+          <p class="lead mb-0"> We are UVA Spring 2020 CS 3240 students. We have all experienced the pain of buying/selling textbooks and wanted to facilitate the process! </p>
         </div>
       </div>
     </div>
@@ -98,22 +100,22 @@
       <div class="row">
         <div class="col-lg-4">
           <div class="testimonial-item mx-auto mb-5 mb-lg-0">
-            <img class="img-fluid rounded-circle mb-3" src="static/txtbook/img/testimonials-1.jpg" alt="">
-            <h5>Margaret E.</h5>
+            <img class="img-fluid rounded-circle mb-3" src="static/txtbook/img/annie.png" alt="">
+            <h5>Annie C.</h5>
             <p class="font-weight-light mb-0">"This is fantastic! Thanks so much guys!"</p>
           </div>
         </div>
         <div class="col-lg-4">
           <div class="testimonial-item mx-auto mb-5 mb-lg-0">
-            <img class="img-fluid rounded-circle mb-3" src="txtbook/img/testimonials-2.jpg" alt="">
-            <h5>Fred S.</h5>
-            <p class="font-weight-light mb-0">"Bootstrap is amazing. I've been using it to create lots of super nice landing pages."</p>
+            <img class="img-fluid rounded-circle mb-3" src="static/txtbook/img/sherriff.png" alt="">
+            <h5>Mark S.</h5>
+            <p class="font-weight-light mb-0">"This website is amazing. I've saved so much money by buying textbooks from other students. I've also made so much money by selling my old textbooks from classes that I took in past semesters."</p>
           </div>
         </div>
         <div class="col-lg-4">
           <div class="testimonial-item mx-auto mb-5 mb-lg-0">
-            <img class="img-fluid rounded-circle mb-3" src="img/testimonials-3.jpg" alt="">
-            <h5>Sarah W.</h5>
+            <img class="img-fluid rounded-circle mb-3" src="static/txtbook/img/emily.png" alt="">
+            <h5>Emily N.</h5>
             <p class="font-weight-light mb-0">"Thanks so much for making these free resources available to us!"</p>
           </div>
         </div>
@@ -127,17 +129,13 @@
     <div class="container">
       <div class="row">
         <div class="col-xl-9 mx-auto">
-          <h2 class="mb-4">Ready to get started? Sign up now!</h2>
+          <h2 class="mb-4">Ready to get started? Login now!</h2>
         </div>
         <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
           <form>
             <div class="form-row">
-              <div class="col-12 col-md-9 mb-2 mb-md-0">
-                <input type="email" class="form-control form-control-lg" placeholder="Enter your email...">
-              </div>
-              <div class="col-12 col-md-3">
-                <button type="submit" class="btn btn-block btn-lg btn-primary">Sign up!</button>
-              </div>
+              <div class="col text-center">
+                <a href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}" type="submit" class="btn btn-block btn-lg btn-primary">Login</a>              </div>
             </div>
           </form>
         </div>
