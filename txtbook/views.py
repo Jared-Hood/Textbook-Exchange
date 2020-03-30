@@ -127,7 +127,7 @@ def addExistingTextbook(request,pk):
     else:
         tp = TextbookPost(
             textbook=Textbook.objects.get(id=pk),
-            price=new_price,
+            price=float(new_price),
             negotiable=new_negotiable,
             exchangable=new_exchangable,
             max_diff=new_maxdiff,
@@ -183,7 +183,7 @@ def addTextbook(request):
             book.save()
             tp = TextbookPost(
                 textbook=book,
-                price=new_price,
+                price=float(new_price),
                 negotiable=new_negotiable,
                 exchangable=new_exchangable,
                 max_diff=new_maxdiff,
@@ -220,3 +220,22 @@ def textbook_upload(request):
         )
     context = {}
     return render(request,template,context)
+
+def filtered_posts_search(request):
+    template = "txtbook/allPosts.html"
+    model = TextbookPost
+    context = TextbookPost
+
+    sort_date = request.POST['inlineRadioOptions']
+    max_price = request.POST['max_price']
+
+    if sort_date == 'newest':
+        latest_post_list = TextbookPost.objects.filter(date_published__lte=timezone.now()).order_by('-date_published')
+    else:
+        latest_post_list = TextbookPost.objects.filter(date_published__lte=timezone.now()).order_by('date_published')
+
+    if max_price != '':
+        latest_post_list = latest_post_list.filter(price__lte=float(max_price))
+
+    return render(request, 'txtbook/filtered_posts_search.html',
+                  {'latest_post_list': latest_post_list, 'max_price': max_price, 'sort_date': sort_date})

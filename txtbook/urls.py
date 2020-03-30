@@ -20,6 +20,7 @@ urlpatterns = [
     path('post/<int:pk>/', views.PostView.as_view(), name='post'),
     path('upload-database',views.textbook_upload,name="textbook_upload"),
     path('logout', views.logout_request, name="logout_request"), # logout request
+    path('filtered_posts_search/',views.filtered_posts_search,name="filtered_posts_search"),
 ]
 
 if settings.DEBUG:

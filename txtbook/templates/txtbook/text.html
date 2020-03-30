@@ -1,9 +1,67 @@
 {% extends 'txtbook/base.html' %}
 
-    {% load static %}
-    {% block content %}
+{% load static %}
+{% block content %}
 
-    <h1 class="text-center">Title: {{ textbook.title }}</h1>
-    <h3 class="text-center">Author(s): {{ textbook.author }}</h3>
-
-    {% endblock %}
+<div class="container">
+    <!-- Textbook Info -->
+    <br><br>
+    <div class="container my-container">
+              <div class="row big-row">
+                <div class="col-2 big-col float-left">
+                  <img src="/static/txtbook/thumbnails/{{textbook.isbn}}.jpg" style="width:100%">
+                </div>
+                <div class="col-10 big-col">
+                  <div class="row my-row">
+                    <div class="col-6 my-col">
+                        <h3 class="text-left">{{ textbook.title }}</h3>
+                    </div>
+                  </div>
+                  <div class="row my-row">
+                    <div class="col-6 my-col">
+                      <h5 class="text-left">Author(s):      {{textbook.author}}</h5>
+                    </div>
+                    <div class="col-6 my-col">
+                      <div class="text-left">
+                        <h5 class="text-left">ISBN:     {{textbook.isbn}}</h5>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row my-row">
+                    <div class="col-6 row-col">
+                      <div class="row">
+                        <div class="col-6  my-col">
+                          <h5 class="text-left">
+                              Classes: {{textbook.dept}} {{textbook.classnum}}
+                          </h5>
+                        </div>
+                        <div class="col-6  my-col">
+                          <h5 class="text-left">
+                            {% if book.sect|length == 1 %}
+                              Section: 00{{textbook.sect}}
+                            {% else %}
+                              Section: {{textbook.sect}}
+                            {% endif %}
+                          </h5>
+                        </div>
+                      </div>
+                      <div class="sm-row">
+                        <div class="row sm-row">
+                          <div class="col-6 my-col">
+                            <h6 class='text-left'>Bookstore Pricing:      {{textbook.new_price_bookstore}} (new) {{textbook.used_price_bookstore}} (used)</h6>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-6 row-col">
+                      <a href="{{ textbook.amazon_link}}" target="_blank">
+                        <img src="/static/txtbook/img/amazon.jpg" class="rounded float-left" alt="amazon_logo" style="width:30%">
+                      </a>
+                    </div>
+                  </div>
+                  </div>
+              </div>
+            </div>
+            <br><br>
+      
+{% endblock %}
