@@ -80,7 +80,11 @@ def search(request):
                     continue
                 else:
                     query_numeric += char
-        results = Textbook.objects.filter(Q(isbn__icontains=query_numeric) | Q(title__icontains=query) | Q(author__icontains=query)).distinct()
+        if(query_numeric.isnumeric()):
+            results = Textbook.objects.filter(Q(title__icontains=query) | Q(author__icontains=query) | Q(isbn__icontains=query_numeric)).distinct('isbn','title')
+        else:
+            print("not numeric")
+            results = Textbook.objects.filter(Q(title__icontains=query)| Q(author__icontains=query)).distinct('isbn','title')
     paginator = Paginator(results, 20)
     page_request_var = 'page'
     page = request.GET.get(page_request_var)
@@ -230,7 +234,6 @@ def textbook_upload(request):
         message.error(request,'This is not a tsv file')
     data_set = tsv_file.read().decode('UTF-8')
     io_string = io.StringIO(data_set)
-    next(io_string)
     for column in csv.reader(io_string, delimiter='\t'):
         if(column[4] == ""):
             continue
