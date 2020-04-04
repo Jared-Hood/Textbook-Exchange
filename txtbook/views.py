@@ -13,6 +13,8 @@ from django.shortcuts import redirect
 from .models import Textbook, TextbookPost
 from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
 from django.contrib.auth import logout
+from django.core.mail import send_mail
+from django.shortcuts import redirect
 
 # Homepage
 def index(request):
@@ -69,11 +71,31 @@ class PostView(generic.DetailView):
 
 
 def contactSeller(request, pk):
-    model = TextbookPost
     template_name = 'txtbook/contactSeller.html'
-    context = TextbookPost
     post = TextbookPost.objects.get(pk=pk)
+
     return render(request, template_name, {'textbookpost': post})
+
+def sendEmail(request, pk):
+
+    subject = request.POST['subject']
+    Message = request.POST['message']
+    from_email = request.POST['from_email']
+    to_email = request.POST['to_email']
+
+    post = TextbookPost.objects.get(pk=pk)
+
+    send_mail(
+        subject,
+        Message,
+        from_email,
+        [to_email],
+        fail_silently=False,
+    )
+
+    messageSent = True
+
+    return render(request, "txtbook/emailSent.html", {"messageSent" : messageSent, "pk" : pk, 'textbookpost': post})
 
 
 # The function that is called when the search bar is used on the addTextbook page.

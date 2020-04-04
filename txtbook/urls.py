@@ -22,6 +22,7 @@ urlpatterns = [
     path('logout', views.logout_request, name="logout_request"), # logout request
     path('filtered_posts_search/',views.filtered_posts_search,name="filtered_posts_search"),
     path('contactSeller/<int:pk>', views.contactSeller, name='contactSeller'),
+    path('contactSeller/<int:pk>/sent', views.sendEmail, name='sendEmail'),
 ]
 
 if settings.DEBUG:

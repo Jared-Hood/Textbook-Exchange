@@ -1,15 +1,30 @@
 {% extends 'txtbook/base.html' %}
 {% load static %}
 {% block content %}
-<h5>{{ textbookpost.textbook.title }}</h5>
-<h4>{{textbookpost.email}}</h4>
 
-<div class="col-md-6 pb-3">
-    <label for="">Message</label>
-    <textarea class="form-control" id="additionalInfo" rows=5 name="additionalInfo"></textarea>
+<div style="padding-left: 20px">
+    <h4>{{ textbookpost.textbook.title }}</h4>
+    <h4>{{textbookpost.email}}</h4>
 </div>
 
-<button type="button" class="btn btn-primary">Send from {{user.email}}</button>
+
+<form class="form" role="form" autocomplete="off" action= "{% url 'txtbook:sendEmail' pk=textbookpost.id %}"
+                        method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="col-md-6 pb-3">
+        <label for="message">Message</label>
+        <textarea class="form-control" id="message" rows=5 name="message" placeholder="Here is the message"></textarea>
+        <input type="hidden" id="from_email" name="from_email" value={{user.email}}>
+        <input type="hidden" id="subject" name="subject" value="Selling Textbook">
+        <input type="hidden" id="to_email" name="to_email" value={{textbookpost.email}}>
+
+    </div>
+
+    <div style="padding-left: 20px">
+        <button type="submit" class="btn btn-primary">  Send from {{user.email}}</button>
+    </div>
+
+</form>
 
 
 {% endblock %}

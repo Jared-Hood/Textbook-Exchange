@@ -150,7 +150,7 @@ SENDGRID_API_KEY = 'SG.mGyBZLCdR6qFVXMbO-KSnA.9MPTcqxEKiAmMv8BQhhZreQjYbyjFN-ceN
 EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
 
 # Toggle sandbox mode (when running in DEBUG mode)
-
+SENDGRID_SANDBOX_MODE_IN_DEBUG = True
 
 # echo to stdout or any other file-like object that is passed to the backend via the stream kwarg.
 SENDGRID_ECHO_TO_STDOUT=True
@@ -187,16 +187,3 @@ try:
     django_heroku.settings(locals())
 except ImportError:
     found = False
-
-"""
-from django.core.mail import send_mail
-
-send_mail(
-    'Subject here',
-    'Here is the message.',
-    'jaredhfootball@gmail.com',
-    ['jaredhfootball@gmail.com'],
-    fail_silently=False,
-)
-
-"""
