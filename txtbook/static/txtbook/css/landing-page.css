@@ -113,7 +113,7 @@ header.masthead h1 {
 .call-to-action {
   position: relative;
   background-color: #343a40;
-  background: url("../img/rotunda.jpg") no-repeat center center;
+  background: url('/txtbook/img/rotunda.jpg') no-repeat center center;
   background-size: cover;
   padding-top: 7rem;
   padding-bottom: 7rem;
