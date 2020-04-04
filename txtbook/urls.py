@@ -21,6 +21,7 @@ urlpatterns = [
     path('upload-database',views.textbook_upload,name="textbook_upload"),
     path('logout', views.logout_request, name="logout_request"), # logout request
     path('filtered_posts_search/',views.filtered_posts_search,name="filtered_posts_search"),
+    path('contactSeller/<int:pk>', views.contactSeller, name='contactSeller'),
 ]
 
 if settings.DEBUG:

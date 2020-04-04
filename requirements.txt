@@ -22,3 +22,5 @@ social-auth-app-django
 social-auth-core
 pillow
 
+django-sendgrid-v5
+sendgrid

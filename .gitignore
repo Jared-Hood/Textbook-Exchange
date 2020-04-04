@@ -122,4 +122,5 @@ Pipfile.lock
 
 redrobins
 
-*.DS_Store
+*.DS_Storesendgrid.env
+sendgrid.env

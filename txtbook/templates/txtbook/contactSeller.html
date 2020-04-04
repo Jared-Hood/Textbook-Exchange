@@ -1,0 +1,15 @@
+{% extends 'txtbook/base.html' %}
+{% load static %}
+{% block content %}
+<h5>{{ textbookpost.textbook.title }}</h5>
+<h4>{{textbookpost.email}}</h4>
+
+<div class="col-md-6 pb-3">
+    <label for="">Message</label>
+    <textarea class="form-control" id="additionalInfo" rows=5 name="additionalInfo"></textarea>
+</div>
+
+<button type="button" class="btn btn-primary">Send from {{user.email}}</button>
+
+
+{% endblock %}

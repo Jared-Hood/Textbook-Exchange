@@ -7,95 +7,97 @@
 
 <div class="container">
   <!-- Textbook Info -->
-  <div>
-    <h3 class="my-4">{{ textbookpost.textbook.title }}</h3>
-    <h7 style="margin-top: 0px">Posted {{ textbookpost.date_published }}</h7>
-    <h6 class="text-left">Contact: {{textbookpost.email}}</h6>
-  </div>
-  <br>
+    <div>
+        <h3 class="my-4">{{ textbookpost.textbook.title }}</h3>
+      <h5 class="text-left"><a href="{% url 'txtbook:contactSeller' pk=textbookpost.id %}"> Contact Seller </a></h5>
+        <h6 class="text-left">Contact: {{textbookpost.email}}</h6>
+        <h7 style="margin-top: 0px">Posted {{ textbookpost.date_published }}</h7>
 
-  <h5><u>Available Textbook Information</u></h5>
-  <div>
-    <strong>Author(s): </strong>
-    {% if textbookpost.textbook.author == '' %}
-    <h7 style="color: gray">N/A</h7><br>
-    {% else %}
-    <h7>{{ textbookpost.textbook.author }}</h7><br>
-    {% endif %}
-
-    <strong>Department: </strong>
-    {% if textbookpost.textbook.dept == '' %}
-    <h7 style="color: gray">N/A</h7><br>
-    {% else %}
-    <h7>{{ textbookpost.textbook.dept }}</h7><br>
-    {% endif %}
-
-    <strong>Class Number: </strong>
-    {% if textbookpost.textbook.classnum == '' %}
-    <h7 style="color: gray">N/A</h7><br>
-    {% else %}
-    <h7>{{ textbookpost.textbook.classnum }}</h7><br>
-    {% endif %}
-
-    <strong>Section: </strong>
-    {% if textbookpost.textbook.sect == '' %}
-    <h7 style="color: gray">N/A</h7><br>
-    {% else %}
-    <h7>{{ textbookpost.textbook.sect }}</h7><br>
-    {% endif %}
-
-    <strong>ISBN: </strong>
-    {% if textbookpost.textbook.isbn == '' %}
-    <h7 style="color: gray">N/A</h7><br>
-    {% else %}
-    <h7>{{ textbookpost.textbook.isbn }}</h7><br>
-    {% endif %}
-  </div><br>
-
-  <!-- Sale Info -->
-  <h5><u>Sale Information</u></h5>
-  <div>
-    <h7>
-      <strong>Price: </strong>${{ textbookpost.price }}<br>
-      <strong>Negotiable price? </strong>{{textbookpost.negotiable }}<br>
-      <strong>Exchangable with other textbooks? </strong>{{ textbookpost.exchangable }}<br>
-      <strong>Maximum price difference, if exchangable: </strong>
-    </h7>
-    {% if textbookpost.max_diff == '' %}
-    <h7 style="color: gray">N/A</h7><br>
-    {% else %}
-    <h7>${{ textbookpost.max_diff }}</h7><br>
-    {% endif %}
-    <h7><strong>Preferred payment method: </strong>{{ textbookpost.payment }}</h7><br>
+    </div>
     <br>
 
-    <h7><strong>Condition: </strong>{{ textbookpost.condition }} / 5</h7><br>
-    <h7><strong>Format: </strong>{{ textbookpost.format }}</h7><br>
-    <strong>Additional Information: </strong>
-    {% if textbookpost.additional_info == '' %}
-    <h7 style="color: gray">N/A</h7>
-    {% else %}
-    <h7>{{ textbookpost.additional_info }}</h7>
-    {% endif %}
+    <h5><u>Available Textbook Information</u></h5>
+    <div>
+        <strong>Author(s): </strong>
+        {% if textbookpost.textbook.author == '' %}
+          <h7 style="color: gray">N/A</h7><br>
+        {% else %}
+          <h7>{{ textbookpost.textbook.author }}</h7><br>
+        {% endif %}
 
-  </div>
+        <strong>Department: </strong>
+        {% if textbookpost.textbook.dept == '' %}
+          <h7 style="color: gray">N/A</h7><br>
+        {% else %}
+          <h7>{{ textbookpost.textbook.dept }}</h7><br>
+        {% endif %}
 
-  <!-- Images -->
-  <h5 class="my-4"><u>Images</u></h5>
-  <div class="row">
-    {% if textbookpost.textbook.user_created == False %}
-    <div class="col-md-2 col-sm-3 mb-4">
-      <img class="img-fluid" src="/static/txtbook/thumbnails/{{textbookpost.textbook.isbn}}.jpg" style="display: block; width: 100px; height: 125 px;">
-      <small>Database image.</small>
+        <strong>Class Number: </strong>
+        {% if textbookpost.textbook.classnum == '' %}
+          <h7 style="color: gray">N/A</h7><br>
+        {% else %}
+          <h7>{{ textbookpost.textbook.classnum }}</h7><br>
+        {% endif %}
+
+        <strong>Section: </strong>
+        {% if textbookpost.textbook.sect == '' %}
+          <h7 style="color: gray">N/A</h7><br>
+        {% else %}
+          <h7>{{ textbookpost.textbook.sect }}</h7><br>
+        {% endif %}
+
+        <strong>ISBN: </strong>
+        {% if textbookpost.textbook.isbn == '' %}
+          <h7 style="color: gray">N/A</h7><br>
+        {% else %}
+          <h7>{{ textbookpost.textbook.isbn }}</h7><br>
+        {% endif %}
+    </div><br>
+
+    <!-- Sale Info -->
+    <h5><u>Sale Information</u></h5>
+    <div>
+        <h7>
+            <strong>Price: </strong>${{ textbookpost.price }}<br>
+            <strong>Negotiable price? </strong>{{textbookpost.negotiable }}<br>
+            <strong>Exchangable with other textbooks? </strong>{{ textbookpost.exchangable }}<br>
+            <strong>Maximum price difference, if exchangable: </strong>
+        </h7>
+        {% if textbookpost.max_diff == '' %}
+        <h7 style="color: gray">N/A</h7><br>
+        {% else %}
+        <h7>${{ textbookpost.max_diff }}</h7><br>
+        {% endif %}
+        <h7><strong>Preferred payment method: </strong>{{ textbookpost.payment }}</h7><br>
+        <br>
+
+        <h7><strong>Condition: </strong>{{ textbookpost.condition }} / 5</h7><br>
+        <h7><strong>Format: </strong>{{ textbookpost.format }}</h7><br>
+        <strong>Additional Information: </strong>
+        {% if textbookpost.additional_info == '' %}
+        <h7 style="color: gray">N/A</h7>
+        {% else %}
+        <h7>{{ textbookpost.additional_info }}</h7>
+        {% endif %}
+
     </div>
-    {% elif textbookpost.image != 'False' %}
-    <div class="col-md-2 col-sm-3 mb-4">
-      <img class="img-fluid" src="/media/{{ textbookpost.image }}" style="display: block; width: 100px; height: 125px;">
-      <small>User uploaded.</small>
-    </div>
-    {% else %}
-    <small style="margin-left: 20px; margin-bottom: 20px; color: gray;">No images available.</small>
-    {% endif %}
-  </div>
 
-  {% endblock %}
+    <!-- Images -->
+    <h5 class="my-4"><u>Images</u></h5>
+    <div class="row">
+        {% if textbookpost.textbook.user_created == False %}
+        <div class="col-md-2 col-sm-3 mb-4">
+          <img class="img-fluid" src="/static/txtbook/thumbnails/{{textbookpost.textbook.isbn}}.jpg" style="display: block; width: 100px; height: 125 px;">
+          <small>Database image.</small>
+        </div>
+        {% elif textbookpost.image != 'False' %}
+        <div class="col-md-2 col-sm-3 mb-4">
+          <img class="img-fluid" src="/media/{{ textbookpost.image }}" style="display: block; width: 100px; height: 125px;">
+          <small>User uploaded.</small>
+        </div>
+        {% else %}
+        <small style="margin-left: 20px; margin-bottom: 20px; color: gray;">No images available.</small>
+        {% endif %}
+    </div>
+
+    {% endblock %}

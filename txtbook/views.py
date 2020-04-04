@@ -67,7 +67,17 @@ class PostView(generic.DetailView):
         """
         return TextbookPost.objects.filter(date_published__lte=timezone.now())
 
+
+def contactSeller(request, pk):
+    model = TextbookPost
+    template_name = 'txtbook/contactSeller.html'
+    context = TextbookPost
+    post = TextbookPost.objects.get(pk=pk)
+    return render(request, template_name, {'textbookpost': post})
+
+
 # The function that is called when the search bar is used on the addTextbook page.
+
 def search(request):
     template = 'txtbook/addTextbook.html'
     query = request.GET.get('q')
