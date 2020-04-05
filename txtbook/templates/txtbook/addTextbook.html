@@ -60,6 +60,11 @@
                     <form class="form" role="form" autocomplete="off" action="{% url 'txtbook:addTextbook' %}" method="post"
                         enctype="multipart/form-data">
                         {% csrf_token %}
+
+                        <!-- Get User Info -->
+                        <input type="hidden" id="email" name="email" value={{user.email}}>
+                        <input type="hidden" id="user" name="user" value={{user.id}}>
+
                         <!-- Form row: Textbook Title -->
                         <div class="form-group row">
                             <label class="col-lg-2 col-form-label form-control-label">Textbook Title</label>
@@ -155,7 +160,6 @@
                             <div class="input-group">
                                 <div class="input-group-prepend"><span class="input-group-text">$</span></div>
                                 <input type="text" class="form-control" id="maxDiff" name="maxDiff">
-                                <input type="hidden" id="email" name="email" value={{user.email}}>
                             </div>
                         </div>
 
@@ -233,7 +237,7 @@
             </div><br>
             <!--- End pf Form Buttons -->
             <div class="col-lg-9">
-                <input type="button" class="btn btn-secondary" value="Cancel">
+                <button class="btn btn-secondary"><a href="{% url 'txtbook:index' %}" style="color: white">Cancel</a></button>
                 <input type="submit" class="btn btn-primary" value="Post">
             </div>
             </form>

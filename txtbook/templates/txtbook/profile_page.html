@@ -1,0 +1,155 @@
+{% extends 'txtbook/base.html' %}
+
+{% load static %}
+{% block content %}
+<!-- <div class="container-fluid"> -->
+<br><br>
+<!-- Profile page template: https://bootsnipp.com/snippets/K0ZmK -->
+
+<div class="container emp-profile">
+            <form>
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="profile-img">
+                            <!-- <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS52y5aInsxSm31CvHOFHWujqUx_wWTS9iM6s7BAm21oEN_RiGoog" alt=""
+                            style="width: 110px; height: 100px; border-radius: 50%"/> -->
+                            <!-- <div class="file btn">
+                                Change Photo
+                                <input type="file" name="file"/>
+                            </div> -->
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="profile-head">
+                                    <h5>
+                                    {{ profile.name }}
+                                    </h5>
+
+                                    <h7>
+                                    Year: 
+                                    {% if profile.year == '' %}
+                                    <h7 style="color: gray">N/A</h7>
+                                    {% else %}
+                                    {{ profile.year }}
+                                    {% endif %}
+                                    </h7>
+
+                                    <br>
+
+                                    <h7>
+                                    Major: 
+                                    {% if profile.major == '' %}
+                                    <h7 style="color: gray">N/A</h7>
+                                    {% else %}
+                                    {{ profile.major }}
+                                    {% endif %}
+                                    </h7>
+
+                                    <br>
+
+                                    <h7>
+                                    Bio:
+                                    {% if profile.bio == '' %}
+                                    <h7 style="color: gray">N/A</h7>
+                                    {% else %}
+                                    {{ profile.bio }}
+                                    {% endif %}
+                                    </h7>
+                                    <br><br>
+
+
+                            <!-- First section -->
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">About</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <button>Edit Profile</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="profile-work">
+                           <!-- Just to have the extra space here in the page layout -->
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="tab-content profile-tab" id="myTabContent">
+                            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                        <br>
+                                        <div class="row">
+                                                <div class="col-md-6">
+                                                    <label>Email</label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                {{ profile.email }}
+                                                </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Venmo</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                {% if profile.venmo == '' %}
+                                                <h7 style="color: gray">N/A</h7>
+                                                {% else %}
+                                                {{ profile.venmo }}
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Phone</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                {% if profile.phone == '' %}
+                                                <h7 style="color: gray">N/A</h7>
+                                                {% else %}
+                                                {{ profile.phone }}
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Seller Rating</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                {% if profile.bio == '' %}
+                                                <h7 style="color: gray">No ratings yet.</h7>
+                                                {% else %}
+                                                {{ profile.rating }}
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    
+                            </div>
+                            <br>
+                            
+                            <!-- Second Section -->
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Posts</a>
+                                    </li>
+                            </ul>
+                            <br>
+                            <div>
+                            {% if profile.posts %}
+                                {% for post in profile.posts %}
+                                    {{ post.textbook.title }}
+                                {% endfor %}
+                            {% else %}
+                            No posts yet.
+                            {% endif %}
+                            </div>
+                            <br><br>
+                        </div>
+                    </div>
+                </div>
+            </form>           
+        </div>
+
+
+{% endblock %}

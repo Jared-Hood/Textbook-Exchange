@@ -23,6 +23,11 @@
   <!-- Custom styles for this template -->
   <link href="static/txtbook/css/landing-page.min.css" rel="stylesheet">
 
+  <!-- For profile page -->
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
 </head>
 
 <body>
@@ -47,17 +52,28 @@
                 <li>
                 <a class="nav-link" href="{% url 'txtbook:logout_request' %}">Logout? Logged in as {{ user.first_name }}</a>
                 </li>
-            {%  else %}
+            {% else %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'social:begin' 'google-oauth2' %}?next=/">Login</a>
                 </li>
             {% endif %}
-
         </ul>
+        
         <form class="form-inline my-2 my-lg-0" style="margin-left:auto; margin-right:0;" method="GET" action="{% url 'txtbook:search' %}">
             <input class="form-control mr-lg-2" name='q' type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
+        {% if user.is_active %}
+          {% if user.profile.id == '' %}
+          <div class="form-inline my-2 my-lg-0" style="margin-left:10px; margin-right:0;">
+            <button class="btn btn-tertiary my-2 my-sm-0"><a href="{% url 'txtbook:create_profile' %}">Create profile</a></button>
+          </div>
+          {% else %}
+          <div class="form-inline my-2 my-lg-0" style="margin-left:10px; margin-right:0;">
+            <button class="btn btn-tertiary my-2 my-sm-0"><a href="{% url 'txtbook:profile_page' pk=user.profile.id %}">My Profile</a></button>
+          </div>
+          {% endif %}
+        {% endif %}
     </nav>
 
     <div class="page-wrap">

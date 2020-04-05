@@ -22,6 +22,9 @@ urlpatterns = [
     path('logout', views.logout_request, name="logout_request"), # logout request
     path('filtered_posts_search/',views.filtered_posts_search,name="filtered_posts_search"),
     path('contactSeller/<int:pk>', views.contactSeller, name='contactSeller'),
+    path('profile_page/<int:pk>',views.profile_page.as_view(), name="profile_page"),
+    path('create_profile',views.create_profile,name="create_profile"),
+    path('<int:pk>/edit_profile',views.edit_profile,name="edit_profile"),
 ]
 
 if settings.DEBUG:
