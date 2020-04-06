@@ -52,9 +52,14 @@
     .big-col {
         padding: 10px;
     }
+    .text-left{
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
 </style>
 
-<div class="col-md-8 text-left mx-auto"> 
+<div class="col-md-8 text-left mx-auto">
     <form class="form" role="form" autocomplete="off" method="post" action="{% url 'txtbook:filtered_posts_search' %}">
     {% csrf_token %}
         <!-- Search Bar -->
@@ -88,7 +93,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="filter-content">
             <div class="card-body">
                 <div class="form-row">
@@ -110,11 +115,11 @@
         <div class="row big-row">
             <div class="col-2 big-col float-left">
                 {% if post.textbook.user_created == False %}
-                <img src="/static/txtbook/thumbnails/{{post.textbook.isbn}}.jpg" style="display: block; width: 150px; height: 175px; margin-left: auto; margin-right: auto">
+                <img src="/static/txtbook/thumbnails/{{post.textbook.isbn}}.jpg" style="display: block; width: 175px; height: 250px; margin-left: auto; margin-right: auto">
                 {% elif post.image != 'False' %}
-                <img src="/media/{{ post.image }}" style="display: block; width: 150px; height: 175px; margin-left: auto; margin-right: auto">
+                <img src="/media/{{ post.image }}" style="display: block; width: 175px; height: 250px; margin-left: auto; margin-right: auto">
                 {% else %}
-                <img src="/media/images/no_image_available.png" style="display: block; width: 150px; height: 175px; margin-left: auto; margin-right: auto">
+                <img src="/media/images/no_image_available.png" style="display: block; width: 175px; height: 250px; margin-left: auto; margin-right: auto">
 
                 {% endif %}
             </div>

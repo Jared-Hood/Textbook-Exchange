@@ -115,7 +115,7 @@ def search_posts_by_book(request, pk):
     start_index = index - 5 if index >= 5 else 0
     end_index = index + 5 if index <= max_index - 5 else max_index
     page_range = paginator.page_range[start_index:end_index]
-    return render(request,'txtbook/post_results.html', {'posts': posts, 'page_range':page_range, 'search_term':pk})
+    return render(request,'txtbook/post_results.html', {'posts': posts, 'page_range':page_range, 'search_term':Textbook.objects.get(id=pk)})
 
 
 

@@ -49,68 +49,77 @@
   .big-col {
     padding: 10px;
   }
+  .text-left{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-right: 25px;
+  }
+  .img{
+    width: 175px;
+    height: 250px;
+  }
 </style>
 {% if books %}
 <ul class="text-center">
-  {% for book in books %}
-  {% if book.user_created == False %}
-  <div class="container my-container">
-    <div class="row big-row">
-      <div class="col-2 big-col float-left">
-        <img src="/static/txtbook/thumbnails/{{book.isbn}}.jpg" style="width:100%">
-      </div>
-      <div class="col-10 big-col">
-        <div class="row header-row">
-          <h3 class="text-left"><a href="{% url 'txtbook:text' pk=book.id %}">{{ book.title }}</a></h3>
-        </div>
-        <div class="row my-row">
-          <div class="col-6 my-col">
-            <h5 class="text-left">Author(s): {{book.author}}</h5>
-          </div>
-          <div class="col-6 my-col">
-            <div class="text-left">
-              <h5 class="text-left">ISBN: {{book.isbn}}</h5>
+    {% for book in books %}
+      {% if book.user_created == False %}
+        <div class="container my-container">
+          <div class="row big-row">
+            <div class="col-2 big-col float-left">
+              <img class="img" src="/static/txtbook/thumbnails/{{book.isbn}}.jpg">
             </div>
-          </div>
-        </div>
-        <div class="row my-row">
-          <div class="col-6 row-col">
-            <div class="row">
-              <div class="col-6  my-col">
-                <h5 class="text-left">
-                  Classes: {{book.dept}} {{book.classnum}}
-                </h5>
+            <div class="col-10 big-col">
+              <div class="row header-row">
+                <h3 class="text-left"><a href="{% url 'txtbook:text' pk=book.id %}">{{ book.title }}</a></h3>
               </div>
-              <div class="col-6  my-col">
-                <h5 class="text-left">
-                  {% if book.sect|length == 1 %}
-                  Section: 00{{book.sect}}
-                  {% else %}
-                  Section: {{book.sect}}
-                  {% endif %}
-                </h5>
-              </div>
-            </div>
-            <div class="sm-row">
-              <div class="row sm-row">
+              <div class="row my-row">
                 <div class="col-6 my-col">
-                  <h6 class='text-left'>Bookstore Pricing: {{book.new_price_bookstore}} (new)
-                    {{book.used_price_bookstore}} (used)</h6>
+                  <h5 class="text-left">Author(s):      {{book.author}}</h5>
+                </div>
+                <div class="col-6 my-col">
+                  <div class="text-left">
+                    <h5 class="text-left">ISBN:     {{book.isbn}}</h5>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
-          <div class="col-6 row-col">
-            <a href="{{ book.amazon_link}}" target="_blank">
-              <img src="/static/txtbook/img/amazon.jpg" class="rounded float-left" alt="amazon_logo" style="width:35%">
-            </a>
+              <div class="row my-row">
+                <div class="col-6 row-col">
+                  <div class="row">
+                    <div class="col-6  my-col">
+                      <h5 class="text-left">
+                          Classes: {{book.dept}} {{book.classnum}}
+                      </h5>
+                    </div>
+                    <div class="col-6  my-col">
+                      <h5 class="text-left">
+                        {% if book.sect|length == 1 %}
+                          Section: 00{{book.sect}}
+                        {% else %}
+                          Section: {{book.sect}}
+                        {% endif %}
+                      </h5>
+                    </div>
+                  </div>
+                  <div class="sm-row">
+                    <div class="row sm-row">
+                      <div class="col-12 my-col">
+                        <h6 class='text-left'>Bookstore Pricing:      {{book.new_price_bookstore}} (new) {{book.used_price_bookstore}} (used)</h6>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6 row-col">
+                  <a href="{{ book.amazon_link}}" target="_blank">
+                    <img src="/static/txtbook/img/amazon.jpg" class="rounded float-left" alt="amazon_logo" style="width:30%">
+                  </a>
+                </div>
+              </div>
+              </div>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-  {% endif %}
-  {% endfor %}
+      {% endif %}
+    {% endfor %}
 </ul>
 {% else %}
 <p class="text-center">No textbooks matched the search.</p>

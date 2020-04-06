@@ -30,7 +30,7 @@
       }
       .sm-row{
         padding-top: 0px;
-        padding-bottom: 7px;
+        padding-bottom: 0px;
       }
       .big-col{
         padding: 10px;
@@ -40,9 +40,19 @@
       }
       .btn-row{
         padding-left: 10px;
+        padding-top: 25px;
       }
       .btn{
         margin: 5px;
+      }
+      .img{
+        width: 175px;
+        height: 250px;
+      }
+      .text-left{
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
     </style>
     {% if books %}
@@ -52,7 +62,7 @@
             <div class="container my-container">
               <div class="row big-row">
                 <div class="col-2 big-col float-left">
-                  <img src="/static/txtbook/thumbnails/{{book.isbn}}.jpg" style="width:100%">
+                  <img class="img" src="/static/txtbook/thumbnails/{{book.isbn}}.jpg">
                 </div>
                 <div class="col-10 big-col">
                   <div class="row header-row">
@@ -88,7 +98,7 @@
                       </div>
                       <div class="sm-row">
                         <div class="row sm-row">
-                          <div class="col-6 my-col">
+                          <div class="col-12 my-col">
                             <h6 class='text-left'>Bookstore Pricing:      {{book.new_price_bookstore}} (new) {{book.used_price_bookstore}} (used)</h6>
                           </div>
                         </div>

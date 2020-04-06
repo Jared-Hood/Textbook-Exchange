@@ -2,11 +2,6 @@
 
     {% load static %}
     {% block content %}
-    <div class="jumbotron text-center">
-        <h1><b>
-                <font color="brown"> Search Results for: {{search_term}} </font>
-            </b></h1>
-    </div>
     <style>
       .my-container{
         border: 1px solid lightgray;
@@ -38,7 +33,16 @@
       .pagination{
         margin-top:1em;
       }
+      .img{
+        width: 175px;
+        height: 250px;
+      }
     </style>
+    <div class="jumbotron text-center">
+        <h1><b>
+                <font color="brown"> Posts selling "{{search_term.title}}" </font>
+            </b></h1>
+    </div>
 
     {% if posts %}
       <ul class="text-center">
@@ -111,6 +115,8 @@
         </div>
         {% endfor %}
       </ul>
+    {% else %}
+     <p class="text-center">No Posts matched the search.</p>
     {% endif %}
     {% if posts.has_other_pages %}
     <div class="container">
