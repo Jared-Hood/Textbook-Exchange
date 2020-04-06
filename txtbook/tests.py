@@ -1,7 +1,8 @@
-from django.test import TestCase
+from django.test import TestCase, Client, RequestFactory
 from .models import TextbookPost
 from .models import Textbook
-from django.urls import reverse
+from django.urls import reverse,resolve
+from txtbook.views import index, addTextbook, search
 
 # Create your tests here.
 
@@ -107,3 +108,33 @@ class PostViewTest(TestCase):
         self.assertTrue(response != "No posts are available.")
 
 
+#Testing urls
+class TestUrls(TestCase):
+    def test_index_url_is_resolved(self):
+        url = reverse('txtbook:index')
+        print(resolve(url))
+        self.assertEquals(resolve(url).func, index)
+
+    def test_addtextbook_url_is_resolved(self):
+        url = reverse('txtbook:addTextbook')
+        print(resolve(url))
+        self.assertEquals(resolve(url).func, addTextbook)
+
+    def test_results_url_is_resolved(self):
+        url = reverse('txtbook:search')
+        print(resolve(url))
+        self.assertEquals(resolve(url).func, search)
+
+
+class TestSearch(TestCase):
+
+    def setUp(self):
+        self.client = Client()
+        self.url = reverse('txtbook:search')
+        Textbook.objects.create(
+            title="text1", author="author1", user_created=False,
+        )
+
+    def test_search_GET(self):
+        response = self.client.get(self.url, {'q':'text'})
+        self.assertEquals(response.status_code, 200)

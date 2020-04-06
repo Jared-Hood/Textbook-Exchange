@@ -98,8 +98,50 @@ def sendEmail(request, pk):
     return render(request, "txtbook/emailSent.html", {"messageSent" : messageSent, "pk" : pk, 'textbookpost': post})
 
 
-# The function that is called when the search bar is used on the addTextbook page.
+def search_posts_by_book(request, pk):
+    results = []
+    results = TextbookPost.objects.filter(Q(textbook__id=pk)).order_by('date_published','-email')
+    paginator = Paginator(results, 20)
+    page_request_var = 'page'
+    page = request.GET.get(page_request_var)
+    try:
+        posts = paginator.page(page)
+    except PageNotAnInteger:
+        posts = paginator.page(1)
+    except EmptyPage:
+        posts = paginator.page(paginator.num_pages)
+    index = posts.number - 1
+    max_index = len(paginator.page_range)
+    start_index = index - 5 if index >= 5 else 0
+    end_index = index + 5 if index <= max_index - 5 else max_index
+    page_range = paginator.page_range[start_index:end_index]
+    return render(request,'txtbook/post_results.html', {'posts': posts, 'page_range':page_range, 'search_term':pk})
 
+
+
+# The function that is called when the search bar is used to search through posts.
+def search_posts(request):
+    template = 'txtbook/addTextbook.html'
+    query = request.GET.get('q')
+    results = []
+    results = TextbookPost.objects.filter(Q(textbook__title__icontains=query)| Q(textbook__author__icontains=query)|Q(email__icontains=query)).distinct('email')
+    paginator = Paginator(results, 20)
+    page_request_var = 'page'
+    page = request.GET.get(page_request_var)
+    try:
+        posts = paginator.page(page)
+    except PageNotAnInteger:
+        posts = paginator.page(1)
+    except EmptyPage:
+        posts = paginator.page(paginator.num_pages)
+    index = posts.number - 1
+    max_index = len(paginator.page_range)
+    start_index = index - 5 if index >= 5 else 0
+    end_index = index + 5 if index <= max_index - 5 else max_index
+    page_range = paginator.page_range[start_index:end_index]
+    return render(request,'txtbook/search_results.html', {'posts': posts, 'page_range':page_range, 'search_term':query})
+
+# The function that is called when the search bar is used on the addTextbook page.
 def search(request):
     template = 'txtbook/addTextbook.html'
     query = request.GET.get('q')
@@ -113,10 +155,10 @@ def search(request):
                 else:
                     query_numeric += char
         if(query_numeric.isnumeric()):
-            results = Textbook.objects.filter(Q(title__icontains=query) | Q(author__icontains=query) | Q(isbn__icontains=query_numeric)).distinct('isbn','title')
+            results = Textbook.objects.filter(Q(title__icontains=query) | Q(author__icontains=query) | Q(isbn__icontains=query_numeric)).distinct('isbn','title').order_by('title','-isbn').distinct('isbn')
         else:
             print("not numeric")
-            results = Textbook.objects.filter(Q(title__icontains=query)| Q(author__icontains=query)).distinct('isbn','title')
+            results = Textbook.objects.filter(Q(title__icontains=query)| Q(author__icontains=query)).distinct('isbn','title').distinct('isbn','title').order_by('title','-isbn').distinct('title')
     paginator = Paginator(results, 20)
     page_request_var = 'page'
     page = request.GET.get(page_request_var)

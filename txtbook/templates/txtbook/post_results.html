@@ -1,0 +1,143 @@
+{% extends 'txtbook/base.html' %}
+
+    {% load static %}
+    {% block content %}
+    <div class="jumbotron text-center">
+        <h1><b>
+                <font color="brown"> Search Results for: {{search_term}} </font>
+            </b></h1>
+    </div>
+    <style>
+      .my-container{
+        border: 1px solid lightgray;
+        margin-top: 10px;
+      }
+      .big-col{
+        padding-top: 15px;
+        padding-left: 15px;
+        padding-right:15px;
+        padding-bottom: 2px;
+      }
+      .header-row{
+        padding-top: 15px;
+        padding-left: 15px;
+        padding-right:15px;
+        padding-bottom: 2px;
+      }
+      .my-row{
+        padding-top: 0px;
+        padding-bottom: 5px;
+      }
+      .sm-row{
+        padding-top: 0px;
+        padding-bottom: 7px;
+      }
+      .big-col{
+        padding: 10px;
+      }
+      .pagination{
+        margin-top:1em;
+      }
+    </style>
+
+    {% if posts %}
+      <ul class="text-center">
+        {% for post in posts %}
+        <div class="container my-container">
+            <div class="row big-row">
+                <div class="col-2 big-col float-left">
+                    {% if post.textbook.user_created == False %}
+                    <img src="/static/txtbook/thumbnails/{{post.textbook.isbn}}.jpg" style="display: block; width: 150px; height: 175px; margin-left: auto; margin-right: auto">
+                    {% elif post.image != 'False' %}
+                    <img src="/media/{{ post.image }}" style="display: block; width: 150px; height: 175px; margin-left: auto; margin-right: auto">
+                    {% else %}
+                    <img src="/media/images/no_image_available.png" style="display: block; width: 150px; height: 175px; margin-left: auto; margin-right: auto">
+
+                    {% endif %}
+                </div>
+                <div class="col-10 big-col">
+                    <div class="row my-row text-left">
+                        <div class="col-10 my-col text-left">
+                            <h3 class="text-left"><a href="{% url 'txtbook:post' pk=post.id %}">{{ post.textbook.title }}</a>
+                            </h3>
+                            {% if user.is_active %}
+                                <h6 class="text-left">Contact: {{post.email}}</h6>
+                            {% else %}
+                                <h6 class="text-left">
+                                    Contact: <a class="nav-link" href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}">Login to contact</a>
+                                </h6>
+                            {% endif %}
+                            <h7 class="text-left">Posted {{ post.date_published }}</h7>
+                        </div>
+                    </div>
+                    <div class="row my-row">
+                        <div class="col-3 my-col text-left">
+                            <h5>Price: ${{ post.price }}</h5>
+                            <h6 class='text-left'>Condition: {{ post.condition }} / 5<br>
+                                Format: {{ post.format }}</h6>
+                        </div>
+                        <div class="col-4 my-col text-left">
+                            {% if post.textbook.author == '' %}
+                            <h5 class="text-left">Author(s): N/A</h5>
+                            {% else %}
+                            <h5 class="text-left">Author(s): {{post.textbook.author}}</h5>
+                            {% endif %}
+                            {% if post.textbook.isbn == '' %}
+                            <h6 class="text-left">ISBN: N/A</h6>
+                            {% else %}
+                            <h6 class="text-left">ISBN: {{post.textbook.isbn}}</h6>
+                            {% endif %}
+                        </div>
+                        <div class="col-4 my-col text-left">
+                            <h5 class="text-left">
+                                {% if post.textbook.dept == '' %}
+                                Classes: N/A
+                                {% else %}
+                                Classes: {{post.textbook.dept}} {{post.textbook.classnum}}
+                                {% endif %}
+                                <br>
+                                {% if post.textbook.sect == '' %}
+                                Section: N/A
+                                {% else %}
+                                Section: {{post.textbook.sect}}
+                                {% endif %}
+
+                            </h5>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+      </ul>
+    {% endif %}
+    {% if posts.has_other_pages %}
+    <div class="container">
+      <ul class="pagination justify-content-center">
+        {% if posts.has_previous %}
+          <li class="page-item"><a class ="page-link" href="?page=1&q={{search_term}}" aria-label="First">First</a></li>
+          <li class="page-item"><a class ="page-link" aria-label="Previous" href="?page={{ posts.previous_page_number }}&q={{search_term}}"><<</a></li>
+        {% else %}
+          <li class="page-item disabled"><a class="page-link"><span>First</span></a></li>
+          <li class="page-item disabled"><a class="page-link"><span><<</span></a></li>
+        {% endif %}
+
+        {% for i in posts.paginator.page_range %}
+          {% if posts.number == i %}
+            <li class="page-item active"><a class="page-link" href="#"><span>{{ i }} <span class="sr-only">(current)</span></span></a></li>
+          {% elif i > posts.number|add:'-3' and i < posts.number|add:'3' %}
+            <li class="page-item"><a class="page-link" href="?page={{ i }}&q={{search_term}}">{{ i }}</a></li>
+          {% endif %}
+        {% endfor %}
+        {% if posts.has_next %}
+          <li class="page-item"><a class="page-link" aria-label="Next" href="?page={{ posts.next_page_number }}&q={{search_term}}">>></a></li>
+          <li class="page-item"><a class="page-link" aria-label="Last" href="?page={{posts.paginator.num_pages}}&q={{search_term}}">Last</a></li>
+        {% else %}
+          <li class="page-item disabled"><a class="page-link"><span>>></span></a></li>
+          <li class="page-item disabled"><a class="page-link"><span>Last</span></a></li>
+        {% endif %}
+      </ul>
+    </div>
+    {% endif %}
+    {% endblock %}

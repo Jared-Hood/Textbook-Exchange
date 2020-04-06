@@ -26,6 +26,7 @@ urlpatterns = [
     path('profile_page/<int:pk>',views.profile_page.as_view(), name="profile_page"),
     path('create_profile',views.create_profile,name="create_profile"),
     path('<int:pk>/edit_profile',views.edit_profile,name="edit_profile"),
+    path('posts/<int:pk>/', views.search_posts_by_book, name="search_posts"),
 ]
 
 if settings.DEBUG:

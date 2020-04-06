@@ -38,6 +38,12 @@
       .pagination{
         margin-top:1em;
       }
+      .btn-row{
+        padding-left: 10px;
+      }
+      .btn{
+        margin: 5px;
+      }
     </style>
     {% if books %}
     <ul class="text-center">
@@ -50,7 +56,7 @@
                 </div>
                 <div class="col-10 big-col">
                   <div class="row header-row">
-                    <h3 class="text-left"><a href="{% url 'txtbook:transfer' pk=book.id %}">{{ book.title }}</a></h3>
+                    <h3 class="text-left"><a href="{% url 'txtbook:text' pk=book.id %}">{{ book.title }}</a></h3>
                   </div>
                   <div class="row my-row">
                     <div class="col-6 my-col">
@@ -94,6 +100,10 @@
                       </a>
                     </div>
                   </div>
+                    <div class="row btn-row">
+                      <a class ="btn btn-primary my-2 my-sm-0" type="link" href="{% url 'txtbook:transfer' pk=book.id %}">Create Listing</a>
+                      <a class ="btn btn-secondary my-2 my-sm-0" type="link" href="{% url 'txtbook:search_posts' pk=book.id %}">Search Listings</a>
+                    </div>
                   </div>
               </div>
             </div>
