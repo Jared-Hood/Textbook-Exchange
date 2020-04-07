@@ -124,8 +124,8 @@
                                 <label for="price">Price</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend"><span class="input-group-text">$</span></div>
-                                    <input type="text" class="form-control" id="price" name="price">
-                                    <input type="hidden" id="email" name="email" value={{user.email}}>
+                                    <input step="0.1" type="number" class="form-control" id="price" name="price">
+                                    <input type="hidden" id="email" name="email" value={{user.email}}> <!-- hiden value to get user email-->
                                 </div>
                             </div>
                             <div class="col-sm-3 pb-3">
