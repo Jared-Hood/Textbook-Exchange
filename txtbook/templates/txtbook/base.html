@@ -41,7 +41,6 @@
             </li>
             <li class="nav-item">
                 {% if user.is_active %}
-                <a class="nav-link" href="{% url 'txtbook:addTextbook' %}">Add a Textbook</a>
                   {% if user.profile.id == '' %}
                   <a class="nav-link" href="{% url 'txtbook:create_profile' %}">Add a Textbook</a>
                   {% else %}
