@@ -10,6 +10,7 @@
     <h3 class="my-4">{{ textbookpost.textbook.title }}</h3>
       {% if user.is_active %}
       <h5 class="text-left"><a href="{% url 'txtbook:contactSeller' pk=textbookpost.id %}"> Contact Seller </a></h5>
+      <h5 class="text-left"><a href="{% url 'txtbook:profile_page' pk=textbookpost.profile.id %}">See Seller Profile</a></h5>
         <h6 class="text-left">Contact: {{textbookpost.email}}</h6>
       {% else %}
       <h6 class="text-left">

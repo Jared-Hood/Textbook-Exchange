@@ -110,6 +110,11 @@
                         <!-- <form class="form" role="form" autocomplete="off" action="{% url 'txtbook:addTextbook' %}" method="post">
                         {% csrf_token %} -->
 
+                        <!-- Get User Info -->
+                        <input type="hidden" id="email" name="email" value={{user.email}}>
+                        <input type="hidden" id="user" name="user" value={{user.id}}>
+                        <input type="hidden" id="profile" name="profile" value={{user.profile.id}}>
+
                         <!-- Form row: Textbook Format, Price, Negotiable Price Option -->
                         <div class="form-row mt-1">
                             <div class="col-sm-5 pb-3">

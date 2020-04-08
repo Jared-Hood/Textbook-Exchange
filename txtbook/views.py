@@ -194,6 +194,7 @@ def addExistingTextbook(request,pk):
         new_format = request.POST['format']
         new_image = request.FILES.get('image', False)
         new_email = request.POST['email']
+        profile_id = request.POST['profile']
 
         if (new_price == ''):
             print("no new price")
@@ -220,7 +221,8 @@ def addExistingTextbook(request,pk):
             format=new_format,
             date_published=timezone.now(),
             image=new_image,
-            email=new_email
+            email=new_email,
+            profile=Profile.objects.get(id=profile_id),
         )
         tp.save()
         return HttpResponseRedirect(tp.get_absolute_url())
@@ -245,7 +247,7 @@ def addTextbook(request):
             new_format = request.POST['format']
             new_image = request.FILES.get('image', False)
             new_email = request.POST['email']
-            new_user_id = request.POST['user']
+            profile_id = request.POST['profile']
 
             if (new_title == '' or new_price == ''):
                 return render(request, 'txtbook/addTextbook.html', {
@@ -291,13 +293,11 @@ def addTextbook(request):
                 date_published=timezone.now(),
                 image=new_image,
                 email=new_email,
-                # user=User.objects.get(id=new_user_id),
+                profile=Profile.objects.get(id=profile_id),
+
             )
             tp.save()
 
-            posting_user = User.objects.get(id=new_user_id)
-            # posting_user.profile.post_ids.add(tp.id)
-            # posting_user.profile.posts.add(tp)
             return HttpResponseRedirect(tp.get_absolute_url())
 
 # The view function to upload a database to the mysite
@@ -343,21 +343,30 @@ def filtered_posts_search(request):
                   {'latest_post_list': latest_post_list, 'max_price': max_price, 'sort_date': sort_date})
 
 
-# def profile_page(request, user_id):
+# def profile_page(request, pk):
 #     model = User
 #     context = User
 #     template = "txtbook/profile_page.html"
 #
-#     return render(request, 'txtbook/profile_page.html')
+#     textbook_posts = User.textbookpost_set.all()
+#     user_profile = Profile.objects.get(id=pk)
+#
+#     return render(request, 'txtbook/profile_page.html',
+#                   {'textbook_posts': textbook_posts, 'profile': user_profile})
 
+
+# Code to get the ForeignKey set for an object:
+# https://stackoverflow.com/questions/51950416/reversemanytoonedescriptor-object-has-no-attribute-all/51950693
 class profile_page(generic.DetailView):
     template_name = 'txtbook/profile_page.html'
     model = Profile
-    context = Profile
-    # context_object_name = 'user_posts'
+    # textbook_posts = User.textbookpost_set.all()
 
-    # def get_queryset(self):
-    #     return Profile.posts
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        instance = self.get_object()
+        context['textbook_posts'] = instance.textbookpost_set.all()
+        return context
 
 def create_profile(request):
     try:

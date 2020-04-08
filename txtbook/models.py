@@ -28,27 +28,6 @@ class Textbook(models.Model):
     def get_absolute_url(self):
         return reverse('txtbook:post', kwargs={'pk': self.id})
 
-class TextbookPost(models.Model):
-    textbook = models.ForeignKey(Textbook, on_delete=models.DO_NOTHING, null=True)
-    price = models.DecimalField(default=0.00, decimal_places=2, max_digits=10)
-    email = models.CharField(max_length=100, default='')
-    # user = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True)
-    negotiable = models.CharField(max_length=100, default='Yes')
-    exchangable = models.CharField(max_length=100, default='Yes')
-    max_diff = models.CharField(max_length=100, default='0.0',blank=True)
-    payment = models.CharField(max_length=200, default='Venmo')
-    condition = models.CharField(max_length=100, default='5')
-    additional_info = models.TextField(max_length=10000, default='N/A',blank=True)
-    date_published = models.DateTimeField(auto_now_add=True)
-    format = models.CharField(max_length=200, default='N/A')
-    image = models.ImageField(upload_to='images', blank=True)
-
-    def __str__(self):
-        return str(self.id) + ' ' + self.textbook.title
-
-    def get_absolute_url(self):
-        return reverse('txtbook:post',kwargs={'pk':self.id})
-
 # Django documentation on User models: https://docs.djangoproject.com/en/3.0/topics/auth/customizing/
 # class Profile(models.Model):
 #     user = models.OneToOneField(User, on_delete=models.CASCADE, default=NULL)
@@ -77,7 +56,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, db_constraint=False)
     name = models.CharField(max_length=200, default='')
     email = models.CharField(max_length=100, default='')
-    posts = models.ForeignKey(TextbookPost, on_delete=models.CASCADE, null=True)
+    # posts = models.ManyToManyField(TextbookPost, blank=True)
     # post_ids = ArrayField(
     #     base_field=models.IntegerField(), blank=True, null=True
     # )
@@ -90,3 +69,30 @@ class Profile(models.Model):
 
     def get_absolute_url(self):
         return reverse('txtbook:profile_page',kwargs={'pk':self.id})
+
+
+# Django Documentation for manyToOne fields (AKA ForeignKey fields):
+# https://docs.djangoproject.com/en/3.0/topics/db/examples/many_to_one/
+# Code describing ForeignKey relationship in another example:
+# https://stackoverflow.com/questions/14663523/foreign-key-django-model
+class TextbookPost(models.Model):
+    textbook = models.ForeignKey(Textbook, on_delete=models.DO_NOTHING, null=True)
+    price = models.DecimalField(default=0.00, decimal_places=2, max_digits=10)
+    email = models.CharField(max_length=100, default='')
+    # user = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True)
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
+    negotiable = models.CharField(max_length=100, default='Yes')
+    exchangable = models.CharField(max_length=100, default='Yes')
+    max_diff = models.CharField(max_length=100, default='0.0',blank=True)
+    payment = models.CharField(max_length=200, default='Venmo')
+    condition = models.CharField(max_length=100, default='5')
+    additional_info = models.TextField(max_length=10000, default='N/A',blank=True)
+    date_published = models.DateTimeField(auto_now_add=True)
+    format = models.CharField(max_length=200, default='N/A')
+    image = models.ImageField(upload_to='images', blank=True)
+
+    def __str__(self):
+        return str(self.id) + ' ' + self.textbook.title
+
+    def get_absolute_url(self):
+        return reverse('txtbook:post',kwargs={'pk':self.id})

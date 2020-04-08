@@ -42,6 +42,11 @@
             <li class="nav-item">
                 {% if user.is_active %}
                 <a class="nav-link" href="{% url 'txtbook:addTextbook' %}">Add a Textbook</a>
+                  {% if user.profile.id == '' %}
+                  <a class="nav-link" href="{% url 'txtbook:create_profile' %}">Add a Textbook</a>
+                  {% else %}
+                  <a class="nav-link" href="{% url 'txtbook:addTextbook' %}">Add a Textbook</a>
+                  {% endif %}
                 {% else %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'social:begin' 'google-oauth2' %}?next={% url 'txtbook:addTextbook' %}">Add a Textbook</a>

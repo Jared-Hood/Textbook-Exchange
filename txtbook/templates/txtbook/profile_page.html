@@ -136,9 +136,9 @@
                             </ul>
                             <br>
                             <div>
-                            {% if profile.posts %}
-                                {% for post in profile.posts %}
-                                    {{ post.textbook.title }}
+                            {% if textbook_posts %}
+                                {% for post in textbook_posts %}
+                                    - <a href="{% url 'txtbook:post' pk=post.id %}">{{ post.textbook.title }}</a> ({{ post.date_published }})<br>
                                 {% endfor %}
                             {% else %}
                             No posts yet.
