@@ -19,7 +19,7 @@
                             </div> -->
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-7">
                         <div class="profile-head">
                                     <h5>
                                     {{ profile.name }}
@@ -67,7 +67,9 @@
                         </div>
                     </div>
                     <div class="col-md-2">
-                        <button>Edit Profile</button>
+                        {% if user.email == profile.email %}
+                        <button><a href="{% url 'txtbook:edit_profile' pk=user.profile.id %}">Edit Profile</a></button>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="row">
@@ -76,12 +78,12 @@
                            <!-- Just to have the extra space here in the page layout -->
                         </div>
                     </div>
-                    <div class="col-md-5">
+                    <div class="col-md-8">
                         <div class="tab-content profile-tab" id="myTabContent">
                             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                                         <br>
                                         <div class="row">
-                                                <div class="col-md-6">
+                                                <div class="col-md-4">
                                                     <label>Email</label>
                                                 </div>
                                                 <div class="col-md-6">
@@ -89,7 +91,7 @@
                                                 </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-md-6">
+                                            <div class="col-md-4">
                                                 <label>Venmo</label>
                                             </div>
                                             <div class="col-md-6">
@@ -101,7 +103,7 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-md-6">
+                                            <div class="col-md-4">
                                                 <label>Phone</label>
                                             </div>
                                             <div class="col-md-6">
@@ -113,11 +115,11 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-md-6">
+                                            <div class="col-md-4">
                                                 <label>Seller Rating</label>
                                             </div>
                                             <div class="col-md-6">
-                                                {% if profile.bio == '' %}
+                                                {% if profile.rating == '' %}
                                                 <h7 style="color: gray">No ratings yet.</h7>
                                                 {% else %}
                                                 {{ profile.rating }}

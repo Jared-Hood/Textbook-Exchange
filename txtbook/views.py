@@ -16,16 +16,20 @@ from django.contrib.auth import logout
 from django.core.mail import send_mail
 from django.shortcuts import redirect
 
+
 # Homepage
 def index(request):
     return render(request, 'txtbook/bootstrap-landing.html')
 
+
 def text(request, pk):
     return render(request, 'txtbook/text.html', {'textbook': Textbook.objects.get(id=pk)})
+
 
 def logout_request(request):
     logout(request) # logout the user
     return HttpResponseRedirect("/")
+
 
 def textView(request):
     all_text = Textbook.objects.all()
@@ -45,6 +49,7 @@ def textView(request):
     page_range = paginator.page_range[start_index:end_index]
     return render(request,'txtbook/textlist.html', {'books': books, 'page_range':page_range})
 
+
 # Lists all Posts
 class allPostsView(generic.ListView):
     template_name = 'txtbook/allPosts.html'
@@ -58,11 +63,13 @@ class allPostsView(generic.ListView):
             date_published__lte=timezone.now()
         ).order_by('-date_published')
 
+
 # Shows a post individually
 class PostView(generic.DetailView):
     model = TextbookPost
     template_name = 'txtbook/post.html'
     context = TextbookPost
+
     def get_queryset(self):
         """
         Excludes any posts that aren't published yet.
@@ -75,6 +82,7 @@ def contactSeller(request, pk):
     post = TextbookPost.objects.get(pk=pk)
 
     return render(request, template_name, {'textbookpost': post})
+
 
 def sendEmail(request, pk):
 
@@ -118,7 +126,6 @@ def search_posts_by_book(request, pk):
     return render(request,'txtbook/post_results.html', {'posts': posts, 'page_range':page_range, 'search_term':Textbook.objects.get(id=pk)})
 
 
-
 # The function that is called when the search bar is used to search through posts.
 def search_posts(request):
     template = 'txtbook/addTextbook.html'
@@ -140,6 +147,7 @@ def search_posts(request):
     end_index = index + 5 if index <= max_index - 5 else max_index
     page_range = paginator.page_range[start_index:end_index]
     return render(request,'txtbook/search_results.html', {'posts': posts, 'page_range':page_range, 'search_term':query})
+
 
 # The function that is called when the search bar is used on the addTextbook page.
 def search(request):
@@ -175,10 +183,12 @@ def search(request):
     page_range = paginator.page_range[start_index:end_index]
     return render(request,'txtbook/search_results.html', {'books': books, 'page_range':page_range, 'search_term':query})
 
+
 # an intermediary function that allows addExistingTextbook to utilize context
 def transfer(request,pk):
     current = Textbook.objects.get(id=pk)
     return render(request,'txtbook/addExistingTextbook.html', {'textbook': current})
+
 
 # The function which is called when 'post' is clicked on a add existing textbook page.
 # Should redirect to
@@ -227,6 +237,7 @@ def addExistingTextbook(request,pk):
         tp.save()
         return HttpResponseRedirect(tp.get_absolute_url())
     # return render(request, 'txtbook/addExistingTextbook.html', {'textbook':Textbook.objects.get(id=pk)})
+
 
 # Main page to add a textbook.
 def addTextbook(request):
@@ -300,6 +311,7 @@ def addTextbook(request):
 
             return HttpResponseRedirect(tp.get_absolute_url())
 
+
 # The view function to upload a database to the mysite
 # TODO: add admin protection to the url.
 def textbook_upload(request):
@@ -322,6 +334,7 @@ def textbook_upload(request):
         )
     context = {}
     return render(request,template,context)
+
 
 def filtered_posts_search(request):
     template = "txtbook/allPosts.html"
@@ -368,6 +381,7 @@ class profile_page(generic.DetailView):
         context['textbook_posts'] = instance.textbookpost_set.all()
         return context
 
+
 def create_profile(request):
     try:
         new_email = request.POST['email']
@@ -413,9 +427,6 @@ def create_profile(request):
 
 def edit_profile(request, pk):
     try:
-        to_edit = User.profile
-
-        new_email = request.POST['email']
         new_name = request.POST['name']
         new_venmo = request.POST['venmo']
         new_year = request.POST['year']
@@ -426,28 +437,110 @@ def edit_profile(request, pk):
 
         if (new_name == ''):
             return render(request, 'txtbook/edit_profile.html', {
+                'profile': Profile.objects.get(id=pk),
                 'error_message': "You MUST fill out a name."
             })
 
 
     except (KeyError, Profile.DoesNotExist):
         return render(request, 'txtbook/edit_profile.html', {
-
+            'profile': Profile.objects.get(id=pk),
         })
 
     else:
 
         if (new_name == ''):
             return render(request, 'txtbook/edit_profile.html', {
+                'profile': Profile.objects.get(id=pk),
                 'error_message': "You MUST fill out a name."
             })
 
-        to_edit.name = new_name
-        to_edit.email = new_email
-        to_edit.venmo = new_venmo
-        to_edit.year = new_year
-        to_edit.major = new_major
-        to_edit.bio = new_bio
-        to_edit.phone = new_phone
+        p = Profile.objects.get(id=pk)
+
+        p.name = new_name
+        p.venmo = new_venmo
+        p.year = new_year
+        p.major = new_major
+        p.bio = new_bio
+        p.phone = new_phone
+
+        p.save()
 
         return HttpResponseRedirect(p.get_absolute_url())
+
+
+def edit_post(request, pk):
+    try:
+
+        new_title = request.POST['title']
+        new_author = request.POST['author']
+        new_dept = request.POST['dept']
+        new_classnum = request.POST['classnum']
+        new_isbn = request.POST['isbn']
+        new_sect = request.POST['sect']
+
+        new_price = request.POST['price']
+        new_negotiable = request.POST['negotiable']
+        new_exchangable = request.POST['exchangable']
+        new_maxdiff = request.POST['maxDiff']
+        new_payment = request.POST['payment']
+        new_condition = request.POST['inlineRadioOptions']
+        new_additional_info = request.POST['additionalInfo']
+        new_format = request.POST['format']
+        # new_image = request.FILES.get('image', False)
+
+        tp = TextbookPost.objects.get(id=pk)
+
+        if (tp.textbook.user_created) and (new_title == '' or new_price == ''):
+            return render(request, 'txtbook/edit_post.html', {
+                'textbookpost': TextbookPost.objects.get(id=pk),
+                'error_message': "Your textbook MUST have a title and price."
+            })
+
+        if (new_price == ''):
+            return render(request, 'txtbook/edit_post.html', {
+                'textbookpost': TextbookPost.objects.get(id=pk),
+                'error_message': "You MUST fill out a price."
+            })
+
+    except (KeyError, Profile.DoesNotExist):
+        return render(request, 'txtbook/edit_post.html', {
+            'textbookpost': TextbookPost.objects.get(id=pk),
+        })
+
+    else:
+
+        if (tp.textbook.user_created) and (new_title == '' or new_price == ''):
+            return render(request, 'txtbook/edit_post.html', {
+                'textbookpost': TextbookPost.objects.get(id=pk),
+                'error_message': "Your textbook MUST have a title and price."
+            })
+
+        if (new_price == ''):
+            return render(request, 'txtbook/edit_post.html', {
+                'textbookpost': TextbookPost.objects.get(id=pk),
+                'error_message': "You MUST fill out a price."
+            })
+
+        tp.price = new_price
+        tp.negotiable = new_negotiable
+        tp.exchangable = new_exchangable
+        tp.max_diff = new_maxdiff
+        tp.payment = new_payment
+        tp.condition = new_condition
+        tp.additional_info = new_additional_info
+        tp.format = new_format
+        # tp.image = new_image
+        tp.date_published = timezone.now()
+
+        if tp.textbook.user_created == True:
+            tp.textbook.title = new_title
+            tp.textbook.author = new_author
+            tp.textbook.dept = new_dept
+            tp.textbook.classnum = new_classnum
+            tp.textbook.isbn = new_isbn
+            tp.textbook.sect = new_sect
+
+        tp.save()
+
+        return HttpResponseRedirect(tp.get_absolute_url())

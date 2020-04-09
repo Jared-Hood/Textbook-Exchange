@@ -65,7 +65,7 @@
         <!-- Search Bar -->
         <div class="row my-row text-left">
             <div class="col-12 col-md-8">
-              <input type="search" name = "q" class="form-control form-control-lg" aria-label="Search">
+              <input type="search" name = "q" class="form-control form-control-lg" aria-label="Search" placeholder="Search available posts">
             </div>
             <div class="col-3 col-md-2">
               <button type="submit" class="btn btn-block btn-lg btn-primary">Search</button>
@@ -114,12 +114,12 @@
     <div class="container my-container">
         <div class="row big-row">
             <div class="col-2 big-col float-left">
-                {% if post.textbook.user_created == False %}
-                <img src="/static/txtbook/thumbnails/{{post.textbook.isbn}}.jpg" style="display: block; width: 175px; height: 250px; margin-left: auto; margin-right: auto">
-                {% elif post.image != 'False' %}
-                <img src="/media/{{ post.image }}" style="display: block; width: 175px; height: 250px; margin-left: auto; margin-right: auto">
+                {% if post.image != 'False' %}
+                <img src="/media/{{ post.image }}" style="display: block; width: 175px; height: 225px; margin-left: auto; margin-right: auto">
+                {% elif post.textbook.user_created == False %}
+                <img src="/static/txtbook/thumbnails/{{post.textbook.isbn}}.jpg" style="display: block; width: 175px; height: 225px; margin-left: auto; margin-right: auto">
                 {% else %}
-                <img src="/media/images/no_image_available.png" style="display: block; width: 175px; height: 250px; margin-left: auto; margin-right: auto">
+                <img src="/media/images/no_image_available.png" style="display: block; width: 175px; height: 225px; margin-left: auto; margin-right: auto">
 
                 {% endif %}
             </div>

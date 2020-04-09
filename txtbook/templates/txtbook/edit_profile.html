@@ -3,7 +3,7 @@
 {% load static %}
 {% block content %}
 
-<form class="form" role="form" autocomplete="off" action="{% url 'txtbook:edit_profile' %}" method="post"
+<form class="form" role="form" autocomplete="off" action="{% url 'txtbook:edit_profile' pk=user.profile.id %}" method="post"
 enctype="multipart/form-data">
     {% csrf_token %}
     <br>
@@ -15,31 +15,31 @@ enctype="multipart/form-data">
     </div>
     <div class="form-group" style="margin-left: 50px; margin-right: 400px">
         <label for="name">Name:</label>
-        <input type="text" class="form-control" name="name" id="name">
+        <input type="text" class="form-control" name="name" id="name" value="{{profile.name}}">
     </div>
     <div class="form-group" style="margin-left: 50px; margin-right: 400px">
         <label for="venmo">Venmo:</label>
-        <input type="text" class="form-control" name="venmo" id="venmo">
+        <input type="text" class="form-control" name="venmo" id="venmo" value="{{profile.venmo}}">
     </div>
     <div class="form-group" style="margin-left: 50px; margin-right: 400px">
         <label for="year">Year:</label>
-        <input type="text" class="form-control" name="year" id="year">
+        <input type="text" class="form-control" name="year" id="year" value="{{profile.year}}">
     </div>
     <div class="form-group" style="margin-left: 50px; margin-right: 400px">
         <label for="major">Major:</label>
-        <input type="text" class="form-control" name="major" id="major">
+        <input type="text" class="form-control" name="major" id="major" value="{{profile.major}}">
     </div>
     <div class="form-group" style="margin-left: 50px; margin-right: 400px">
         <label for="phone">Phone:</label>
-        <input type="text" class="form-control" name="phone" id="phone">
+        <input type="text" class="form-control" name="phone" id="phone" value="{{profile.phone}}">
     </div>
     <div class="form-group" style="margin-left: 50px; margin-right: 400px">
         <label for="bio">Bio:</label>
-        <textarea class="form-control" id="bio" rows=5 name="bio"></textarea>
+        <textarea class="form-control" id="bio" rows=5 name="bio">{{profile.bio}}</textarea>
     </div>
     <div class="col-lg-9" style="margin-left: 40px">
         <button class="btn btn-secondary"><a href="{% url 'txtbook:index' %}" style="color: white">Cancel</a></button>
-        <input type="submit" class="btn btn-primary" value="Create">
+        <input type="submit" class="btn btn-primary" value="Confirm">
     </div>
 </form>
 

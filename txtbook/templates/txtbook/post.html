@@ -90,19 +90,28 @@
     <!-- Images -->
     <h5 class="my-4"><u>Images</u></h5>
     <div class="row">
-        {% if textbookpost.textbook.user_created == False %}
-        <div class="col-md-2 col-sm-3 mb-4">
-          <img class="img-fluid" src="/static/txtbook/thumbnails/{{textbookpost.textbook.isbn}}.jpg" style="display: block; width: 100px; height: 125 px;">
-          <small>Database image.</small>
-        </div>
-        {% elif textbookpost.image != 'False' %}
+        {% if textbookpost.image != 'False' %}
         <div class="col-md-2 col-sm-3 mb-4">
           <img class="img-fluid" src="/media/{{ textbookpost.image }}" style="display: block; width: 100px; height: 125px;">
           <small>User uploaded.</small>
         </div>
+        {% elif textbookpost.textbook.user_created == False %}
+        <div class="col-md-2 col-sm-3 mb-4">
+          <img class="img-fluid" src="/static/txtbook/thumbnails/{{textbookpost.textbook.isbn}}.jpg" style="display: block; width: 100px; height: 125 px;">
+          <small>Database image.</small>
+        </div>
         {% else %}
         <small style="margin-left: 20px; margin-bottom: 20px; color: gray;">No images available.</small>
         {% endif %}
+    </div>
+
+    <div class="row my-row">
+        <!-- {% if user.email == textbookpost.email %}
+        <div class="col-md-1">
+        <button class="btn btn-primary"><a href="{% url 'txtbook:edit_post' pk=textbookpost.id %}" style="color: white">Edit</a></button>
+        </div>
+        <button class="btn btn-secondary">Remove</button>
+        {% endif %} -->
     </div>
 
 </div>

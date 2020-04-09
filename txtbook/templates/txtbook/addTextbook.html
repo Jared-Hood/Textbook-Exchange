@@ -21,7 +21,7 @@
 {% if error_message %}<p class="text-center"><strong>{{ error_message }}</strong></p>
 {% endif %}
 <br></br>
-<p class="text-center"> Search for your textbook with the ISBN, title, or author:</p>
+<p class="text-center"> Search for your book in the UVA Textbook list with the ISBN, title, or author:</p>
 <div class="d-flex justify-content-center">
     <form class="form-inline my-2 my-lg-0 text-center" method="GET" action="{% url 'txtbook:search' %}">
         <div>
@@ -102,24 +102,18 @@
                                 <input type="text" class="form-control" id="sect" name="sect">
                             </div>
                         </div>
-                        <!-- </form> -->
                 </div>
             </div>
             <br><br>
 
             <!--------------------------------------- Sale Info ---------------------------------------------->
             <div class="card card-outline-secondary">
-
                 <!--- Header Info -->
                 <div class="card-header">
                     <h3 class="mb-0">Sale Information</h3>
                 </div>
-
                 <!--- Body -->
                 <div class="card-body">
-                    <!-- <form class="form" role="form" autocomplete="off" action="{% url 'txtbook:addTextbook' %}" method="post">
-                        {% csrf_token %} -->
-
                     <!-- Form row: Textbook Format, Price, Negotiable Price Option -->
                     <div class="form-row mt-1">
                         <div class="col-sm-5 pb-3">
@@ -231,8 +225,6 @@
                             </small>
                         </div>
                     </div>
-
-
                 </div>
 
             </div><br>

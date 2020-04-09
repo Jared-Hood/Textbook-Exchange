@@ -42,18 +42,18 @@
             <li class="nav-item">
                 {% if user.is_active %}
                   {% if user.profile.id == '' %}
-                  <a class="nav-link" href="{% url 'txtbook:create_profile' %}">Add a Textbook</a>
+                  <a class="nav-link" href="{% url 'txtbook:create_profile' %}">Make a Post</a>
                   {% else %}
-                  <a class="nav-link" href="{% url 'txtbook:addTextbook' %}">Add a Textbook</a>
+                  <a class="nav-link" href="{% url 'txtbook:addTextbook' %}">Make a Post</a>
                   {% endif %}
                 {% else %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'social:begin' 'google-oauth2' %}?next={% url 'txtbook:addTextbook' %}">Add a Textbook</a>
+                    <a class="nav-link" href="{% url 'social:begin' 'google-oauth2' %}?next={% url 'txtbook:addTextbook' %}">Make a Post</a>
                 </li>
                 {% endif %}
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'txtbook:textlist' %}">Textbook List</a>
+                <a class="nav-link" href="{% url 'txtbook:textlist' %}">UVA Textbooks</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'txtbook:allPosts' %}">Posts</a>
@@ -70,7 +70,7 @@
         </ul>
         
         <form class="form-inline my-2 my-lg-0" style="margin-left:auto; margin-right:0;" method="GET" action="{% url 'txtbook:search' %}">
-            <input class="form-control mr-lg-2" name='q' type="search" placeholder="Search" aria-label="Search">
+            <input class="form-control mr-lg-2" name='q' type="search" placeholder="Search UVA Textbooks" aria-label="Search">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
         {% if user.is_active %}
