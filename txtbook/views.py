@@ -347,12 +347,21 @@ def filtered_posts_search(request):
     max_price = request.POST['max_price']
 
     if sort_date == 'newest':
-        latest_post_list = TextbookPost.objects.filter(date_published__lte=timezone.now()).order_by('-date_published')
+        latest_post_list = TextbookPost.objects.filter(
+            date_published__lte=timezone.now(),
+            sold=False
+        ).order_by('-date_published')
     else:
-        latest_post_list = TextbookPost.objects.filter(date_published__lte=timezone.now()).order_by('date_published')
+        latest_post_list = TextbookPost.objects.filter(
+            date_published__lte=timezone.now(),
+            sold=False
+        ).order_by('date_published')
 
     if max_price != '':
-        latest_post_list = latest_post_list.filter(price__lte=float(max_price))
+        latest_post_list = latest_post_list.filter(
+            price__lte=float(max_price),
+            sold=False
+        )
 
     return render(request, 'txtbook/filtered_posts_search.html',
                   {'latest_post_list': latest_post_list, 'max_price': max_price, 'sort_date': sort_date})
@@ -619,6 +628,14 @@ def delete_post(request, post_pk, profile_pk):
 def mark_post_sold(request, pk):
     tp = TextbookPost.objects.get(id=pk)
     tp.sold = True
+    tp.save()
+
+    return HttpResponseRedirect(tp.get_absolute_url())
+
+
+def repost(request, pk):
+    tp = TextbookPost.objects.get(id=pk)
+    tp.sold = False
     tp.save()
 
     return HttpResponseRedirect(tp.get_absolute_url())

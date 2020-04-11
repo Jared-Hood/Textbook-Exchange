@@ -22,9 +22,11 @@
         {% endif %}
     </div>
       {% if user.is_active %}
-      <h5 class="text-left"><a href="{% url 'txtbook:contactSeller' pk=textbookpost.id %}"> Contact Seller </a></h5>
-      <h5 class="text-left"><a href="{% url 'txtbook:profile_page' pk=textbookpost.profile.id %}">See Seller Profile</a></h5>
-        <h6 class="text-left">Contact: {{textbookpost.email}}</h6>
+        {% if user.email != textbookpost.email %}
+        <h5 class="text-left"><a href="{% url 'txtbook:contactSeller' pk=textbookpost.id %}"> Contact Seller </a></h5>
+        <h5 class="text-left"><a href="{% url 'txtbook:profile_page' pk=textbookpost.profile.id %}">See Seller Profile</a></h5>
+          <h6 class="text-left">Contact: {{textbookpost.email}}</h6>
+        {% endif %}
       {% else %}
       <h6 class="text-left">
           Contact: <a class="nav-link" href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}">Login to see the contact information</a>
@@ -126,6 +128,10 @@
             {% else %}
             <a class="btn btn-primary" role="button" href="{% url 'txtbook:edit_post_original_text' pk=textbookpost.id %}" style="color: white">Edit</a>
             {% endif %}
+          </div>
+          {% else %}
+          <div class="col-md-1">
+            <a role="button" class="btn btn-success" href="{% url 'txtbook:repost' pk=textbookpost.id %}">Repost</a>
           </div>
           {% endif %}
         <a role="button" class="btn btn-secondary" href="{% url 'txtbook:delete_post' profile_pk=user.profile.id post_pk=textbookpost.id %}">Delete</a>

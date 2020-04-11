@@ -187,6 +187,7 @@
                                             <hr>
                                         </div>
                                         <div class="col-md-3 pb-2">
+                                            <a class="btn btn-outline-success btn-sm" role="button" href="{% url 'txtbook:repost' pk=post.id %}">Repost</a>
                                             <a class="btn btn-outline-secondary btn-sm" role="button" href="{% url 'txtbook:delete_post' post_pk=post.id profile_pk=user.profile.id %}">Delete</a>
                                         </div>
                                     </div>
