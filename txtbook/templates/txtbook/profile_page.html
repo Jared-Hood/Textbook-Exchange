@@ -21,9 +21,9 @@
                     </div>
                     <div class="col-md-7">
                         <div class="profile-head">
-                                    <h5>
+                                    <h3>
                                     {{ profile.name }}
-                                    </h5>
+                                    </h3>
 
                                     <h7>
                                     Year: 
@@ -68,7 +68,7 @@
                     </div>
                     <div class="col-md-2">
                         {% if user.email == profile.email %}
-                        <button><a href="{% url 'txtbook:edit_profile' pk=user.profile.id %}">Edit Profile</a></button>
+                        <a role="button" class="btn btn-primary" href="{% url 'txtbook:edit_profile' pk=user.profile.id %}">Edit Profile</a>
                         {% endif %}
                     </div>
                 </div>
@@ -133,19 +133,69 @@
                             <!-- Second Section -->
                             <ul class="nav nav-tabs" id="myTab" role="tablist">
                                     <li class="nav-item">
-                                        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Posts</a>
+                                        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Current Posts</a>
                                     </li>
                             </ul>
                             <br>
-                            <div>
-                            {% if textbook_posts %}
-                                {% for post in textbook_posts %}
-                                    - <a href="{% url 'txtbook:post' pk=post.id %}">{{ post.textbook.title }}</a> ({{ post.date_published }})<br>
+                            <!-- <div class="row my-row"> -->
+                                {% if textbook_posts %}
+                                    {% for post in textbook_posts %}
+                                    <div class="row my-row">
+                                        <div class="col-md-8">
+                                            <a href="{% url 'txtbook:post' pk=post.id %}">{{ post.textbook.title }}</a>
+                                            <hr>
+                                        </div>
+                                        {% if user.email == profile.email %}
+                                        <div class="col-md-3 pb-2">
+                                            {% if post.textbook.user_created == False %}
+                                                <a role="button" class="btn btn-outline-primary btn-sm" href="{% url 'txtbook:edit_post_database_text' pk=post.id %}">
+                                                    <!-- <img src="https://cdn1.iconfinder.com/data/icons/education-outline-8/64/School_Study_Student_Education_Pencil-512.png" style="width: 20px; height: 20px" />   -->
+                                                    Edit
+                                                </a>
+                                            {% else %}
+                                                <a role="button" class="btn btn-outline-primary btn-sm" href="{% url 'txtbook:edit_post_original_text' pk=post.id %}">
+                                                    <!-- <img src="https://cdn1.iconfinder.com/data/icons/education-outline-8/64/School_Study_Student_Education_Pencil-512.png" style="width: 20px; height: 20px" />   -->
+                                                Edit
+                                                </a>
+                                            {% endif %}
+                                            <a class="btn btn-outline-success btn-sm" role="button" href="{% url 'txtbook:mark_post_sold' pk=post.id %}">Sold</a>
+                                            <!-- <button class="btn btn-outline-secondary btn-sm">Delete</button> -->
+                                            <a class="btn btn-outline-secondary btn-sm" role="button" href="{% url 'txtbook:delete_post' post_pk=post.id profile_pk=user.profile.id %}">Delete</a>
+                                        </div>
+                                        {% endif %}
+                                    </div>
                                 {% endfor %}
-                            {% else %}
-                            No posts yet.
+                                {% else %}
+                                <p style="color: gray">No posts.</p>
+                                {% endif %}
+                            <!-- </div> -->
+                            <br><br>
+
+                            <!-- Third Section -->
+                            {% if user.email == profile.email %}
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Sold Textbooks</a>
+                                    </li>
+                            </ul>
+                            <br>
+                                {% if textbook_posts_sold %}
+                                    {% for post in textbook_posts_sold %}
+                                    <div class="row my-row">
+                                        <div class="col-md-8">
+                                            <a href="{% url 'txtbook:post' pk=post.id %}">{{ post.textbook.title }}</a>
+                                            <hr>
+                                        </div>
+                                        <div class="col-md-3 pb-2">
+                                            <a class="btn btn-outline-secondary btn-sm" role="button" href="{% url 'txtbook:delete_post' post_pk=post.id profile_pk=user.profile.id %}">Delete</a>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                {% else %}
+                                <p style="color: gray">No textbooks sold.</p>
+                                {% endif %}
                             {% endif %}
-                            </div>
+                            <!-- </div> -->
                             <br><br>
                         </div>
                     </div>

@@ -5,13 +5,9 @@
 
 <div class="jumbotron text-center">
     <h1><b>
-            <font color="brown"> Make a textbook post!</font>
-        </b></h1>
+        <font color="brown"> Edit textbook post: {{ textbookpost.textbook.title }}</font>
+    </b></h1>
 </div>
-<!-- </div> -->
-
-
-<p class="text-center">All posts must have the Sale Information section filled out.</p>
 
 {% if error_message %}<p class="text-center"><strong>{{ error_message }}</strong></p>
 {% endif %}
@@ -23,76 +19,58 @@
         <div class="col-md-10 offset-md-1">
             <span class="anchor" id="formUserEdit"></span>
 
-
+            <form class="form" role="form" autocomplete="off" action="{% url 'txtbook:edit_post_original_text' pk=textbookpost.id %}" method="post"
+            enctype="multipart/form-data">
+            {% csrf_token %}
             <!--------------------------------------- Textbook Info ---------------------------------------------->
+            
             <div class="card card-outline-secondary">
-
                 <!--- Header Info -->
                 <div class="card-header">
-                    <h3 class="mb-0">Textbook Information</h3>
-                </div>
-
-                <!--- Body -->
-                <div class="card-body">
-                    <!-- Form row: Textbook Title -->
-                    <div class="form-group row">
-                        <div class="col-3 big-col float-left">
-                            <img src="/static/txtbook/thumbnails/{{textbook.isbn}}.jpg" style="width:100%;padding-top:5px">
+                        <h3 class="mb-0">Textbook Information</h3>
+                    </div>
+            <div class="card-body">
+                        <!-- Form row: Textbook Title -->
+                        <div class="form-group row">
+                            <label class="col-lg-2 col-form-label form-control-label">Textbook Title</label>
+                            <div class="col-lg-10">
+                                <input class="form-control" type="text" name="title" id="title" value="{{ textbookpost.textbook.title }}">
+                            </div>
                         </div>
-                        <div class="col-9 big-col">
-                            <div class="form-group header-row">
-                                <h3 class="text-left">{{ textbook.title }}</h3>
+                        <!-- Form row: Author, Department, Class # -->
+                        <div class="form-row mt-4">
+                            <div class="col-sm-6 pb-3">
+                                <label for="author">Author(s)</label>
+                                <input type="text" class="form-control" name="author" id="author" value="{{ textbookpost.textbook.author }}">
                             </div>
-                            <div class="form-group row">
-                                <div class="col-6 my-col">
-                                    <h5 class="text-left">Author(s): {{textbook.author}}</h5>
-                                </div>
-                                <div class="col-6 my-col">
-                                    <div class="text-left">
-                                        <h5 class="text-left">ISBN: {{textbook.isbn}}</h5>
-                                    </div>
-                                </div>
+                            <div class="col-sm-6 pb-3">
+                                <label for="author">ISBN #</label>
+                                <input type="text" class="form-control" id="isbn" name="isbn" value="{{ textbookpost.textbook.isbn }}">
                             </div>
-                            <div class="form-group row">
-                                <div class="col-6 row-col">
-                                    <div class="row">
-                                        <div class="col-6  my-col">
-                                            <h5 class="text-left">
-                                                Classes: {{textbook.dept}}{{textbook.classnum}}
-                                            </h5>
-                                        </div>
-                                        <div class="col-6  my-col">
-                                            <h5 class="text-left">
-                                                {% if textbook.sect|length == 1 %}
-                                                Section: 00{{textbook.sect}}
-                                                {% else %}
-                                                Section: {{textbook.sect}}
-                                                {% endif %}
-                                            </h5>
-                                        </div>
-                                    </div>
-                                    <div class="form-group mt-1 sm-row">
-                                        <div class="row sm-row">
-                                            <div class="col-sm-8  pb-3 my-col">
-                                                <h6 class='text-left'>Bookstore Pricing:
-                                                    {{textbook.new_price_bookstore}} (new)
-                                                    {{textbook.used_price_bookstore}} (used)</h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-6 row-col">
-                                    <a href="{{ textbook.amazon_link}}" target="_blank">
-                                        <img src="/static/txtbook/img/amazon.jpg" class="rounded float-left" alt="amazon_logo"
-                                            style="width:50%">
-                                    </a>
-                                </div>
+                        </div>
+
+                        <!-- Form row: IBSN #, Price, Negotiable Price Option -->
+                        <div class="form-row mt-1">
+                            <div class="col-sm-4 pb-3">
+                                <label for="dept">Department </label>
+                                <input type="text" class="form-control" id="dept" name="dept" value="{{ textbookpost.textbook.dept }}">
+                                <small class="text-info">e.g., BIOL</small>
+                            </div>
+                            <div class="col-sm-4 pb-3">
+                                <label for="classnum">Class #</label>
+                                <input type="text" class="form-control" id="classnum" name="classnum" value="{{ textbookpost.textbook.classnum }}">
+                                <small class="text-info">e.g., from BIOL 3100, type 3100</small>
+                            </div>
+                            <div class="col-sm-4 pb-3">
+                                <label for="ibsn">Section #</label>
+                                <input type="text" class="form-control" id="sect" name="sect" value="{{ textbookpost.textbook.sect }}">
                             </div>
                         </div>
                         <!-- </form> -->
-                    </div>
                 </div>
             </div>
+
+            
             <br><br>
 
             <!--------------------------------------- Sale Info ---------------------------------------------->
@@ -104,12 +82,6 @@
 
                 <!--- Body -->
                 <div class="card-body">
-                    <form class="form" role="form" autocomplete="off" action="{% url 'txtbook:addExistingTextbook' pk=textbook.id %}"
-                        method="post" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        <!-- <form class="form" role="form" autocomplete="off" action="{% url 'txtbook:addTextbook' %}" method="post">
-                        {% csrf_token %} -->
-
                         <!-- Get User Info -->
                         <input type="hidden" id="email" name="email" value={{user.email}}>
                         <input type="hidden" id="user" name="user" value={{user.id}}>
@@ -129,8 +101,7 @@
                                 <label for="price">Price</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend"><span class="input-group-text">$</span></div>
-                                    <input step="0.1" type="number" class="form-control" id="price" name="price">
-                                    <input type="hidden" id="email" name="email" value={{user.email}}> <!-- hiden value to get user email-->
+                                    <input step="0.1" type="number" class="form-control" id="price" name="price" value="{{ textbookpost.price }}">
                                 </div>
                             </div>
                             <div class="col-sm-3 pb-3">
@@ -156,7 +127,7 @@
                                 <label for="maxdiff">If exchangable, maximum price difference:</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend"><span class="input-group-text">$</span></div>
-                                    <input type="text" class="form-control" id="maxDiff" name="maxDiff">
+                                    <input type="text" class="form-control" id="maxDiff" name="maxDiff" value="{{ textbookpost.max_diff }}">
                                 </div>
                             </div>
 
@@ -221,7 +192,7 @@
                             <!-- Additional Info -->
                             <div class="col-md-6 pb-3">
                                 <label for="moreInfo">Additional Information</label>
-                                <textarea class="form-control" id="additionalInfo" rows=5 name="additionalInfo"></textarea>
+                                <textarea class="form-control" id="additionalInfo" rows=5 name="additionalInfo" value="{{ textbookpost.additional_info }}"></textarea>
                                 <small class="text-info">
                                     Add any other details/information here.
                                 </small>
@@ -234,17 +205,12 @@
             </div><br>
             <!--- End pf Form Buttons -->
             <div class="col-lg-9">
-                <a class="btn btn-secondary" role="button" href="{% url 'txtbook:index' %}" style="color: white">Cancel</a>
-                <input type="submit" class="btn btn-primary" value="Post">
+                <button class="btn btn-secondary"><a href="{% url 'txtbook:post' pk=textbookpost.id %}" style="color: white">Cancel</a></button>
+                <input type="submit" class="btn btn-primary" value="Save Changes">
             </div>
             </form>
-            <br><br>
-
-
-            <br><br><br><br>
-
+            <br><br><br><br><br><br>
         </div>
-        <!--/col-->
     </div>
 
 </div>

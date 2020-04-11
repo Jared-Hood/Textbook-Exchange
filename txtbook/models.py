@@ -29,29 +29,6 @@ class Textbook(models.Model):
         return reverse('txtbook:post', kwargs={'pk': self.id})
 
 # Django documentation on User models: https://docs.djangoproject.com/en/3.0/topics/auth/customizing/
-# class Profile(models.Model):
-#     user = models.OneToOneField(User, on_delete=models.CASCADE, default=NULL)
-#     name = models.CharField(max_length=200, default='')
-#     email = models.CharField(max_length=100, default='')
-#     rating = models.CharField(max_length=100, default='')
-#     posts = models.ForeignKey(TextbookPost, on_delete=models.CASCADE, null=True)
-#     venmo = models.CharField(max_length=100, default='')
-#
-#     def __str__(self):
-#         return str(self.id) + ' ' + str(self.email)
-#
-#     def get_absolute_url(self):
-#         return reverse('txtbook:profile_page', kwargs={'pk': self.id})
-#
-# @receiver(post_save, sender=User)
-# def create_user_profile(sender, instance, created, **kwargs):
-#     if created:
-#         Profile.objects.create(user=instance, email=user.email)
-#
-# @receiver(post_save, sender=User)
-# def save_user_profile(sender, instance, **kwargs):
-#     instance.profile.save()
-
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, db_constraint=False)
     name = models.CharField(max_length=200, default='')
@@ -90,6 +67,7 @@ class TextbookPost(models.Model):
     date_published = models.DateTimeField(auto_now_add=True)
     format = models.CharField(max_length=200, default='N/A')
     image = models.ImageField(upload_to='images', blank=True)
+    sold = models.BooleanField(default=False)
 
     def __str__(self):
         return str(self.id) + ' ' + self.textbook.title

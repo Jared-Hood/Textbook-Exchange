@@ -38,7 +38,7 @@ enctype="multipart/form-data">
         <textarea class="form-control" id="bio" rows=5 name="bio">{{profile.bio}}</textarea>
     </div>
     <div class="col-lg-9" style="margin-left: 40px">
-        <button class="btn btn-secondary"><a href="{% url 'txtbook:index' %}" style="color: white">Cancel</a></button>
+        <a class="btn btn-secondary" role="button" href="{% url 'txtbook:profile_page' pk=user.profile.id %}">Cancel</a>
         <input type="submit" class="btn btn-primary" value="Confirm">
     </div>
 </form>

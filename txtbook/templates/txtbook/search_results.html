@@ -124,7 +124,15 @@
                     </div>
                   </div>
                     <div class="row btn-row">
-                      <a class ="btn btn-primary my-2 my-sm-0" type="link" href="{% url 'txtbook:transfer' pk=book.id %}">Create Listing</a>
+                      {% if user.is_active %}
+                        {% if user.profile.id == '' %}
+                        <a class ="btn btn-primary my-2 my-sm-0" type="link" href="{% url 'txtbook:create_profile' %}">Create Listing</a>
+                        {% else %}
+                        <a class ="btn btn-primary my-2 my-sm-0" type="link" href="{% url 'txtbook:transfer' pk=book.id %}">Create Listing</a>
+                        {% endif %}
+                      {% else %}
+                        <a class ="btn btn-primary my-2 my-sm-0" type="link" href="{% url 'social:begin' 'google-oauth2' %}?next={% url 'txtbook:addTextbook' %}">Create Listing</a>
+                      {% endif %}
                       <a class ="btn btn-secondary my-2 my-sm-0" type="link" href="{% url 'txtbook:search_posts' pk=book.id %}">Search Listings</a>
                     </div>
                   </div>

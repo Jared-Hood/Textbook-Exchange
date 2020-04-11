@@ -60,7 +60,8 @@ class allPostsView(generic.ListView):
         Return all posts, ordered by most recent publish date.
         """
         return TextbookPost.objects.filter(
-            date_published__lte=timezone.now()
+            date_published__lte=timezone.now(),
+            sold=False,
         ).order_by('-date_published')
 
 
@@ -233,6 +234,7 @@ def addExistingTextbook(request,pk):
             image=new_image,
             email=new_email,
             profile=Profile.objects.get(id=profile_id),
+            sold=False,
         )
         tp.save()
         return HttpResponseRedirect(tp.get_absolute_url())
@@ -305,7 +307,7 @@ def addTextbook(request):
                 image=new_image,
                 email=new_email,
                 profile=Profile.objects.get(id=profile_id),
-
+                sold=False,
             )
             tp.save()
 
@@ -378,7 +380,8 @@ class profile_page(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         instance = self.get_object()
-        context['textbook_posts'] = instance.textbookpost_set.all()
+        context['textbook_posts'] = instance.textbookpost_set.filter(sold=False)
+        context['textbook_posts_sold'] = instance.textbookpost_set.filter(sold=True)
         return context
 
 
@@ -469,7 +472,64 @@ def edit_profile(request, pk):
         return HttpResponseRedirect(p.get_absolute_url())
 
 
-def edit_post(request, pk):
+def edit_post_database_text(request, pk):
+    try:
+
+        # new_title = request.POST['title']
+        # new_author = request.POST['author']
+        # new_dept = request.POST['dept']
+        # new_classnum = request.POST['classnum']
+        # new_isbn = request.POST['isbn']
+        # new_sect = request.POST['sect']
+
+        new_price = request.POST['price']
+        new_negotiable = request.POST['negotiable']
+        new_exchangable = request.POST['exchangable']
+        new_maxdiff = request.POST['maxDiff']
+        new_payment = request.POST['payment']
+        new_condition = request.POST['inlineRadioOptions']
+        new_additional_info = request.POST['additionalInfo']
+        new_format = request.POST['format']
+        # new_image = request.FILES.get('image', False)
+
+        tp = TextbookPost.objects.get(id=pk)
+
+        if (new_price == ''):
+            return render(request, 'txtbook/edit_post_database_text.html', {
+                'textbookpost': TextbookPost.objects.get(id=pk),
+                'error_message': "You MUST fill out a price."
+            })
+
+    except (KeyError, Profile.DoesNotExist):
+        return render(request, 'txtbook/edit_post_database_text.html', {
+            'textbookpost': TextbookPost.objects.get(id=pk),
+        })
+
+    else:
+
+        if (new_price == ''):
+            return render(request, 'txtbook/edit_post_database_text.html', {
+                'textbookpost': TextbookPost.objects.get(id=pk),
+                'error_message': "You MUST fill out a price."
+            })
+
+        tp.price = new_price
+        tp.negotiable = new_negotiable
+        tp.exchangable = new_exchangable
+        tp.max_diff = new_maxdiff
+        tp.payment = new_payment
+        tp.condition = new_condition
+        tp.additional_info = new_additional_info
+        tp.format = new_format
+        # tp.image = new_image
+        tp.date_published = timezone.now()
+
+        tp.save()
+
+        return HttpResponseRedirect(tp.get_absolute_url())
+
+
+def edit_post_original_text(request, pk):
     try:
 
         new_title = request.POST['title']
@@ -491,36 +551,45 @@ def edit_post(request, pk):
 
         tp = TextbookPost.objects.get(id=pk)
 
-        if (tp.textbook.user_created) and (new_title == '' or new_price == ''):
-            return render(request, 'txtbook/edit_post.html', {
+        if new_title == '' or new_price == '':
+            return render(request, 'txtbook/edit_post_original_text.html', {
                 'textbookpost': TextbookPost.objects.get(id=pk),
                 'error_message': "Your textbook MUST have a title and price."
             })
 
         if (new_price == ''):
-            return render(request, 'txtbook/edit_post.html', {
+            return render(request, 'txtbook/edit_post_original_text.html', {
                 'textbookpost': TextbookPost.objects.get(id=pk),
                 'error_message': "You MUST fill out a price."
             })
 
     except (KeyError, Profile.DoesNotExist):
-        return render(request, 'txtbook/edit_post.html', {
+        return render(request, 'txtbook/edit_post_original_text.html', {
             'textbookpost': TextbookPost.objects.get(id=pk),
         })
 
     else:
 
-        if (tp.textbook.user_created) and (new_title == '' or new_price == ''):
-            return render(request, 'txtbook/edit_post.html', {
+        if new_title == '' or new_price == '':
+            return render(request, 'txtbook/edit_post_original_text.html', {
                 'textbookpost': TextbookPost.objects.get(id=pk),
                 'error_message': "Your textbook MUST have a title and price."
             })
 
         if (new_price == ''):
-            return render(request, 'txtbook/edit_post.html', {
+            return render(request, 'txtbook/edit_post_original_text.html', {
                 'textbookpost': TextbookPost.objects.get(id=pk),
                 'error_message': "You MUST fill out a price."
             })
+
+        tp.textbook.title = new_title
+        tp.textbook.author = new_author
+        tp.textbook.dept = new_dept
+        tp.textbook.classnum = new_classnum
+        tp.textbook.isbn = new_isbn
+        tp.textbook.sect = new_sect
+
+        tp.textbook.save()
 
         tp.price = new_price
         tp.negotiable = new_negotiable
@@ -533,14 +602,25 @@ def edit_post(request, pk):
         # tp.image = new_image
         tp.date_published = timezone.now()
 
-        if tp.textbook.user_created == True:
-            tp.textbook.title = new_title
-            tp.textbook.author = new_author
-            tp.textbook.dept = new_dept
-            tp.textbook.classnum = new_classnum
-            tp.textbook.isbn = new_isbn
-            tp.textbook.sect = new_sect
-
         tp.save()
 
         return HttpResponseRedirect(tp.get_absolute_url())
+
+
+def delete_post(request, post_pk, profile_pk):
+    tp = TextbookPost.objects.get(id=post_pk)
+    tp.delete()
+
+    profile = Profile.objects.get(id=profile_pk)
+
+    return HttpResponseRedirect(profile.get_absolute_url())
+
+
+def mark_post_sold(request, pk):
+    tp = TextbookPost.objects.get(id=pk)
+    tp.sold = True
+    tp.save()
+
+    return HttpResponseRedirect(tp.get_absolute_url())
+
+

@@ -19,11 +19,11 @@
         <div class="col-md-10 offset-md-1">
             <span class="anchor" id="formUserEdit"></span>
 
-            <form class="form" role="form" autocomplete="off" action="{% url 'txtbook:edit_post' pk=textbookpost.id %}" method="post"
+            <form class="form" role="form" autocomplete="off" action="{% url 'txtbook:edit_post_database_text' pk=textbookpost.id %}" method="post"
             enctype="multipart/form-data">
             {% csrf_token %}
             <!--------------------------------------- Textbook Info ---------------------------------------------->
-            {% if textbookpost.textbook.user_created == False %}
+            
             <div class="card card-outline-secondary">
                 <!--- Header Info -->
                 <div class="card-header">
@@ -90,54 +90,6 @@
                     </div>
                 </div>
             </div>
-            {% else %}
-            <div class="card card-outline-secondary">
-                <!--- Header Info -->
-                <div class="card-header">
-                        <h3 class="mb-0">Textbook Information</h3>
-                    </div>
-            <div class="card-body">
-                        <!-- Form row: Textbook Title -->
-                        <div class="form-group row">
-                            <label class="col-lg-2 col-form-label form-control-label">Textbook Title</label>
-                            <div class="col-lg-10">
-                                <input class="form-control" type="text" name="title" id="title" value="{{ textbookpost.textbook.title }}">
-                            </div>
-                        </div>
-                        <!-- Form row: Author, Department, Class # -->
-                        <div class="form-row mt-4">
-                            <div class="col-sm-6 pb-3">
-                                <label for="author">Author(s)</label>
-                                <input type="text" class="form-control" name="author" id="author" value="{{ textbookpost.textbook.author }}">
-                            </div>
-                            <div class="col-sm-6 pb-3">
-                                <label for="author">ISBN #</label>
-                                <input type="text" class="form-control" id="isbn" name="isbn" value="{{ textbookpost.textbook.isbn }}">
-                            </div>
-                        </div>
-
-                        <!-- Form row: IBSN #, Price, Negotiable Price Option -->
-                        <div class="form-row mt-1">
-                            <div class="col-sm-4 pb-3">
-                                <label for="dept">Department </label>
-                                <input type="text" class="form-control" id="dept" name="dept" value="{{ textbookpost.textbook.dept }}">
-                                <small class="text-info">e.g., BIOL</small>
-                            </div>
-                            <div class="col-sm-4 pb-3">
-                                <label for="classnum">Class #</label>
-                                <input type="text" class="form-control" id="classnum" name="classnum" value="{{ textbookpost.textbook.classnum }}">
-                                <small class="text-info">e.g., from BIOL 3100, type 3100</small>
-                            </div>
-                            <div class="col-sm-4 pb-3">
-                                <label for="ibsn">Section #</label>
-                                <input type="text" class="form-control" id="sect" name="sect" value="{{ textbookpost.textbook.sect }}">
-                            </div>
-                        </div>
-                        <!-- </form> -->
-                </div>
-            </div>
-
-            {% endif %}
             
             <br><br>
 

@@ -27,7 +27,10 @@ urlpatterns = [
     path('create_profile',views.create_profile,name="create_profile"),
     path('<int:pk>/edit_profile',views.edit_profile,name="edit_profile"),
     path('posts/<int:pk>/', views.search_posts_by_book, name="search_posts"),
-    path('<int:pk>/edit_post',views.edit_post,name="edit_post")
+    path('<int:pk>/edit_post_database_text',views.edit_post_database_text,name="edit_post_database_text"),
+    path('<int:pk>/edit_post_original_text',views.edit_post_original_text,name="edit_post_original_text"),
+    path('<int:profile_pk>/<int:post_pk>/delete_post',views.delete_post,name="delete_post"),
+    path('<int:pk>/mark_post_sold',views.mark_post_sold,name="mark_post_sold"),
 ]
 
 if settings.DEBUG:

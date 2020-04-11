@@ -7,7 +7,20 @@
 <div class="container">
   <!-- Textbook Info -->
   <div>
-    <h3 class="my-4">{{ textbookpost.textbook.title }}</h3>
+    <div class="row my-row">
+        <div class="col-md-5">
+          <h3 class="my-4">{{ textbookpost.textbook.title }}</h3>
+        </div>
+        {% if user.email == textbookpost.email %}
+          {% if textbookpost.sold == False %}
+          <div class="col-md-4 pb-3" style="margin-top: 20px">
+            <a role="button" class="btn btn-success" href="{% url 'txtbook:mark_post_sold' pk=textbookpost.id %}">Mark as Sold</a>
+          </div>
+          {% else %}
+          <h3 style="color: green; margin-top: 20px">Sold</h3>
+          {% endif %}
+        {% endif %}
+    </div>
       {% if user.is_active %}
       <h5 class="text-left"><a href="{% url 'txtbook:contactSeller' pk=textbookpost.id %}"> Contact Seller </a></h5>
       <h5 class="text-left"><a href="{% url 'txtbook:profile_page' pk=textbookpost.profile.id %}">See Seller Profile</a></h5>
@@ -20,7 +33,6 @@
     <h7 style="margin-top: 0px">Posted {{ textbookpost.date_published }}</h7>
   </div>
   <br>
-
     <h5><u>Available Textbook Information</u></h5>
     <div>
         <strong>Author(s): </strong>
@@ -106,14 +118,21 @@
     </div>
 
     <div class="row my-row">
-        <!-- {% if user.email == textbookpost.email %}
-        <div class="col-md-1">
-        <button class="btn btn-primary"><a href="{% url 'txtbook:edit_post' pk=textbookpost.id %}" style="color: white">Edit</a></button>
-        </div>
-        <button class="btn btn-secondary">Remove</button>
-        {% endif %} -->
+        {% if user.email == textbookpost.email %}
+          {% if textbookpost.sold == False %}
+          <div class="col-md-1">
+            {% if textbookpost.textbook.user_created == False %}
+            <a class="btn btn-primary" role="button" href="{% url 'txtbook:edit_post_database_text' pk=textbookpost.id %}" style="color: white">Edit</a>
+            {% else %}
+            <a class="btn btn-primary" role="button" href="{% url 'txtbook:edit_post_original_text' pk=textbookpost.id %}" style="color: white">Edit</a>
+            {% endif %}
+          </div>
+          {% endif %}
+        <a role="button" class="btn btn-secondary" href="{% url 'txtbook:delete_post' profile_pk=user.profile.id post_pk=textbookpost.id %}">Delete</a>
+        {% endif %}
     </div>
 
 </div>
+
 
     {% endblock %}
