@@ -77,7 +77,7 @@ def contactSeller(request, pk):
     return render(request, template_name, {'textbookpost': post})
 
 def sendEmail(request, pk):
-    post = TextbookPost.objects,get(pk=pk)
+    post = TextbookPost.objects.get(pk=pk)
     subject = request.POST['subject']
     Message = request.POST['message']
     from_email = request.POST['from_email']
