@@ -36,7 +36,7 @@ class TextbookTests(TestCase):
         self.assertTrue(len(books_none) + len(books) == len(all_books))
 
 
-class UserViewTests(TestCase):
+class ViewTests(TestCase):
     def setUp(self):
         self.factory = RequestFactory()
         self.user = User.objects.create_user(
