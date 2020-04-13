@@ -32,6 +32,8 @@ urlpatterns = [
     path('<int:profile_pk>/<int:post_pk>/delete_post',views.delete_post,name="delete_post"),
     path('<int:pk>/mark_post_sold',views.mark_post_sold,name="mark_post_sold"),
     path('<int:pk>/repost',views.repost,name="repost"),
+    path('search_by_class/', views.class_search_view, name="search_by_class"),
+    path('search_by_class/results', views.search_by_class, name='class_search'),
 ]
 
 if settings.DEBUG:

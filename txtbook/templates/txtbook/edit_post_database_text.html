@@ -23,7 +23,7 @@
             enctype="multipart/form-data">
             {% csrf_token %}
             <!--------------------------------------- Textbook Info ---------------------------------------------->
-            
+
             <div class="card card-outline-secondary">
                 <!--- Header Info -->
                 <div class="card-header">
@@ -90,7 +90,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <br><br>
 
             <!--------------------------------------- Sale Info ---------------------------------------------->
@@ -202,7 +202,7 @@
                                 </div>
 
                                 <!-- Upload Image -->
-                                
+
                                 <div class="form-group">
                                     <input type="hidden" id="delete_image" name="delete_image" value="not_delete">
                                     {% if textbookpost.image != 'False' %}

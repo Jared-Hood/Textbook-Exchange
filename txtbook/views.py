@@ -16,23 +16,19 @@ from django.contrib.auth import logout
 from django.core.mail import send_mail
 from django.shortcuts import redirect
 
-
 # Homepage
 def index(request):
     return render(request, 'txtbook/bootstrap-landing.html')
 
-
 def text(request, pk):
     return render(request, 'txtbook/text.html', {'textbook': Textbook.objects.get(id=pk)})
-
 
 def logout_request(request):
     logout(request) # logout the user
     return HttpResponseRedirect("/")
 
-
 def textView(request):
-    all_text = Textbook.objects.all()
+    all_text = Textbook.objects.all().order_by('dept','classnum')
     paginator = Paginator(all_text, 20)
     page = request.GET.get('page',1)
     try:
@@ -49,7 +45,6 @@ def textView(request):
     page_range = paginator.page_range[start_index:end_index]
     return render(request,'txtbook/textlist.html', {'books': books, 'page_range':page_range})
 
-
 # Lists all Posts
 class allPostsView(generic.ListView):
     template_name = 'txtbook/allPosts.html'
@@ -60,41 +55,33 @@ class allPostsView(generic.ListView):
         Return all posts, ordered by most recent publish date.
         """
         return TextbookPost.objects.filter(
-            date_published__lte=timezone.now(),
-            sold=False,
         ).order_by('-date_published')
-
 
 # Shows a post individually
 class PostView(generic.DetailView):
     model = TextbookPost
     template_name = 'txtbook/post.html'
     context = TextbookPost
-
     def get_queryset(self):
         """
         Excludes any posts that aren't published yet.
         """
         return TextbookPost.objects.filter(date_published__lte=timezone.now())
 
-#Test comment a
+
 def contactSeller(request, pk):
     template_name = 'txtbook/contactSeller.html'
     post = TextbookPost.objects.get(pk=pk)
 
     return render(request, template_name, {'textbookpost': post})
 
-
 def sendEmail(request, pk):
-    post = TextbookPost.objects.get(pk=pk)
 
     subject = request.POST['subject']
     Message = request.POST['message']
     from_email = request.POST['from_email']
     to_email = request.POST['to_email']
 
-    if Message == "":
-        Message = f"Hi! I am interested in buying your textbook {post.textbook.title} for the set price of {post.price} through {post.payment}. Please email me back when you can meet at your convienence."
 
     send_mail(
         subject,
@@ -129,6 +116,46 @@ def search_posts_by_book(request, pk):
     return render(request,'txtbook/post_results.html', {'posts': posts, 'page_range':page_range, 'search_term':Textbook.objects.get(id=pk)})
 
 
+def class_search_view(request):
+    return render(request, 'txtbook/search_by_class.html')
+
+def search_by_class(request):
+    template = 'txtbook/search_by_class.html'
+    dept = request.GET.get('class')
+    nbr = request.GET.get('nbr')
+    results = []
+    if( dept == False and nbr == False):
+        return render(request, 'txtbook/search_by_class.html')
+    elif( dept.isalpha() != True and dept == False or dept== False and dept.length > 4):
+        return render(request, 'txtbook/search_by_class.html',{'error_message': "Invalid Class department" })
+    elif( nbr.isnumeric() != True and nbr == False or nbr == False and nbr.length > 4):
+        return render(request, 'txtbook/search_by_class.html',{'error_message': "Invalid Course Number" })
+    print(dept is not False)
+    if(nbr == "" and dept != ""):
+        results = Textbook.objects.filter(Q(dept=dept.upper().strip())).order_by('classnum')
+    elif( dept == "" and nbr != ""):
+        results = Textbook.objects.filter(Q(classnum__icontains=nbr.strip())).order_by('dept','classnum')
+    elif( dept != "" and nbr != ""):
+        results = Textbook.objects.filter(Q(dept=dept.upper().strip())).filter(Q(classnum__icontains=nbr.strip())).order_by('dept','classnum')
+    else:
+        return render(request,'txtbook/search_by_class.html',{})
+    paginator = Paginator(results, 20)
+    page_request_var = 'page'
+    page = request.GET.get(page_request_var)
+    try:
+        books = paginator.page(page)
+    except PageNotAnInteger:
+        books = paginator.page(1)
+    except EmptyPage:
+        books = paginator.page(paginator.num_pages)
+    index = books.number - 1
+    max_index = len(paginator.page_range)
+    start_index = index - 5 if index >= 5 else 0
+    end_index = index + 5 if index <= max_index - 5 else max_index
+    page_range = paginator.page_range[start_index:end_index]
+    return render(request,'txtbook/search_by_class.html', {'books': books, 'page_range':page_range, 'dept':dept, 'num':nbr})
+
+
 # The function that is called when the search bar is used to search through posts.
 def search_posts(request):
     template = 'txtbook/addTextbook.html'
@@ -150,7 +177,6 @@ def search_posts(request):
     end_index = index + 5 if index <= max_index - 5 else max_index
     page_range = paginator.page_range[start_index:end_index]
     return render(request,'txtbook/search_results.html', {'posts': posts, 'page_range':page_range, 'search_term':query})
-
 
 # The function that is called when the search bar is used on the addTextbook page.
 def search(request):
@@ -186,12 +212,10 @@ def search(request):
     page_range = paginator.page_range[start_index:end_index]
     return render(request,'txtbook/search_results.html', {'books': books, 'page_range':page_range, 'search_term':query})
 
-
 # an intermediary function that allows addExistingTextbook to utilize context
 def transfer(request,pk):
     current = Textbook.objects.get(id=pk)
     return render(request,'txtbook/addExistingTextbook.html', {'textbook': current})
-
 
 # The function which is called when 'post' is clicked on a add existing textbook page.
 # Should redirect to
@@ -207,7 +231,6 @@ def addExistingTextbook(request,pk):
         new_format = request.POST['format']
         new_image = request.FILES.get('image', False)
         new_email = request.POST['email']
-        profile_id = request.POST['profile']
 
         if (new_price == ''):
             print("no new price")
@@ -234,14 +257,10 @@ def addExistingTextbook(request,pk):
             format=new_format,
             date_published=timezone.now(),
             image=new_image,
-            email=new_email,
-            profile=Profile.objects.get(id=profile_id),
-            sold=False,
         )
         tp.save()
         return HttpResponseRedirect(tp.get_absolute_url())
     # return render(request, 'txtbook/addExistingTextbook.html', {'textbook':Textbook.objects.get(id=pk)})
-
 
 # Main page to add a textbook.
 def addTextbook(request):
@@ -262,7 +281,6 @@ def addTextbook(request):
             new_format = request.POST['format']
             new_image = request.FILES.get('image', False)
             new_email = request.POST['email']
-            profile_id = request.POST['profile']
 
             if (new_title == '' or new_price == ''):
                 return render(request, 'txtbook/addTextbook.html', {
@@ -308,13 +326,10 @@ def addTextbook(request):
                 date_published=timezone.now(),
                 image=new_image,
                 email=new_email,
-                profile=Profile.objects.get(id=profile_id),
-                sold=False,
             )
             tp.save()
 
             return HttpResponseRedirect(tp.get_absolute_url())
-
 
 # The view function to upload a database to the mysite
 # TODO: add admin protection to the url.
@@ -338,7 +353,6 @@ def textbook_upload(request):
         )
     context = {}
     return render(request,template,context)
-
 
 def filtered_posts_search(request):
     template = "txtbook/allPosts.html"
@@ -639,5 +653,3 @@ def repost(request, pk):
     tp.save()
 
     return HttpResponseRedirect(tp.get_absolute_url())
-
-
