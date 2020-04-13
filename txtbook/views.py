@@ -86,13 +86,15 @@ def contactSeller(request, pk):
 
 
 def sendEmail(request, pk):
+    post = TextbookPost.objects.get(pk=pk)
 
     subject = request.POST['subject']
     Message = request.POST['message']
     from_email = request.POST['from_email']
     to_email = request.POST['to_email']
 
-    post = TextbookPost.objects.get(pk=pk)
+    if Message == "":
+        Message = "Hi! I am interested in buying your textbook '{{post.title}}' for the set price of {{post.price}} through {{post.payment}}. Please email me back when you can meet at your convienence."
 
     send_mail(
         subject,
