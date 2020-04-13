@@ -55,7 +55,7 @@ class allPostsView(generic.ListView):
         Return all posts, ordered by most recent publish date.
         """
         return TextbookPost.objects.filter(
-            date_published_lte=timezone.now(), sold=False,
+            date_published__lte=timezone.now(), sold=False,
         ).order_by('-date_published')
 
 # Shows a post individually
