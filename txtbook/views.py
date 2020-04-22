@@ -73,10 +73,13 @@ class PostView(generic.DetailView):
 def contactSeller(request, pk):
     template_name = 'txtbook/contactSeller.html'
     post = TextbookPost.objects.get(pk=pk)
+    book = post.textbook
 
-    return render(request, template_name, {'textbookpost': post})
+    return render(request, template_name, {'textbookpost': post, 'textbook': book})
 
 def sendEmail(request, pk):
+
+    #Send email from buyer to poster
     post = TextbookPost.objects.get(pk=pk)
     subject = request.POST['subject']
     Message = request.POST['message']
@@ -89,6 +92,17 @@ def sendEmail(request, pk):
         Message,
         from_email,
         [to_email],
+        fail_silently=False,
+    )
+
+    #Send confirmation email to buyer
+    subject_conf = 'Email confirmation'
+    message_conf = f"The following message was sent to {to_email}:\n\n" + Message
+    send_mail(
+        subject_conf,
+        message_conf,
+        from_email,
+        [from_email],
         fail_silently=False,
     )
 
