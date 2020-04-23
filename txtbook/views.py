@@ -252,6 +252,11 @@ def addExistingTextbook(request,pk):
             print("no new price")
             return render(request, 'txtbook/addExistingTextbook.html', {'textbook':Textbook.objects.get(id=pk), 'error_message': "Your posting MUST have a price."})
 
+        if (float(new_price) > 10000):
+            print("no new price")
+            return render(request, 'txtbook/addExistingTextbook.html', {'textbook':Textbook.objects.get(id=pk), 'error_message': "Please input a reasonable price."})
+
+
         if (new_email == ''):
             return render(request, 'txtbook/addExistingTextbook.html',
                           {'textbook': Textbook.objects.get(id=pk), 'error_message': "You must be logged in to post a textbook."})
@@ -290,7 +295,7 @@ def addTextbook(request):
             new_classnum = request.POST['classnum']
             new_isbn = request.POST['isbn']
             new_sect = request.POST['sect']
-            new_price = request.POST['price']
+            new_price = float(request.POST['price'])
             new_negotiable = request.POST['negotiable']
             new_exchangable = request.POST['exchangable']
             new_maxdiff = request.POST['maxDiff']
@@ -311,6 +316,10 @@ def addTextbook(request):
                 return render(request, 'txtbook/addTextbook.html', {
                     'error_message': "You must be logged in to post a textbook"
                 })
+            if (new_price > 10000):
+                return render(request, 'txtbook/addTextbook.html', {
+                    'error_message': "Please enter a reasonable price."
+                })
 
 
         except (KeyError, TextbookPost.DoesNotExist):
@@ -328,6 +337,11 @@ def addTextbook(request):
             if (new_email == ''):
                 return render(request, 'txtbook/addTextbook.html', {
                     'error_message': "You must be logged in to post a textbook"
+                })
+
+            if (new_price > 10000):
+                return render(request, 'txtbook/addTextbook.html', {
+                    'error_message': "Please enter a reasonable price."
                 })
 
             book = Textbook.objects.create(title=new_title, author=new_author, dept=new_dept, classnum=new_classnum,
@@ -537,6 +551,14 @@ def edit_post_database_text(request, pk):
                 'error_message': "You MUST fill out a price."
             })
 
+        if (float(new_price) > 10000):
+            return render(request, 'txtbook/edit_post_database_text.html', {
+                'textbookpost': TextbookPost.objects.get(id=pk),
+                'error_message': "Please input a reasonable price"
+            })
+
+
+
     except (KeyError, Profile.DoesNotExist):
         return render(request, 'txtbook/edit_post_database_text.html', {
             'textbookpost': TextbookPost.objects.get(id=pk),
@@ -608,6 +630,12 @@ def edit_post_original_text(request, pk):
                 'error_message': "You MUST fill out a price."
             })
 
+        if (float(new_price) > 10000):
+            return render(request, 'txtbook/edit_post_original_text.html', {
+                'textbookpost': TextbookPost.objects.get(id=pk),
+                'error_message': "Please input a reasonable price."
+            })
+
     except (KeyError, Profile.DoesNotExist):
         return render(request, 'txtbook/edit_post_original_text.html', {
             'textbookpost': TextbookPost.objects.get(id=pk),
@@ -625,6 +653,12 @@ def edit_post_original_text(request, pk):
             return render(request, 'txtbook/edit_post_original_text.html', {
                 'textbookpost': TextbookPost.objects.get(id=pk),
                 'error_message': "You MUST fill out a price."
+            })
+
+        if (float(new_price) > 10000):
+            return render(request, 'txtbook/edit_post_original_text.html', {
+                'textbookpost': TextbookPost.objects.get(id=pk),
+                'error_message': "Please input a reasonable price."
             })
 
         tp.textbook.title = new_title
