@@ -14,18 +14,44 @@ from .models import Textbook, TextbookPost, User, Profile
 from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
 from django.contrib.auth import logout
 from django.core.mail import send_mail
+from django.template.context import RequestContext
 from django.shortcuts import redirect
+
 
 # Homepage
 def index(request):
+    user = request.user
+    if user.is_anonymous == False:
+        try:
+            if user.profile.id == '':
+                return render(request, 'txtbook/create_profile.html')
+        except:
+            return render(request, 'txtbook/create_profile.html')
+
     return render(request, 'txtbook/bootstrap-landing.html')
+
+
+def homepage(request):
+    return render(request, 'txtbook/bootstrap-landing.html')
+
 
 def text(request, pk):
     return render(request, 'txtbook/text.html', {'textbook': Textbook.objects.get(id=pk)})
 
+
+# def login(request):
+#     # context = RequestContext(request, {
+#     #     'request': request, 'user': request.user})
+#     user = request.user
+#     if user.profile.id == '':
+#         return render(request, 'txtbook/create_profile.html')
+#     return render(request, 'txtbook/index.html')
+
+
 def logout_request(request):
     logout(request) # logout the user
     return HttpResponseRedirect("/")
+
 
 def textView(request):
     all_text = Textbook.objects.all().order_by('dept','classnum')
@@ -44,6 +70,7 @@ def textView(request):
     end_index = index + 5 if index <= max_index - 5 else max_index
     page_range = paginator.page_range[start_index:end_index]
     return render(request,'txtbook/textlist.html', {'books': books, 'page_range':page_range})
+
 
 # Lists all Posts
 class allPostsView(generic.ListView):
@@ -284,6 +311,15 @@ def addExistingTextbook(request,pk):
 # Main page to add a textbook.
 def addTextbook(request):
         try:
+            user = request.user
+
+            if user.is_anonymous == False:
+                try:
+                    if user.profile.id == '':
+                        return render(request, 'txtbook/create_profile.html')
+                except:
+                    return render(request, 'txtbook/create_profile.html')
+
             new_title = request.POST['title']
             new_author = request.POST['author']
             new_dept = request.POST['dept']
@@ -527,7 +563,10 @@ def edit_post_database_text(request, pk):
             if delete_image == 'delete_image':
                 new_image = False
             else:
-                new_image = tp.image
+                if request.FILES.get('image', False):
+                    new_image = tp.image
+                else:
+                    new_image = request.FILES.get('image', False)
 
 
 
@@ -594,7 +633,10 @@ def edit_post_original_text(request, pk):
             if delete_image == 'delete_image':
                 new_image = False
             else:
-                new_image = tp.image
+                if request.FILES.get('image', False):
+                    new_image = tp.image
+                else:
+                    new_image = request.FILES.get('image', False)
 
         if new_title == '' or new_price == '':
             return render(request, 'txtbook/edit_post_original_text.html', {

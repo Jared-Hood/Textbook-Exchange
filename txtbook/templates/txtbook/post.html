@@ -3,141 +3,177 @@
 {% load static %}
 {% block content %}
 
+<section class="call-to-action text-white text-center">
+    <div class="overlay"></div>
+        <div class="col-xl-9 mx-auto">
+          <h2 class="mb-0"> {{ textbookpost.textbook.title }}</h2>
+        </div>
+  </section>
+
 <!-- Source: https://startbootstrap.com/snippets/portfolio-item/ -->
-<div class="container">
+<!-- <div class="container"> -->
   <!-- Textbook Info -->
-  <div>
-    <div class="row my-row">
-        <div class="col-md-5">
-          <h3 class="my-4">{{ textbookpost.textbook.title }}</h3>
-        </div>
-        {% if user.email == textbookpost.email %}
-          {% if textbookpost.sold == False %}
-          <div class="col-md-4 pb-3" style="margin-top: 20px">
-            <a role="button" class="btn btn-success" href="{% url 'txtbook:mark_post_sold' pk=textbookpost.id %}">Mark as Sold</a>
-          </div>
-          {% else %}
-          <h3 style="color: green; margin-top: 20px">Sold</h3>
-          {% endif %}
-        {% endif %}
-    </div>
-      {% if user.is_active %}
-        {% if user.email != textbookpost.email %}
-        <h5 class="text-left"><a href="{% url 'txtbook:contactSeller' pk=textbookpost.id %}"> Contact Seller </a></h5>
-        <h5 class="text-left"><a href="{% url 'txtbook:profile_page' pk=textbookpost.profile.id %}">See Seller Profile</a></h5>
-          <h6 class="text-left">Contact: {{textbookpost.email}}</h6>
-        {% endif %}
-      {% else %}
-      <h6 class="text-left">
-          Contact: <a class="nav-link" href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}">Login to see the contact information</a>
-      </h6>
-      {% endif %}
-    <h7 style="margin-top: 0px">Posted {{ textbookpost.date_published }}</h7>
-  </div>
-  <br>
-    <h5><u>Available Textbook Information</u></h5>
-    <div>
-        <strong>Author(s): </strong>
-        {% if textbookpost.textbook.author == '' %}
-          <h7 style="color: gray">N/A</h7><br>
-        {% else %}
-          <h7>{{ textbookpost.textbook.author }}</h7><br>
-        {% endif %}
+  <!-- <div> -->
+    
+      
+  <!-- </div> -->
 
-        <strong>Department: </strong>
-        {% if textbookpost.textbook.dept == '' %}
-          <h7 style="color: gray">N/A</h7><br>
-        {% else %}
-          <h7>{{ textbookpost.textbook.dept }}</h7><br>
-        {% endif %}
+    
 
-        <strong>Class Number: </strong>
-        {% if textbookpost.textbook.classnum == '' %}
-          <h7 style="color: gray">N/A</h7><br>
-        {% else %}
-          <h7>{{ textbookpost.textbook.classnum }}</h7><br>
-        {% endif %}
+<!-- </div> -->
 
-        <strong>Section: </strong>
-        {% if textbookpost.textbook.sect == '' %}
-          <h7 style="color: gray">N/A</h7><br>
-        {% else %}
-          <h7>{{ textbookpost.textbook.sect }}</h7><br>
-        {% endif %}
 
-        <strong>ISBN: </strong>
-        {% if textbookpost.textbook.isbn == '' %}
-          <h7 style="color: gray">N/A</h7><br>
-        {% else %}
-          <h7>{{ textbookpost.textbook.isbn }}</h7><br>
-        {% endif %}
-    </div><br>
 
-    <!-- Sale Info -->
-    <h5><u>Sale Information</u></h5>
-    <div>
-        <h7>
-            <strong>Price: </strong>${{ textbookpost.price }}<br>
-            <strong>Negotiable price? </strong>{{textbookpost.negotiable }}<br>
-            <strong>Exchangable with other textbooks? </strong>{{ textbookpost.exchangable }}<br>
-            <strong>Maximum price difference, if exchangable: </strong>
-        </h7>
-        {% if textbookpost.max_diff == '' %}
-        <h7 style="color: gray">N/A</h7><br>
-        {% else %}
-        <h7>${{ textbookpost.max_diff }}</h7><br>
-        {% endif %}
-        <h7><strong>Preferred payment method: </strong>{{ textbookpost.payment }}</h7><br>
-        <br>
-
-        <h7><strong>Condition: </strong>{{ textbookpost.condition }} / 5</h7><br>
-        <h7><strong>Format: </strong>{{ textbookpost.format }}</h7><br>
-        <strong>Additional Information: </strong>
-        {% if textbookpost.additional_info == '' %}
-        <h7 style="color: gray">N/A</h7>
-        {% else %}
-        <h7>{{ textbookpost.additional_info }}</h7>
-        {% endif %}
-
-    </div>
-
-    <!-- Images -->
-    <h5 class="my-4"><u>Images</u></h5>
+<div class="container py-2">
+  {% if user.is_active  and user.email == textbookpost.email %}
+  <br><br>
+  {% elif user.is_active == False %}
+  <br><br>
+  {% endif %}
     <div class="row">
-        {% if textbookpost.image != 'False' %}
-        <div class="col-md-2 col-sm-3 mb-4">
-          <img class="img-fluid" src="/media/{{ textbookpost.image }}" style="display: block; width: 100px; height: 125px;">
-          <small>User uploaded.</small>
-        </div>
-        {% elif textbookpost.textbook.user_created == False %}
-        <div class="col-md-2 col-sm-3 mb-4">
-          <img class="img-fluid" src="/static/txtbook/thumbnails/{{textbookpost.textbook.isbn}}.jpg" style="display: block; width: 100px; height: 125 px;">
-          <small>Database image.</small>
-        </div>
-        {% else %}
-        <small style="margin-left: 20px; margin-bottom: 20px; color: gray;">No images available.</small>
-        {% endif %}
-    </div>
+        <div class="col-md-11 offset-md-1">
+              <div class="row big-row">
+                  <div style="margin-right:15px; margin-left:0px">
+                      {% if textbookpost.image != 'False' %}
+                        {% if user.is_active %}
+                            {% if user.email != textbookpost.email %}
+                            <br><br>
+                            {% endif %}
+                        {% endif %}
+                        <img class="img-fluid" src="/media/{{ textbookpost.image }}" style="display: block; width: 175px; height: 225px; margin-left: auto; margin-right: auto">
+                        <small>User uploaded.</small>
+                      {% elif textbookpost.textbook.user_created == False %}
+                        {% if user.is_active %}
+                            {% if user.email != textbookpost.email %}
+                            <br><br>
+                            {% endif %}
+                        {% endif %}
+                        <img class="img-fluid" src="/static/txtbook/thumbnails/{{textbookpost.textbook.isbn}}.jpg" style="display: block; width: 175px; height: 225px; margin-left: auto; margin-right: auto">
+                        <small>Database image.</small>
+                      {% else %}
+                      <!-- <img src="/media/images/no_image_available.png" style="display: block; width: 175px; height: 225px; margin-left: auto; margin-right: auto"> -->
+                        {% if user.is_active %}
+                            {% if user.email != textbookpost.email %}
+                            <br><br>
+                            {% endif %}
+                        {% endif %}
+                      <small style="margin-left: 20px; margin-top: 0px; color: gray; border-top: 0px; text-align: center">No images available.</small>
+                      {% endif %}
+                  </div>
+                  <div class="col-9 big-col">
+                      <div class="row my-row text-left">
+                          <div class="col-10 my-col text-left">
+                              {% if user.is_active %}
+                                {% if user.email != textbookpost.email %}
+                                <br><br>
+                                <h5 class="text-left"><a href="{% url 'txtbook:contactSeller' pk=textbookpost.id %}"> Contact Seller </a></h5>
+                                <h5 class="text-left"><a href="{% url 'txtbook:profile_page' pk=textbookpost.profile.id %}">See Seller Profile</a></h5>
+                                {% endif %}
+                              {% else %}
+                              <h6 class="text-left">
+                                  Contact: <a class="nav-link" href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}">Login to see the contact information</a>
+                              </h6>
+                              {% endif %}
+                              <div class="row my-row" style="margin-left: 2px">
+                                  <h7 class="text-left">Posted {{ textbookpost.date_published }}</h7>
+                                  {% if textbookpost.sold == True %}
+                                  <h3 class="col-md-7 text-right" style="color:green">Sold</h7>
+                                  {% endif %}
+                              </div>
+                          </div>
+                      </div>
+                      <br>
+                      <div class="row my-row">
+                          <div class="col-3 my-col text-left">
+                              <h5>Price: ${{ textbookpost.price }}</h5>
+                              <h6 class='text-left'>Condition: {{ textbookpost.condition }} / 5<br>
+                                  Format: {{ textbookpost.format }}</h6>
+                          </div>
+                          <div class="col-4 my-col text-left">
+                              {% if textbookpost.textbook.author == '' %}
+                              <h5 class="text-left">Author(s): <h7 style="display: inline; color: gray">N/A</h7></h5>
+                              {% else %}
+                              <h5 class="text-left">Author(s): {{textbookpost.textbook.author}}</h5>
+                              {% endif %}
+                              {% if textbookpost.textbook.isbn == '' %}
+                              <h6 class="text-left">ISBN: <h7 style="display: inline; color: gray">N/A</h7></h6>
+                              {% else %}
+                              <h6 class="text-left">ISBN: {{textbookpost.textbook.isbn}}</h6>
+                              {% endif %}
+                          </div>
+                          <div class="col-4 my-col text-left">
+                              <h5 class="text-left">
+                                  {% if textbookpost.textbook.dept == '' %}
+                                  Classes: <h7 style="display: inline; color: gray">N/A</h7>
+                                  {% else %}
+                                  Classes: {{textbookpost.textbook.dept}} {{textbookpost.textbook.classnum}}
+                                  {% endif %}
+                                  <br>
+                                  {% if textbookpost.textbook.sect == '' %}
+                                  Section: <h7 style="display: inline; color: gray">N/A</h7>
+                                  {% else %}
+                                  Section: {{textbookpost.textbook.sect}}
+                                  {% endif %}
 
-    <div class="row my-row">
-        {% if user.email == textbookpost.email %}
-          {% if textbookpost.sold == False %}
-          <div class="col-md-1">
-            {% if textbookpost.textbook.user_created == False %}
-            <a class="btn btn-primary" role="button" href="{% url 'txtbook:edit_post_database_text' pk=textbookpost.id %}" style="color: white">Edit</a>
-            {% else %}
-            <a class="btn btn-primary" role="button" href="{% url 'txtbook:edit_post_original_text' pk=textbookpost.id %}" style="color: white">Edit</a>
-            {% endif %}
-          </div>
-          {% else %}
-          <div class="col-md-1">
-            <a role="button" class="btn btn-success" href="{% url 'txtbook:repost' pk=textbookpost.id %}">Repost</a>
-          </div>
-          {% endif %}
-        <a role="button" class="btn btn-secondary" href="{% url 'txtbook:delete_post' profile_pk=user.profile.id post_pk=textbookpost.id %}">Delete</a>
-        {% endif %}
-    </div>
+                              </h5>
+                          </div>
+                      </div>
+                      <br>
+                      <div class="row my-row">
+                          <div class="col-5 mycol text-left">
+                            <h7>
+                                <strong>Negotiable price? </strong>{{textbookpost.negotiable }}<br>
+                                <strong>Exchangable with other textbooks? </strong>{{ textbookpost.exchangable }}<br><br>
+                                <strong>Maximum price difference, if exchangable: </strong>
+                                {% if textbookpost.max_diff == '' %}
+                                <h7 style="color: gray">N/A</h7><br>
+                                {% else %}
+                                <h7>${{ textbookpost.max_diff }}</h7><br>
+                                {% endif %}
+                            </h7>
+                          </div>
+                          <div class="col-6 mycol text-left">
+                              <h7><strong>Preferred payment method: </strong>{{ textbookpost.payment }}</h7><br>
+                              <strong>Additional Information: </strong>
+                              {% if textbookpost.additional_info == '' %}
+                              <h7 style="color: gray">N/A</h7>
+                              {% else %}
+                              <h7>{{ textbookpost.additional_info }}</h7>
+                              {% endif %}
+                          </div>
+                      </div>
+                      <br><br>
+                      <div class="row my-row">
+                          
+                              {% if user.email == textbookpost.email %}
+                                {% if textbookpost.sold == False %}
+                                <div class="col-md-1 pb-3">
+                                    {% if textbookpost.textbook.user_created == False %}
+                                    <a class="btn btn-primary" role="button" href="{% url 'txtbook:edit_post_database_text' pk=textbookpost.id %}" style="color: white">Edit</a>
+                                    {% else %}
+                                    <a class="btn btn-primary" role="button" href="{% url 'txtbook:edit_post_original_text' pk=textbookpost.id %}" style="color: white">Edit</a>
+                                    {% endif %}
+                                  </div>
 
+                                <div class="col-md-2 pb-3">
+                                  <a role="button" class="btn btn-success" href="{% url 'txtbook:mark_post_sold' pk=textbookpost.id %}">Mark as Sold</a>
+                                </div>
+                                {% else %}
+                                <div class="col-md-1 pb-3" style="margin-right:20px">
+                                  <a role="button" class="btn btn-success" href="{% url 'txtbook:repost' pk=textbookpost.id %}">Repost</a>
+                                </div>
+                                {% endif %}
+                                <div class="col-md-1 pb-3">
+                                  <a role="button" class="btn btn-secondary" href="{% url 'txtbook:delete_post' profile_pk=user.profile.id post_pk=textbookpost.id %}">Delete</a>
+                                </div>
+                              
+                              
+                            {% endif %}
+                      </div>
+                  </div>
+              </div>
+        </div>
+    </div>
 </div>
 
 

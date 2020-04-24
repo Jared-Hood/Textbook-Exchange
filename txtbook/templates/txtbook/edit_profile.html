@@ -3,44 +3,118 @@
 {% load static %}
 {% block content %}
 
-<form class="form" role="form" autocomplete="off" action="{% url 'txtbook:edit_profile' pk=user.profile.id %}" method="post"
-enctype="multipart/form-data">
-    {% csrf_token %}
-    <br>
-    <h1 style="margin-left: 50px">Edit profile:</h1>
-    <div class="form-group" style="margin-left: 50px; margin-right: 50px">
-        Email address: {{ user.email }}
-        <input type="hidden" id="email" name="email" value={{user.email}}>
-        <input type="hidden" id="user" name="user" value={{user.id}}>
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-10 offset-md-1">
+            <div class="card card-outline-secondary">
+                <form class="form" role="form" autocomplete="off" action="{% url 'txtbook:edit_profile' pk=user.profile.id %}" method="post"
+                enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="card-header">
+                        <h3 class="mb-0">Edit profile</h3>
+                    </div>
+                    <br>
+                    {% if error_message %}<p class="text-center" style="color: red"><strong>{{ error_message }}</strong></p>
+                    {% endif %}
+                    <div class="small" style="margin-left: 75px;">Fields marked with the <h8 style="color:red">*</h8> symbol must be filled out.</div><br>
+                    <div class="form-group" style="margin-left: 75px">
+                        Email address: {{ user.email }}
+                        <br>
+                        <small class="text-info">Your email cannot be changed - it is specifically associated with your account.</small>
+                        <input type="hidden" id="email" name="email" value={{user.email}}>
+                        <input type="hidden" id="user" name="user" value={{user.id}}>
+                    </div>
+                    <div class="row my-row pb-3" style="margin-left: 60px">
+                        <div class="col-md-5">
+                            <label for="name">Name<h8 style="color: red">*</h8></label>
+                            <input type="text" class="form-control" name="name" id="name" value="{{profile.name}}">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="venmo">Venmo</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputGroupPrepend2">@</span>
+                                </div>
+                                <input type="text" class="form-control" name="venmo" id="venmo" value="{{profile.venmo}}">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <label for="year">Year</label>
+                            <!-- <input type="text" class="form-control" name="year" id="year" value="{{profile.year}}"> -->
+                            <select class="form-control" id="year" name="year" value="{{profile.year}}">
+                                {% if profile.year == '1' %}
+                                <option selected>1</option>
+                                {% else %}
+                                <option>1</option>
+                                {% endif %}
+
+                                {% if profile.year == '2' %}
+                                <option selected>2</option>
+                                {% else %}
+                                <option>2</option>
+                                {% endif %}
+
+                                {% if profile.year == '3' %}
+                                <option selected>3</option>
+                                {% else %}
+                                <option>3</option>
+                                {% endif %}
+
+                                {% if profile.year == '4' %}
+                                <option selected>4</option>
+                                {% else %}
+                                <option>4</option>
+                                {% endif %}
+
+                                {% if profile.year == 'Graduate' %}
+                                <option selected>Graduate</option>
+                                {% else %}
+                                <option>Graduate</option>
+                                {% endif %}
+
+                                {% if profile.year == 'Other' %}
+                                <option selected>Other</option>
+                                {% else %}
+                                <option>Other</option>
+                                {% endif %}
+
+                                <!-- <option>2nd</option>
+                                <option>3rd</option>
+                                <option>4th</option>
+                                <option>Graduate</option>
+                                <option>Other</option> -->
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row my-row pb-3" style="margin-left: 60px">
+                        
+                        <div class="col-md-8">
+                            <label for="major">Major(s) / Minor(s)</label>
+                            <input type="text" class="form-control" name="major" id="major" value="{{profile.major}}">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="phone">Phone</label>
+                            <input type="tel" class="form-control" name="phone" id="phone" value="{{profile.phone}}" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
+                            <small class="text-info">Use format: ###-###-####</small>
+                        </div>
+                    </div>
+                    <div class="row my-row pb-3" style="margin-left: 60px">
+                        <div class="col-md-11">
+                            <label for="bio">Bio</label>
+                            <textarea class="form-control" id="bio" rows=5 name="bio">{{profile.bio}}</textarea>
+                            <small class="text-info">Tell other users a little bit about yourself!</small>
+                        </div>
+                    </div>
+                    <br>
+            </div>
+            <br>
+            <div class="col-lg-9">
+                    <a class="btn btn-secondary" role="button" href="{% url 'txtbook:profile_page' pk=user.profile.id %}">Cancel</a>
+                    <input type="submit" class="btn btn-primary" value="Confirm">
+            </div>
+        </form>
+        </div>
     </div>
-    <div class="form-group" style="margin-left: 50px; margin-right: 400px">
-        <label for="name">Name:</label>
-        <input type="text" class="form-control" name="name" id="name" value="{{profile.name}}">
-    </div>
-    <div class="form-group" style="margin-left: 50px; margin-right: 400px">
-        <label for="venmo">Venmo:</label>
-        <input type="text" class="form-control" name="venmo" id="venmo" value="{{profile.venmo}}">
-    </div>
-    <div class="form-group" style="margin-left: 50px; margin-right: 400px">
-        <label for="year">Year:</label>
-        <input type="text" class="form-control" name="year" id="year" value="{{profile.year}}">
-    </div>
-    <div class="form-group" style="margin-left: 50px; margin-right: 400px">
-        <label for="major">Major:</label>
-        <input type="text" class="form-control" name="major" id="major" value="{{profile.major}}">
-    </div>
-    <div class="form-group" style="margin-left: 50px; margin-right: 400px">
-        <label for="phone">Phone:</label>
-        <input type="text" class="form-control" name="phone" id="phone" value="{{profile.phone}}">
-    </div>
-    <div class="form-group" style="margin-left: 50px; margin-right: 400px">
-        <label for="bio">Bio:</label>
-        <textarea class="form-control" id="bio" rows=5 name="bio">{{profile.bio}}</textarea>
-    </div>
-    <div class="col-lg-9" style="margin-left: 40px">
-        <a class="btn btn-secondary" role="button" href="{% url 'txtbook:profile_page' pk=user.profile.id %}">Cancel</a>
-        <input type="submit" class="btn btn-primary" value="Confirm">
-    </div>
-</form>
+</div>
 
 {% endblock %}
