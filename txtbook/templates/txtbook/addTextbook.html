@@ -37,6 +37,7 @@
 <p class="text-center">OR</p>
 <p class="text-center">Fill out the Textbook Information section below. All posts must have the Sale Information
     section filled out.</p>
+<p class="text-center">Fields marked with the <h8 style="color:red">*</h8> symbol must be filled out.</p>
 
 
 <!----- Code for Forms: https://www.codeply.com/go/JVP2nxfv0p/bootstrap-4-forms ------------------------>
@@ -68,7 +69,7 @@
 
                         <!-- Form row: Textbook Title -->
                         <div class="form-group row">
-                            <label class="col-lg-2 col-form-label form-control-label">Textbook Title</label>
+                            <label class="col-lg-2 col-form-label form-control-label">Textbook Title<h8 style="color: red">*</h8></label>
                             <div class="col-lg-10">
                                 <input class="form-control" type="text" name="title" id="title">
                             </div>
@@ -125,7 +126,7 @@
                             </select>
                         </div>
                         <div class="col-sm-4 pb-3">
-                            <label for="price">Price</label>
+                            <label for="price">Price<h8 style="color: red">*</h8></label>
                             <div class="input-group">
                                 <div class="input-group-prepend"><span class="input-group-text">$</span></div>
                                 <input step="0.01" patter="\d*" maxlength="8" type="number" class="form-control" id="price" name="price">
@@ -149,15 +150,14 @@
                                 <option>No</option>
                             </select>
                         </div>
-
                         <div class="col-sm-5 pb-3">
                             <label for="maxdiff">If exchangable, maximum price difference:</label>
                             <div class="input-group">
                                 <div class="input-group-prepend"><span class="input-group-text">$</span></div>
                                 <input type="text" class="form-control" id="maxDiff" name="maxDiff">
                             </div>
+                            <small class="text-info">Exchangable refers to whether you would trade your textbook for other books of similar value.</small>
                         </div>
-
                         <div class="col-sm-5 pb-3">
                             <label for="payment">Preferred Method of Payment</label>
                             <select class="form-control" id="payment" name="payment">
@@ -230,7 +230,7 @@
             </div><br>
             <!--- End pf Form Buttons -->
             <div class="col-lg-9">
-                <a class="btn btn-secondary" role="button" href="{% url 'txtbook:index' %}" style="color: white">Cancel</a>
+                <a class="btn btn-secondary" role="button" href="{% url 'txtbook:homepage' %}" style="color: white">Cancel</a>
                 <input type="submit" class="btn btn-primary" value="Post">
             </div>
             </form>

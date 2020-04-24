@@ -10,6 +10,7 @@ from txtbook import views as txtbook_views
 app_name = 'txtbook'
 urlpatterns = [
     path('', views.index, name='index'),
+    path('homepage',views.homepage,name='homepage'),
     path('addtextbook', views.addTextbook, name='addTextbook'),
     path('results/',views.search,name="search"),
     path('textlist',views.textView,name='textlist'),

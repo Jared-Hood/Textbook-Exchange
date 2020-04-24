@@ -61,14 +61,15 @@
                             <!-- First section -->
                             <ul class="nav nav-tabs" id="myTab" role="tablist">
                                 <li class="nav-item">
-                                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">About</a>
+                                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Contact Information</a>
                                 </li>
                             </ul>
                         </div>
                     </div>
                     <div class="col-md-2">
                         {% if user.email == profile.email %}
-                        <a role="button" class="btn btn-primary" href="{% url 'txtbook:edit_profile' pk=user.profile.id %}">Edit Profile</a>
+                        <!-- Pencil Icon: https://www.w3schools.com/icons/tryit.asp?filename=tryicons_fa-pencil -->
+                        <a role="button" href="{% url 'txtbook:edit_profile' pk=user.profile.id %}"><i class="fa fa-pencil" style="font-size:36px"></i></a>
                         {% endif %}
                     </div>
                 </div>
@@ -98,7 +99,7 @@
                                                 {% if profile.venmo == '' %}
                                                 <h7 style="color: gray">N/A</h7>
                                                 {% else %}
-                                                {{ profile.venmo }}
+                                                @{{ profile.venmo }}
                                                 {% endif %}
                                             </div>
                                         </div>
@@ -114,7 +115,7 @@
                                                 {% endif %}
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <!-- <div class="row">
                                             <div class="col-md-4">
                                                 <label>Seller Rating</label>
                                             </div>
@@ -125,7 +126,7 @@
                                                 {{ profile.rating }}
                                                 {% endif %}
                                             </div>
-                                        </div>
+                                        </div> -->
                                     
                             </div>
                             <br>
@@ -133,7 +134,11 @@
                             <!-- Second Section -->
                             <ul class="nav nav-tabs" id="myTab" role="tablist">
                                     <li class="nav-item">
+                                        {% if user.email == profile.email %}
+                                        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">My Current Posts</a>
+                                        {% else %}
                                         <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Current Posts</a>
+                                        {% endif %}
                                     </li>
                             </ul>
                             <br>
@@ -147,20 +152,21 @@
                                         </div>
                                         {% if user.email == profile.email %}
                                         <div class="col-md-3 pb-2">
+                                            
                                             {% if post.textbook.user_created == False %}
-                                                <a role="button" class="btn btn-outline-primary btn-sm" href="{% url 'txtbook:edit_post_database_text' pk=post.id %}">
-                                                    <!-- <img src="https://cdn1.iconfinder.com/data/icons/education-outline-8/64/School_Study_Student_Education_Pencil-512.png" style="width: 20px; height: 20px" />   -->
-                                                    Edit
+                                                <a role="button" href="{% url 'txtbook:edit_post_database_text' pk=post.id %}">
+                                                    <i class="fa fa-pencil" style="margin-left: 10px; margin-right: 10px; font-size: 20px"></i>
                                                 </a>
                                             {% else %}
-                                                <a role="button" class="btn btn-outline-primary btn-sm" href="{% url 'txtbook:edit_post_original_text' pk=post.id %}">
-                                                    <!-- <img src="https://cdn1.iconfinder.com/data/icons/education-outline-8/64/School_Study_Student_Education_Pencil-512.png" style="width: 20px; height: 20px" />   -->
-                                                Edit
+                                                <a role="button" href="{% url 'txtbook:edit_post_original_text' pk=post.id %}">
+                                                    <i class="fa fa-pencil" style="margin-left: 10px; margin-right: 10px; font-size: 20px"></i>
                                                 </a>
                                             {% endif %}
                                             <a class="btn btn-outline-success btn-sm" role="button" href="{% url 'txtbook:mark_post_sold' pk=post.id %}">Sold</a>
-                                            <!-- <button class="btn btn-outline-secondary btn-sm">Delete</button> -->
-                                            <a class="btn btn-outline-secondary btn-sm" role="button" href="{% url 'txtbook:delete_post' post_pk=post.id profile_pk=user.profile.id %}">Delete</a>
+                                            <a role="button" href="{% url 'txtbook:delete_post' post_pk=post.id profile_pk=user.profile.id %}">
+                                                <i class="fa fa-trash" style="margin-left: 10px; margin-right: 10px; font-size: 20px"></i>
+                                            </a>
+                                            
                                         </div>
                                         {% endif %}
                                     </div>
@@ -175,7 +181,7 @@
                             {% if user.email == profile.email %}
                             <ul class="nav nav-tabs" id="myTab" role="tablist">
                                     <li class="nav-item">
-                                        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Sold Textbooks</a>
+                                        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Textbooks I've Sold</a>
                                     </li>
                             </ul>
                             <br>
@@ -188,7 +194,9 @@
                                         </div>
                                         <div class="col-md-3 pb-2">
                                             <a class="btn btn-outline-success btn-sm" role="button" href="{% url 'txtbook:repost' pk=post.id %}">Repost</a>
-                                            <a class="btn btn-outline-secondary btn-sm" role="button" href="{% url 'txtbook:delete_post' post_pk=post.id profile_pk=user.profile.id %}">Delete</a>
+                                            <a role="button" href="{% url 'txtbook:delete_post' post_pk=post.id profile_pk=user.profile.id %}">
+                                                <i class="fa fa-trash" style="margin-left: 10px; margin-right: 10px; font-size: 20px"></i>
+                                            </a>
                                         </div>
                                     </div>
                                     {% endfor %}

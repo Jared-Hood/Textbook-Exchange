@@ -178,6 +178,7 @@
   <section class="call-to-action text-white text-center">
     <div class="overlay"></div>
     <div class="container">
+      {% if user.is_active == False %}
       <div class="row">
         <div class="col-xl-9 mx-auto">
           <h2 class="mb-4">Ready to get started? Login now!</h2>
@@ -186,11 +187,18 @@
           <form>
             <div class="form-row">
               <div class="col text-center" >
-                <a style="color: black; font-weight: 20px;" href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}" type="submit" class="btn btn-block btn-lg btn-primary">Login</a> </div>
+                <a style="color: white; font-weight: 20px;" href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}" type="submit" class="btn btn-block btn-lg btn-primary">Login</a> </div>
             </div>
           </form>
         </div>
       </div>
+      {% else %}
+      <div class="row">
+          <div class="col-xl-9 mx-auto">
+            <h2 class="mb-4">Thank you for using Textbook Exchange!</h2>
+          </div>
+        </div>
+      {% endif %}
     </div>
   </section>
   {% endblock %}
