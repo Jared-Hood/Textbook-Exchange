@@ -38,11 +38,19 @@
         height: 250px;
       }
     </style>
-    <div class="jumbotron text-center">
-        <h1><b>
-                <font color="brown"> Posts selling "{{search_term.title}}" </font>
-            </b></h1>
+  <section class="call-to-action text-white text-center">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-xl-9 mx-auto">
+          <h2 class="mb-4"> Posts selling "{{search_term.title}}"</h2>
+        </div>
+        <div class="col-md-1 col-lg-8 col-xl-7 mx-auto">
+        </div>
+      </div>
     </div>
+  </section>
+
 
     {% if posts %}
       <ul class="text-center">
