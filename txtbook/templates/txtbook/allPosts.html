@@ -59,13 +59,13 @@
     }
 </style>
 
-<div class="col-md-8 text-left mx-auto">
-    <form class="form" role="form" autocomplete="off" method="post" action="{% url 'txtbook:filtered_posts_search' %}">
+<div class="col-md-10 offset-md-2">
+    <form class="form" role="form" autocomplete="off" method="GET" action="{% url 'txtbook:filtered_posts_search' %}">
     {% csrf_token %}
         <!-- Search Bar -->
         <div class="row my-row text-left">
             <div class="col-12 col-md-8">
-              <input type="search" name = "q" class="form-control form-control-lg" aria-label="Search" placeholder="Search available posts">
+              <input type="search" name = "q" class="form-control form-control-lg" aria-label="Search" placeholder="Search available posts by title, author, or seller email">
             </div>
             <div class="col-3 col-md-2">
               <button type="submit" class="btn btn-block btn-lg btn-primary">Search</button>
@@ -75,11 +75,12 @@
         <!-- Filter -->
         <br><br><u>Filter Options</u>
         <div class="row my-row mx-auto">
-            <div class="col-2 my-col">
-                <label>Sort by date:     </label>
-            </div>
-            <div class="form-group small">
-                <div class="form-check form-check-inline">
+            <div class="col-4 my-col">
+                <div class="form-row">
+                    <div class="col-4 my-col">
+                        <label>Sort by date:     </label>
+                    </div>
+                    <div class="form-check form-check-inline">
                     <label class="form-check-label">
                         <input class="form-check-input" type="radio" name="inlineRadioOptions" id="oldest"
                                 value="oldest"> Oldest
@@ -91,18 +92,60 @@
                                 value="newest" checked="checked"> Newest
                     </label>
                 </div>
+                    
+                </div>
+            </div>
+            <div class="col-1 my-col">
+                
+            </div>
+            <div class="col-4 my-col">
+                <div class="form-row">
+                    <div class="col-2 my-col">
+                        <label>Class:     </label>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <input type="text" maxlength="4" class="form-control" id="dept" name="dept" placeholder="CS">
+                        <small class="text-info">Department</small>
+                    </div>
+                     <div class="form-group col-md-4">
+                        <input type="text" maxlength="4" class="form-control" id="class_num" name="class_num" placeholder="3240">
+                        <small class="text-info">Class number</small>
+                    </div>
+                    
+                </div>
             </div>
         </div>
 
-        <div class="filter-content">
-            <div class="card-body">
+
+        <div class="row my-row mx-auto">
+            <div class="col-4 my-col">
                 <div class="form-row">
-                    <div class="col-2 my-col">Maximum Price: $</div>
-                    <div class="form-group col-md-2 text-right">
-                        <input step="0.01" type="number" class="form-control" id="max_price" name="max_price" placeholder="$100">
+                    <div class="col-5 my-col">
+                        <label>Maximum Price:     </label>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="inputGroupPrepend2">$</span>
+                            </div>
+                            <input type="number" patter="\d*" maxlength="8"  min="0.00" step="0.01" class="form-control" id="max_price" name="max_price" placeholder="100">
+                        </div>
                     </div>
                 </div>
             </div>
+            <div class="col-1 my-col">
+            </div>
+            <!-- <div class="col-4 my-col">
+                <div class="form-row">
+                    <div class="col-5 my-col">
+                        <label># of results displayed:     </label>
+                    </div>
+                    <div class="form-group col-md-5">
+                        <input type="number" max="20"  min="1" step="0" class="form-control" id="num_results" name="num_results" value="20">
+                        <small class="text-info">Range: 1-20</small>
+                    </div>
+                </div>
+            </div> -->
         </div>
     </form>
 </div>
@@ -167,7 +210,11 @@
                             {% if post.textbook.sect == '' %}
                             Section: N/A
                             {% else %}
-                            Section: {{post.textbook.sect}}
+                                {% if post.textbook.sect|length == 1 %}
+                                Section: 00{{post.textbook.sect}}
+                                {% else %}
+                                Section: {{post.textbook.sect}}
+                                {% endif %}
                             {% endif %}
 
                         </h5>
@@ -182,7 +229,35 @@
 {% else %}
 <p class="text-center">No posts are available.</p>
 {% endif %}
-{% include 'txtbook/pagination.html' %}
+<!-- {% include 'txtbook/pagination.html' %} -->
+{% if latest_post_list.has_other_pages %}
+    <div class="container">
+      <ul class="pagination justify-content-center">
+        {% if latest_post_list.has_previous %}
+          <li class="page-item"><a class ="page-link" href="?page=1&q={{search_term}}" aria-label="First">First</a></li>
+          <li class="page-item"><a class ="page-link" aria-label="Previous" href="?page={{ latest_post_list.previous_page_number }}&q={{search_term}}"><<</a></li>
+        {% else %}
+          <li class="page-item disabled"><a class="page-link"><span>First</span></a></li>
+          <li class="page-item disabled"><a class="page-link"><span><<</span></a></li>
+        {% endif %}
+
+        {% for i in latest_post_list.paginator.page_range %}
+          {% if latest_post_list.number == i %}
+            <li class="page-item active"><a class="page-link" href="#"><span>{{ i }} <span class="sr-only">(current)</span></span></a></li>
+          {% elif i > latest_post_list.number|add:'-3' and i < latest_post_list.number|add:'3' %}
+            <li class="page-item"><a class="page-link" href="?page={{ i }}&q={{search_term}}">{{ i }}</a></li>
+          {% endif %}
+        {% endfor %}
+        {% if latest_post_list.has_next %}
+          <li class="page-item"><a class="page-link" aria-label="Next" href="?page={{ latest_post_list.next_page_number }}&q={{search_term}}">>></a></li>
+          <li class="page-item"><a class="page-link" aria-label="Last" href="?page={{latest_post_list.paginator.num_pages}}&q={{search_term}}">Last</a></li>
+        {% else %}
+          <li class="page-item disabled"><a class="page-link"><span>>></span></a></li>
+          <li class="page-item disabled"><a class="page-link"><span>Last</span></a></li>
+        {% endif %}
+      </ul>
+    </div>
+    {% endif %}
 
 {% endblock %}
 

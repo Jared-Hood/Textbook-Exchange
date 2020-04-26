@@ -27,7 +27,7 @@
                     <div class="row my-row pb-3" style="margin-left: 60px">
                         <div class="col-md-5">
                             <label for="name">Name<h8 style="color: red">*</h8></label>
-                            <input type="text" class="form-control" name="name" id="name" value="{{profile.name}}">
+                            <input type="text" class="form-control" name="name" id="name">
                         </div>
                         <div class="col-md-4">
                             <label for="venmo">Venmo</label>
@@ -35,47 +35,18 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="inputGroupPrepend2">@</span>
                                 </div>
-                                <input type="text" class="form-control" name="venmo" id="venmo" value="{{profile.venmo}}">
+                                <input type="text" class="form-control" name="venmo" id="venmo">
                             </div>
                         </div>
                         <div class="col-md-2">
                             <label for="year">Year</label>
-                            <select class="form-control" id="year" name="year" value="{{profile.year}}">
-                                {% if profile.year == '1' %}
-                                <option selected>1</option>
-                                {% else %}
+                            <select class="form-control" id="year" name="year">
                                 <option>1</option>
-                                {% endif %}
-
-                                {% if profile.year == '2' %}
-                                <option selected>2</option>
-                                {% else %}
                                 <option>2</option>
-                                {% endif %}
-
-                                {% if profile.year == '3' %}
-                                <option selected>3</option>
-                                {% else %}
                                 <option>3</option>
-                                {% endif %}
-
-                                {% if profile.year == '4' %}
-                                <option selected>4</option>
-                                {% else %}
                                 <option>4</option>
-                                {% endif %}
-
-                                {% if profile.year == 'Graduate' %}
-                                <option selected>Graduate</option>
-                                {% else %}
                                 <option>Graduate</option>
-                                {% endif %}
-
-                                {% if profile.year == 'Other' %}
-                                <option selected>Other</option>
-                                {% else %}
                                 <option>Other</option>
-                                {% endif %}
                             </select>
                         </div>
                     </div>
@@ -83,18 +54,18 @@
                         
                         <div class="col-md-8">
                             <label for="major">Major(s) / Minor(s)</label>
-                            <input type="text" class="form-control" name="major" id="major" value="{{profile.major}}">
+                            <input type="text" class="form-control" name="major" id="major">
                         </div>
                         <div class="col-md-3">
                             <label for="phone">Phone</label>
-                            <input type="tel" class="form-control" name="phone" id="phone" value="{{profile.phone}}" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
+                            <input type="tel" class="form-control" name="phone" id="phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
                             <small class="text-info">Use format: ###-###-####</small>
                         </div>
                     </div>
                     <div class="row my-row pb-3" style="margin-left: 60px">
                         <div class="col-md-11">
                             <label for="bio">Bio</label>
-                            <textarea class="form-control" id="bio" rows=5 name="bio">{{profile.bio}}</textarea>
+                            <textarea class="form-control" id="bio" rows=5 name="bio"></textarea>
                             <small class="text-info">Tell other users a little bit about yourself!</small>
                         </div>
                     </div>

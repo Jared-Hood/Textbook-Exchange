@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'txtbook.apps.TxtbookConfig',
     'bootstrap4',
     'social_django', # for google auth
-    # 'sendgrid',
 ]
 
 AUTHENTICATION_BACKENDS = ( # backends for social_django

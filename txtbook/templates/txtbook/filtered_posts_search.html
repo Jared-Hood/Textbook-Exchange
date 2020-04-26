@@ -54,13 +54,17 @@
     }
 </style>
 
-<div class="col-md-8 text-left mx-auto"> 
-    <form class="form" role="form" autocomplete="off" method="post" action="{% url 'txtbook:filtered_posts_search' %}">
+<div class="col-md-10 offset-md-2"> 
+    <form class="form" role="form" autocomplete="off" method="GET" action="{% url 'txtbook:filtered_posts_search' %}">
     {% csrf_token %}
         <!-- Search Bar -->
         <div class="row my-row text-left">
             <div class="col-12 col-md-8">
-              <input type="search" name = "q" class="form-control form-control-lg" aria-label="Search">
+            {% if search_term == '' %}
+              <input type="search" name = "q" class="form-control form-control-lg" aria-label="Search" placeholder="Search available posts by title, author, or seller email">
+            {% else %}
+              <input type="search" name = "q" class="form-control form-control-lg" aria-label="Search" value="{{search_term}}">
+            {% endif %}
             </div>
             <div class="col-3 col-md-2">
               <button type="submit" class="btn btn-block btn-lg btn-primary">Search</button>
@@ -70,11 +74,12 @@
         <!-- Filter -->
         <br><br><u>Filter Options</u>
         <div class="row my-row mx-auto">
-            <div class="col-2 my-col">
-                <label>Sort by date:     </label>
-            </div>
-            <div class="form-group small">
-                <div class="form-check form-check-inline">
+            <div class="col-4 my-col">
+                <div class="form-row">
+                    <div class="col-4 my-col">
+                        <label>Sort by date:     </label>
+                    </div>
+                    <div class="form-check form-check-inline">
                     <label class="form-check-label">
                         {% if sort_date == 'newest' %}
                         <input class="form-check-input" type="radio" name="inlineRadioOptions" id="oldest"
@@ -96,18 +101,76 @@
                         {% endif %}
                     </label>
                 </div>
+                    
+                </div>
+            </div>
+            <div class="col-1 my-col">
+                
+            </div>
+            <div class="col-4 my-col">
+                <div class="form-row">
+                    <div class="col-2 my-col">
+                        <label>Class:     </label>
+                    </div>
+                    <div class="form-group col-md-4">
+                        {% if dept == '' %}
+                        <input type="text" maxlength="4" class="form-control" id="dept" name="dept" placeholder="CS">
+                        {% else %}
+                        <input type="text" maxlength="4" class="form-control" id="dept" name="dept" value="{{dept}}">
+                        {% endif %}
+                        <small class="text-info">Department</small>
+                    </div>
+                     <div class="form-group col-md-4">
+                        {% if class_num == '' or dept == '' %}
+                        <input type="text" maxlength="4" class="form-control" id="class_num" name="class_num" placeholder="3240">
+                        {% else %}
+                        <input type="text" maxlength="4" class="form-control" id="class_num" name="class_num" value="{{class_num}}">
+                        {% endif %}
+                        <small class="text-info">Class number</small>
+                    </div>
+                    
+                </div>
             </div>
         </div>
-        
-        <div class="filter-content">
-            <div class="card-body">
+
+
+        <div class="row my-row mx-auto">
+            <div class="col-4 my-col">
                 <div class="form-row">
-                    <div class="col-2 my-col">Maximum Price: </div>
-                    <div class="form-group col-md-2 text-right">
-                        <input type="number" step="0.01" class="form-control" id="max_price" name="max_price" placeholder="${{ max_price }}">
+                    <div class="col-5 my-col">
+                        <label>Maximum Price:     </label>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="inputGroupPrepend2">$</span>
+                            </div>
+                            {% if max_price == '' %}
+                            <input type="number" patter="\d*" maxlength="8"  min="0.00" step="0.01" class="form-control" id="max_price" name="max_price" placeholder="100">
+                            {% else %}
+                            <input type="number" patter="\d*" maxlength="8"  min="0.00" step="0.01" class="form-control" id="max_price" name="max_price" value="{{max_price}}">
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
             </div>
+            <div class="col-1 my-col">
+            </div>
+            <!-- <div class="col-4 my-col">
+                <div class="form-row">
+                    <div class="col-5 my-col">
+                        <label># of results displayed:     </label>
+                    </div>
+                    <div class="form-group col-md-5">
+                        {% if num_results == '' %}
+                        <input type="number" max="20"  min="1" step="0" class="form-control" id="num_results" name="num_results" value="20">
+                        {% else %}
+                        <input type="number" max="20"  min="1" step="0" class="form-control" id="num_results" name="num_results" value="{{num_results}}">
+                        {% endif %}
+                        <small class="text-info">Range: 1-20</small>
+                    </div>
+                </div>
+            </div> -->
         </div>
     </form>
 </div>
@@ -120,11 +183,11 @@
         <div class="row big-row">
             <div class="col-2 big-col float-left">
                 {% if post.textbook.user_created == False %}
-                <img src="/static/txtbook/thumbnails/{{post.textbook.isbn}}.jpg" style="display: block; width: 150px; height: 175px; margin-left: auto; margin-right: auto">
+                <img src="/static/txtbook/thumbnails/{{post.textbook.isbn}}.jpg" style="display: block; width: 175px; height: 225px; margin-left: auto; margin-right: auto">
                 {% elif post.image != 'False' %}
-                <img src="/media/{{ post.image }}" style="display: block; width: 150px; height: 175px; margin-left: auto; margin-right: auto">
+                <img src="/media/{{ post.image }}" style="display: block; width: 175px; height: 225px; margin-left: auto; margin-right: auto">
                 {% else %}
-                <img src="/media/images/no_image_available.png" style="display: block; width: 150px; height: 175px; margin-left: auto; margin-right: auto">
+                <img src="/media/images/no_image_available.png" style="display: block; width: 175px; height: 225px; margin-left: auto; margin-right: auto">
 
                 {% endif %}
             </div>
@@ -166,7 +229,11 @@
                             {% if post.textbook.sect == '' %}
                             Section: N/A
                             {% else %}
-                            Section: {{post.textbook.sect}}
+                                {% if post.textbook.sect|length == 1 %}
+                                Section: 00{{post.textbook.sect}}
+                                {% else %}
+                                Section: {{post.textbook.sect}}
+                                {% endif %}
                             {% endif %}
 
                         </h5>
@@ -181,7 +248,35 @@
 {% else %}
 <p class="text-center">No posts are available.</p>
 {% endif %}
-{% include 'txtbook/pagination.html' %}
+<!-- {% include 'txtbook/pagination.html' %} -->
+<!-- {% if latest_post_list.has_other_pages %}
+<div class="container">
+  <ul class="pagination justify-content-center">
+    {% if latest_post_list.has_previous %}
+      <li class="page-item"><a class ="page-link" href="?page=1&q={{search_term}}" aria-label="First">First</a></li>
+      <li class="page-item"><a class ="page-link" aria-label="Previous" href="?page={{ latest_post_list.previous_page_number }}&q={{search_term}}"><<</a></li>
+    {% else %}
+      <li class="page-item disabled"><a class="page-link"><span>First</span></a></li>
+      <li class="page-item disabled"><a class="page-link"><span><<</span></a></li>
+    {% endif %}
+
+    {% for i in latest_post_list.paginator.page_range %}
+      {% if latest_post_list.number == i %}
+        <li class="page-item active"><a class="page-link" href="#"><span>{{ i }} <span class="sr-only">(current)</span></span></a></li>
+      {% elif i > latest_post_list.number|add:'-3' and i < latest_post_list.number|add:'3' %}
+        <li class="page-item"><a class="page-link" href="?page={{ i }}&q={{search_term}}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if latest_post_list.has_next %}
+      <li class="page-item"><a class="page-link" aria-label="Next" href="?page={{ latest_post_list.next_page_number }}&q={{search_term}}">>></a></li>
+      <li class="page-item"><a class="page-link" aria-label="Last" href="?page={{latest_post_list.paginator.num_pages}}&q={{search_term}}">Last</a></li>
+    {% else %}
+      <li class="page-item disabled"><a class="page-link"><span>>></span></a></li>
+      <li class="page-item disabled"><a class="page-link"><span>Last</span></a></li>
+    {% endif %}
+  </ul>
+</div>
+{% endif %} -->
 
 {% endblock %}
 

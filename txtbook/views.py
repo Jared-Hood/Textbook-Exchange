@@ -16,6 +16,7 @@ from django.contrib.auth import logout
 from django.core.mail import send_mail
 from django.template.context import RequestContext
 from django.shortcuts import redirect
+from django import template
 
 
 # Homepage
@@ -37,16 +38,6 @@ def homepage(request):
 
 def text(request, pk):
     return render(request, 'txtbook/text.html', {'textbook': Textbook.objects.get(id=pk)})
-
-
-# def login(request):
-#     # context = RequestContext(request, {
-#     #     'request': request, 'user': request.user})
-#     user = request.user
-#     if user.profile.id == '':
-#         return render(request, 'txtbook/create_profile.html')
-#     return render(request, 'txtbook/index.html')
-
 
 def logout_request(request):
     logout(request) # logout the user
@@ -84,6 +75,35 @@ class allPostsView(generic.ListView):
         return TextbookPost.objects.filter(
             date_published__lte=timezone.now(), sold=False,
         ).order_by('-date_published')
+
+
+# def allPosts(request):
+#     template = "txtbook/allPosts.html"
+#     model = TextbookPost
+#     context = TextbookPost
+#
+#     results = TextbookPost.objects.filter(
+#             date_published__lte=timezone.now(), sold=False,
+#         ).order_by('-date_published')
+#
+#     paginator = Paginator(results, 20)
+#     page_request_var = 'page'
+#     page = request.GET.get(page_request_var)
+#     try:
+#         posts = paginator.page(page)
+#     except PageNotAnInteger:
+#         posts = paginator.page(1)
+#     except EmptyPage:
+#         posts = paginator.page(paginator.num_pages)
+#     index = posts.number - 1
+#     max_index = len(paginator.page_range)
+#     start_index = index - 5 if index >= 5 else 0
+#     end_index = index + 5 if index <= max_index - 5 else max_index
+#     page_range = paginator.page_range[start_index:end_index]
+#
+#     return render(request, 'txtbook/allPosts.html',
+#                   {'latest_post_list': posts})
+
 
 # Shows a post individually
 class PostView(generic.DetailView):
@@ -238,6 +258,8 @@ def search(request):
         else:
             print("not numeric")
             results = Textbook.objects.filter(Q(title__icontains=query)| Q(author__icontains=query)).distinct('isbn','title').distinct('isbn','title').order_by('title','-isbn').distinct('title')
+    if query == '' or query == None:
+        results = Textbook.objects.all().order_by('dept','classnum')
     paginator = Paginator(results, 20)
     page_request_var = 'page'
     page = request.GET.get(page_request_var)
@@ -266,7 +288,7 @@ def addExistingTextbook(request,pk):
         new_price = request.POST['price']
         new_negotiable = request.POST['negotiable']
         new_exchangable = request.POST['exchangable']
-        new_maxdiff = request.POST['maxDiff']
+        new_maxdiff = str(request.POST['maxDiff'])
         new_payment = request.POST['payment']
         new_condition = request.POST['inlineRadioOptions']
         new_additional_info = request.POST['additionalInfo']
@@ -274,6 +296,9 @@ def addExistingTextbook(request,pk):
         new_image = request.FILES.get('image', False)
         new_email = request.POST['email']
         profile_id = request.POST['profile']
+
+        if (new_price != ''):
+            new_price = float(new_price)
 
         if (new_price == ''):
             print("no new price")
@@ -331,10 +356,10 @@ def addTextbook(request):
             new_classnum = request.POST['classnum']
             new_isbn = request.POST['isbn']
             new_sect = request.POST['sect']
-            new_price = float(request.POST['price'])
+            new_price = request.POST['price']
             new_negotiable = request.POST['negotiable']
             new_exchangable = request.POST['exchangable']
-            new_maxdiff = request.POST['maxDiff']
+            new_maxdiff = str(request.POST['maxDiff'])
             new_payment = request.POST['payment']
             new_condition = request.POST['inlineRadioOptions']
             new_additional_info = request.POST['additionalInfo']
@@ -342,6 +367,9 @@ def addTextbook(request):
             new_image = request.FILES.get('image', False)
             new_email = request.POST['email']
             profile_id = request.POST['profile']
+
+            if (new_price != ''):
+                new_price = float(new_price)
 
             if (new_title == '' or new_price == ''):
                 return render(request, 'txtbook/addTextbook.html', {
@@ -426,33 +454,115 @@ def textbook_upload(request):
     context = {}
     return render(request,template,context)
 
+
+register = template.Library()
+
+
+@register.simple_tag(takes_context=True)
 def filtered_posts_search(request):
     template = "txtbook/allPosts.html"
     model = TextbookPost
     context = TextbookPost
 
-    sort_date = request.POST['inlineRadioOptions']
-    max_price = request.POST['max_price']
+    filter_data = {}
+    results = []
+
+    query = request.GET.get('q')
+
+    sort_date = request.GET.get('inlineRadioOptions')
+    max_price = request.GET.get('max_price')
+
+    dept = request.GET.get('dept')
+    class_num = request.GET.get('class_num')
+
+    # query = request.POST['q']
+    # sort_date = request.POST['inlineRadioOptions']
+    # max_price = request.POST['max_price']
+    # dept = request.POST['dept']
+    # class_num = request.POST['class_num']
+
+    # num_results = request.POST.get('num_results', False)
+
+    # if num_results != '':
+    #     num_results = int(num_results)
+    # else:
+    #     num_results = 20
+
+    # if dept == None:
+    #     dept = ''
+    #
+    # if class_num == None:
+    #     class_num = ''
+    #
+    # if sort_date == None:
+    #     sort_date = 'newest'
+    #
+    # if query == None:
+    #     query == ''
+    #
+    # if max_price == None:
+    #     max_price == ''
+
+
+    # filter_data = {
+    #     'search_term': query,
+    #     'sort_date': sort_date,
+    #     'max_price': max_price,
+    #     'dept': dept,
+    #     'class_num': class_num,
+    # }
 
     if sort_date == 'newest':
-        latest_post_list = TextbookPost.objects.filter(
-            date_published__lte=timezone.now(),
-            sold=False
-        ).order_by('-date_published')
+        results = TextbookPost.objects.filter(
+            Q(textbook__title__icontains=query) | Q(textbook__author__icontains=query) | Q(
+                email__icontains=query), date_published__lte=timezone.now(),
+                sold=False).order_by('-date_published')
     else:
-        latest_post_list = TextbookPost.objects.filter(
-            date_published__lte=timezone.now(),
-            sold=False
-        ).order_by('date_published')
+        results = TextbookPost.objects.filter(
+            Q(textbook__title__icontains=query) | Q(textbook__author__icontains=query) | Q(
+                email__icontains=query), date_published__lte=timezone.now(),
+            sold=False).order_by('date_published')
 
-    if max_price != '':
-        latest_post_list = latest_post_list.filter(
-            price__lte=float(max_price),
-            sold=False
-        )
+    if max_price != '' and max_price != None:
+        results = results.filter(
+            Q(textbook__title__icontains=query) | Q(textbook__author__icontains=query) | Q(
+                email__icontains=query), sold=False,
+                price__lte=float(max_price))
+    if dept != '':
+        results = results.filter(textbook__dept=dept)
+        if class_num != '':
+            results = results.filter(textbook__classnum=class_num)
+
+    posts = results
+
+    # paginator = Paginator(results, 2)
+    # page_request_var = 'page'
+    # page = request.GET.get(page_request_var)
+    # try:
+    #     posts = paginator.page(page)
+    # except PageNotAnInteger:
+    #     posts = paginator.page(1)
+    # except EmptyPage:
+    #     posts = paginator.page(paginator.num_pages)
+    # index = posts.number - 1
+    # max_index = len(paginator.page_range)
+    # start_index = index - 5 if index >= 5 else 0
+    # end_index = index + 5 if index <= max_index - 5 else max_index
+    # page_range = paginator.page_range[start_index:end_index]
+
+    # filter_data.update({
+    #     'dept': dept,
+    #     'class_num': class_num,
+    #     'sort_date': sort_date,
+    #     'search_term': query,
+    #     'max_price': max_price,
+    #     'latest_post_list': posts,
+    # })
 
     return render(request, 'txtbook/filtered_posts_search.html',
-                  {'latest_post_list': latest_post_list, 'max_price': max_price, 'sort_date': sort_date})
+                      {'latest_post_list': posts, 'max_price': max_price, 'sort_date': sort_date, 'search_term': query,
+                       'dept': dept, 'class_num': class_num})
+
 
 
 # Code to get the ForeignKey set for an object:
@@ -564,12 +674,15 @@ def edit_post_database_text(request, pk):
         new_price = request.POST['price']
         new_negotiable = request.POST['negotiable']
         new_exchangable = request.POST['exchangable']
-        new_maxdiff = request.POST['maxDiff']
+        new_maxdiff = str(request.POST['maxDiff'])
         new_payment = request.POST['payment']
         new_condition = request.POST['inlineRadioOptions']
         new_additional_info = request.POST['additionalInfo']
         new_format = request.POST['format']
         delete_image = request.POST['delete_image']
+
+        if (new_price != ''):
+            new_price = float(new_price)
 
         if tp.image == 'False':
             new_image = request.FILES.get('image', False)
@@ -642,12 +755,15 @@ def edit_post_original_text(request, pk):
         new_price = request.POST['price']
         new_negotiable = request.POST['negotiable']
         new_exchangable = request.POST['exchangable']
-        new_maxdiff = request.POST['maxDiff']
+        new_maxdiff = str(request.POST['maxDiff'])
         new_payment = request.POST['payment']
         new_condition = request.POST['inlineRadioOptions']
         new_additional_info = request.POST['additionalInfo']
         new_format = request.POST['format']
         delete_image = request.POST['delete_image']
+
+        if (new_price != ''):
+            new_price = float(new_price)
 
         if tp.image == 'False':
             new_image = request.FILES.get('image', False)
@@ -751,3 +867,7 @@ def repost(request, pk):
     tp.save()
 
     return HttpResponseRedirect(tp.get_absolute_url())
+
+
+def search_options(request):
+    return render(request, 'txtbook/search_options.html')

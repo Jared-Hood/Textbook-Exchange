@@ -33,10 +33,6 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, db_constraint=False)
     name = models.CharField(max_length=200, default='')
     email = models.CharField(max_length=100, default='')
-    # posts = models.ManyToManyField(TextbookPost, blank=True)
-    # post_ids = ArrayField(
-    #     base_field=models.IntegerField(), blank=True, null=True
-    # )
     rating = models.CharField(max_length=100, default='',blank=True)
     venmo = models.CharField(max_length=100, default='',blank=True)
     year = models.CharField(max_length=100, default='',blank=True)

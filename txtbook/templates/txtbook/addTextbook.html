@@ -17,10 +17,9 @@
 
 
 <!-- </div> -->
-
-{% if error_message %}<p class="text-center"><strong>{{ error_message }}</strong></p>
+<br><br>
+{% if error_message %}<p class="text-center" style="color:red"><strong>{{ error_message }}</strong></p>
 {% endif %}
-<br></br>
 <p class="text-center"> Search for your book in the UVA Textbook list with the ISBN, title, or author:</p>
 <div class="d-flex justify-content-center">
     <form class="form-inline my-2 my-lg-0 text-center" method="GET" action="{% url 'txtbook:search' %}">
@@ -129,7 +128,7 @@
                             <label for="price">Price<h8 style="color: red">*</h8></label>
                             <div class="input-group">
                                 <div class="input-group-prepend"><span class="input-group-text">$</span></div>
-                                <input step="0.01" patter="\d*" maxlength="8" type="number" class="form-control" id="price" name="price">
+                                <input step="0.01" patter="\d*" maxlength="8" type="number" min="0.00" class="form-control" id="price" name="price">
                             </div>
                         </div>
                         <div class="col-sm-3 pb-3">
@@ -154,7 +153,7 @@
                             <label for="maxdiff">If exchangable, maximum price difference:</label>
                             <div class="input-group">
                                 <div class="input-group-prepend"><span class="input-group-text">$</span></div>
-                                <input type="text" class="form-control" id="maxDiff" name="maxDiff">
+                                <input step="0.01" patter="\d*" maxlength="8" type="number" min="0.00" class="form-control" id="maxDiff" name="maxDiff">
                             </div>
                             <small class="text-info">Exchangable refers to whether you would trade your textbook for other books of similar value.</small>
                         </div>

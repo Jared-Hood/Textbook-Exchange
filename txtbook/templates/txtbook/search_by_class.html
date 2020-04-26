@@ -7,7 +7,7 @@
     <div class="container">
       <div class="row">
         <div class="col-xl-9 mx-auto">
-          <h2 class="mb-4"> Search by Class:</h2>
+          <h2 class="mb-4"> Search by Class</h2>
         </div>
         <div class="col-md-1 col-lg-8 col-xl-7 mx-auto">
         </div>
@@ -16,12 +16,22 @@
   </section>
   <div class="d-flex justify-content-center">
       <form class="form-inline my-2 my-lg-0 text-center" method="GET" action="{% url 'txtbook:class_search' %}">
-            <div>
-                <input class="form-control mr-sm-2" name="class" value="{{request.GET.class}}" placeholder=" Department (ex: CS)" maxlength="4"
-                    aria-label="Search">
-                <input class="form-control mr-sm-2" name="nbr" value="{{request.GET.nbr}}" placeholder="Course Number"
-                        aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            <div class="row my-row">
+                <div class="col-md-4">
+                  <label class="col-md-5 col-form-label form-control-label" style="margin-left:12px">Department</label>
+                  <input class="form-control mr-sm-2" name="class" value="{{request.GET.class}}" placeholder="BIOL" maxlength="4"
+                      aria-label="Search"><br>
+                  <small class="text-info col-md-8 text-left" style="margin-left:0px; margin-right:150px">e.g., BIOL</small>
+                </div>
+                <div class="col-md-5">
+                  <label class="col-md-8 col-form-label form-control-label">Course Number</label>
+                  <input class="form-control mr-sm-2" name="nbr" value="{{request.GET.nbr}}" placeholder="3100"
+                          aria-label="Search"><br>
+                  <small class="text-info col-md-2">e.g., from BIOL 3100, type 3100</small>
+              </div>
+              <div class="col-md-2" style="margin-top:38px">
+                  <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+              </div>
             </div>
       </form>
   </div>
@@ -149,8 +159,10 @@
 </ul>
 {% elif dept == "" %}
   <p class="text-center">No textbooks matched the search.</p>
-{% else  %}
+{% elif dept == null and nbr == null %}
   <p class="text-center">Search for textbooks!</p>
+{% else  %}
+  <p class="text-center">No textbooks matched the search.</p>
 {% endif %}
 
 {% if books.has_other_pages %}
