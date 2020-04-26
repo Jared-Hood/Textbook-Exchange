@@ -7,7 +7,11 @@
         <div class="container">
           <div class="row">
             <div class="col-xl-9 mx-auto">
+              {% if search_term == '' or search_term == 'None' or search_term == null %}
+              <h2 class="mb-4">Textbooks from UVA</h2>
+              {% else %}
               <h2 class="mb-4"> Search Results for: {{search_term}}</h2>
+              {% endif %}
             </div>
             <div class="col-md-1 col-lg-8 col-xl-7 mx-auto">
             </div>
@@ -64,6 +68,23 @@
         text-overflow: ellipsis;
       }
     </style>
+<br><br>
+<br>
+<div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
+    <form method="GET" action="{% url 'txtbook:search' %}">
+      <div class="row">
+        <div class="col-md-9 mb-2 mb-md-0">
+          <input type="search" name = "q" class="form-control form-control-lg" placeholder="Search UVA Textbooks by ISBN, Title, or Author" aria-label="Search">
+        </div>
+        <div class="col-md-3 mb-2 mb-md-0">
+          <button type="submit" class="btn btn-block btn-lg btn-primary" style="margin-top:0">Search</button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <br>
+<br>
+
     {% if books %}
     <ul class="text-center">
         {% for book in books %}
@@ -138,10 +159,11 @@
         {% endfor %}
     </ul>
     {% else %}
+    <br><br>
     <p class="text-center">No textbooks matched the search.</p>
     {% endif %}
 
-    {% if books.has_other_pages %}
+    <!-- {% if books.has_other_pages %} -->
     <div class="container">
       <ul class="pagination justify-content-center">
         {% if books.has_previous %}
@@ -168,5 +190,5 @@
         {% endif %}
       </ul>
     </div>
-    {% endif %}
+    <!-- {% endif %} -->
     {% endblock %}

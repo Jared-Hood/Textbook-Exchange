@@ -12,7 +12,7 @@
           <h1 class="mb-5">Buy and Sell Textbooks Here!</h1>
         </div>
 
-        <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
+        <!-- <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
           <form method="GET" action="{% url 'txtbook:search' %}">
             <div class="form-row">
               <div class="col-12 col-md-9 mb-2 mb-md-0">
@@ -23,98 +23,27 @@
               </div>
             </div>
           </form>
-        </div>
+        </div> -->
+
+        <!-- <div class="row"> -->
+          <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
+            <form>
+              <div class="form-row">
+                <div class="col text-center" >
+                  <a style="color: white; font-weight: 20px;" href="{% url 'txtbook:search_options' %}" type="submit" class="btn btn-block btn-lg btn-primary">Start searching for textbooks!</a> </div>
+              </div>
+            </form>
+          </div>
+      <!-- </div> -->
 
       </div>
     </div>
   </header>
 
-  <!-- Icons Grid -->
-  <section class="features-icons bg-light text-center">
-    <div class="container">
-      <div class="row">
-      <div class="row row-center">
-        <style media="screen">
-          .icon{
-            width: 350px;
-            height:350px;
-            transition:all ease-in-out .75s;
-            background-image: url("static/txtbook/img/uva_blur.png");
-            background-size: 1156px 804px;
-            background-position-y: -15px;
-            background-position-x: -7px;
-            border: none;
-            cursor: pointer;
-            font-size: 40px;
-            color: black;
-          }
-          .icon:hover{
-            font-weight: 1;
-            transition: all ease-in-out .75s;
-            transition-duration: .5s;
-            border: 1px solid #888;
-            color: white;
-            background: url("static/txtbook/img/uva_class.png");
-            background-position-y: -15px;
-            background-position-x: -7px;
-            background-size: 1156px 804px;
-          }
-          .icon2{
-            width: 350px;
-            height:350px;
-            transition:all ease-in-out .75s;
-            background-image: url("static/txtbook/img/textbook-blurred.png");
-            background-size: 750px 1500px;
-            background-position-y: -22px;
-            background-position-x: -170px;
-            border: none;
-            cursor: pointer;
-            font-size: 40px;
-            color: black;
-          }
-          .icon2:hover{
-            font-weight: 1;
-            transition: all ease-in-out .75s;
-            transition-duration: .5s;
-            border: 1px solid #888;
-            color: white;
-            background: url("static/txtbook/img/textbooks.png");
-            background-position-y: -22px;
-            background-position-x: -170px;
-            background-size: 750px 1500px;
-          }
-        </style>
-        <div class="col-lg-4">
-            <a href="{% url 'txtbook:search_by_class' %}"><button class="icon" type="link" name="search_by_class"> Search by Class</button></a>
-            <!--
-            <div class="features-icons-icon d-flex">
-              <img class="img-fluid" src="static/txtbook/img/searchbar.png" alt="">
-            </div>
-            <h3>Search by Class</h3>
-            <p class="lead mb-0">Find all the textbooks you need for classes in one place!</p>-->
-        </div>
-        <div class="col-lg-4">
-              <a href="{% url 'txtbook:addTextbook' %}"><button class="icon2" type="link" name="search_by_textbook">Search by Textbook</button></a>
-            <!--
-            <div class="features-icons-icon d-flex">
-              <img class="img-fluid" src="static/txtbook/img/bookclip.png
-" alt="">
-            </div>
-            <h3>Sell Old Textbooks</h3>
-            <p class="lead mb-0">Make a textbook posting and sell your old textbook without having to worry about shipping</p> -->
-        </div>
-        <div class="col-lg-4">
-              <a href="{% url 'txtbook:allPosts' %}"><button class="icon" type="link" name="search_by_post"> Search by Post</button></a>
-            <!--
-            <div class="features-icons-icon d-flex">
-              <img class="img-fluid" src="static/txtbook/img/email.png" alt="">
-            </div>
-            <h3>Easy to Use</h3>
-            <p class="lead mb-0">Just make an login with your email and become a buyer and/or a seller!</p> -->
-        </div>
-      </div>
-    </div>
+  <section style="margin-bottom:100px">
+
   </section>
+
 
   <!-- Image Showcases -->
   <section class="showcase">

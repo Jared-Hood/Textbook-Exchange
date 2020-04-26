@@ -85,11 +85,12 @@
                 {% endif %}
             {% endif %}
         </ul>
-
-        <form class="form-inline my-2 my-lg-0" style="margin-left:auto; margin-right:0;" method="GET" action="{% url 'txtbook:search' %}">
+        
+        <!-- <form class="form-inline my-2 my-lg-0" style="margin-left:auto; margin-right:0;" method="GET" action="{% url 'txtbook:search' %}">
             <input class="form-control mr-lg-2" name='q' type="search" placeholder="Search UVA Textbooks" aria-label="Search">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
+        </form> -->
+        <a style="margin-left:auto; margin-right:0" href="{% url 'txtbook:search_options' %}" type="submit" class="btn btn-outline-success">Search for Textbooks</a>
         {% if user.is_active %}
           {% if user.profile.id == '' %}
           <div class="form-inline my-2 my-lg-0" style="margin-left:10px; margin-right:0;">

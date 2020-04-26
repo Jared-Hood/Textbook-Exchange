@@ -121,6 +121,16 @@ class ViewTests(TestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 302)
 
+    def test_search_options(self):
+        url = reverse('txtbook:search_options')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+
+    def test_textview(self):
+        url = reverse('txtbook:textlist')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+
 
 # E3_test1
 # Tests the textbookpost model, and our database

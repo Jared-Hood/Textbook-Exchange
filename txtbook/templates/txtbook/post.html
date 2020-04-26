@@ -112,7 +112,11 @@
                                   {% if textbookpost.textbook.sect == '' %}
                                   Section: <h7 style="display: inline; color: gray">N/A</h7>
                                   {% else %}
-                                  Section: {{textbookpost.textbook.sect}}
+                                    {% if textbookpost.textbook.sect|length == 1 %}
+                                    Section: 00{{textbookpost.textbook.sect}}
+                                    {% else %}
+                                    Section: {{textbookpost.textbook.sect}}
+                                    {% endif %}
                                   {% endif %}
 
                               </h5>

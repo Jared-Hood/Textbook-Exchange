@@ -14,7 +14,7 @@
 <p class="text-center">All posts must have the Sale Information section filled out.</p>
 <p class="text-center">Fields marked with the <h8 style="color:red">*</h8> symbol must be filled out.</p>
 
-{% if error_message %}<p class="text-center"><strong>{{ error_message }}</strong></p>
+{% if error_message %}<p class="text-center" style="color:red"><strong>{{ error_message }}</strong></p>
 {% endif %}
 
 <!----- Code for Forms: https://www.codeply.com/go/JVP2nxfv0p/bootstrap-4-forms ------------------------>
@@ -157,7 +157,7 @@
                                 <label for="maxdiff">If exchangable, maximum price difference:</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend"><span class="input-group-text">$</span></div>
-                                    <input type="text" class="form-control" id="maxDiff" name="maxDiff">
+                                    <input step="0.01" patter="\d*" maxlength="8" type="number" min="0.00" class="form-control" id="maxDiff" name="maxDiff">
                                 </div>
                                 <small class="text-info">Exchangable refers to whether you would trade your textbook for other books of similar value.</small>
                             </div>
