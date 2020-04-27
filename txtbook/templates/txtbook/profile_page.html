@@ -27,7 +27,7 @@
 
                                     <h7>
                                     Year: 
-                                    {% if profile.year == '' %}
+                                    {% if profile.year == '' or profile.year == 'N/A' %}
                                     <h7 style="color: gray">N/A</h7>
                                     {% else %}
                                     {{ profile.year }}

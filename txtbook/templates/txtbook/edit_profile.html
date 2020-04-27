@@ -78,6 +78,12 @@
                                 <option>Other</option>
                                 {% endif %}
 
+                                {% if profile.year == 'N/A' %}
+                                <option selected>N/A</option>
+                                {% else %}
+                                <option>N/A</option>
+                                {% endif %}
+
                                 <!-- <option>2nd</option>
                                 <option>3rd</option>
                                 <option>4th</option>

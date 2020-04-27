@@ -119,9 +119,23 @@
                             <div class="col-sm-5 pb-3">
                                 <label for="negotiable">Textbook Format</label>
                                 <select class="form-control" id="format" name="format">
+                                    {% if textbookpost.format == 'Hard Cover' %}
+                                    <option selected>Hard Cover</option>
+                                    {% else %}
                                     <option>Hard Cover</option>
+                                    {% endif %}
+                                    
+                                    {% if textbookpost.format == 'Loose Leaf' %}
+                                    <option selected>Loose Leaf</option>
+                                    {% else %}
                                     <option>Loose Leaf</option>
+                                    {% endif %}
+
+                                    {% if textbookpost.format == 'Other (specify in Additional Information)' %}
+                                    <option selected>Other (specify in Additional Information)</option>
+                                    {% else %}
                                     <option>Other (specify in Additional Information)</option>
+                                    {% endif %}
                                 </select>
                             </div>
                             <div class="col-sm-4 pb-3">
@@ -134,8 +148,17 @@
                             <div class="col-sm-3 pb-3">
                                 <label for="negotiable">Negotiable Price</label>
                                 <select class="form-control" id="negotiable" name="negotiable">
+                                    {% if textbookpost.negotiable == 'Yes' %}
+                                    <option selected>Yes</option>
+                                    {% else %}
                                     <option>Yes</option>
+                                    {% endif %}
+
+                                    {% if textbookpost.negotiable == 'No' %}
+                                    <option selected>No</option>
+                                    {% else %}
                                     <option>No</option>
+                                    {% endif %}
                                 </select>
                             </div>
                         </div>
@@ -145,8 +168,17 @@
                             <div class="col-sm-2 pb-3">
                                 <label for="exchangable">Exchangable</label>
                                 <select class="form-control" id="exchangable" name="exchangable">
+                                    {% if textbookpost.exchangable == 'Yes' %}
+                                    <option selected>Yes</option>
+                                    {% else %}
                                     <option>Yes</option>
+                                    {% endif %}
+
+                                    {% if textbookpost.exchangable == 'No' %}
+                                    <option selected>No</option>
+                                    {% else %}
                                     <option>No</option>
+                                    {% endif %}
                                 </select>
                             </div>
 
@@ -156,15 +188,29 @@
                                     <div class="input-group-prepend"><span class="input-group-text">$</span></div>
                                     <input step="0.01" patter="\d*" maxlength="8" type="number" min="0.00" class="form-control" id="maxDiff" name="maxDiff" value="{{ textbookpost.max_diff}}">
                                 </div>
-                                <small class="text-info">Exchangable refers to whether you would trade your textbook for other books of similar value.</small>
+                                <small class="text-info">Exchangable refers to whether you would trade your textbook for other books of similar value. Leave blank if not exchangable.</small>
                             </div>
 
                             <div class="col-sm-5 pb-3">
                                 <label for="payment">Preferred Method of Payment</label>
                                 <select class="form-control" id="payment" name="payment">
+                                    {% if textbookpost.payment == 'Venmo' %}
+                                    <option selected>Venmo</option>
+                                    {% else %}
                                     <option>Venmo</option>
+                                    {% endif %}
+
+                                    {% if textbookpost.payment == 'Cash' %}
+                                    <option selected>Cash</option>
+                                    {% else %}
                                     <option>Cash</option>
+                                    {% endif %}
+
+                                    {% if textbookpost.payment == 'Other (specify in Additional Information)' %}
+                                    <option selected>Other (specify in Additional Information)</option>
+                                    {% else %}
                                     <option>Other (specify in Additional Information)</option>
+                                    {% endif %}
                                 </select>
                             </div>
 
@@ -174,32 +220,57 @@
                                 <div class="form-group small">
                                     <div class="form-check form-check-inline">
                                         <label class="form-check-label">
+                                            {% if textbookpost.condition == '1' %}
+                                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="1/5"
+                                                value="1" checked="checked"> 1
+                                            {% else %}
                                             <input class="form-check-input" type="radio" name="inlineRadioOptions" id="1/5"
                                                 value="1"> 1
+                                            {% endif %}
                                         </label>
                                     </div>
                                     <div class="form-check form-check-inline">
                                         <label class="form-check-label">
+                                            {% if textbookpost.condition == '2' %}
+                                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="2/5"
+                                                value="2" checked="checked"> 2
+                                            {% else %}
                                             <input class="form-check-input" type="radio" name="inlineRadioOptions" id="2/5"
                                                 value="2"> 2
+                                            {% endif %}
                                         </label>
                                     </div>
                                     <div class="form-check form-check-inline">
                                         <label class="form-check-label">
+                                            {% if textbookpost.condition == '3' %}
+                                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="3/5"
+                                                value="3" checked="checked"> 3
+                                            {% else %}
                                             <input class="form-check-input" type="radio" name="inlineRadioOptions" id="3/5"
                                                 value="3"> 3
+                                            {% endif %}
                                         </label>
                                     </div>
                                     <div class="form-check form-check-inline">
                                         <label class="form-check-label">
+                                            {% if textbookpost.condition == '4' %}
+                                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="4/5"
+                                                value="4" checked="checked"> 4
+                                            {% else %}
                                             <input class="form-check-input" type="radio" name="inlineRadioOptions" id="4/5"
                                                 value="4"> 4
+                                            {% endif %}
                                         </label>
                                     </div>
                                     <div class="form-check form-check-inline">
                                         <label class="form-check-label">
+                                            {% if textbookpost.condition == '5' %}
                                             <input class="form-check-input" type="radio" name="inlineRadioOptions" id="5/5"
                                                 value="5" checked="checked"> 5
+                                            {% else %}
+                                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="5/5"
+                                                value="5"> 5
+                                            {% endif %}
                                         </label>
                                     </div>
                                     <div>

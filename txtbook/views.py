@@ -312,10 +312,21 @@ def addExistingTextbook(request,pk):
             if (float(new_maxdiff) > new_price):
                 return render(request, 'txtbook/addExistingTextbook.html', {'textbook': Textbook.objects.get(id=pk),
                                                                             'error_message': "Maximum price difference must be less than or equal to the price of the textbook."})
+            new_maxdiff = str(float(new_maxdiff))
+            if new_maxdiff[-2] == '.':
+                new_maxdiff += '0'
+            if new_maxdiff[0] == '.':
+                new_maxdiff = '0' + new_maxdiff
 
         if (new_email == ''):
             return render(request, 'txtbook/addExistingTextbook.html',
                           {'textbook': Textbook.objects.get(id=pk), 'error_message': "You must be logged in to post a textbook."})
+
+        if new_exchangable == 'No':
+            new_maxdiff = ''
+            # return render(request, 'txtbook/addExistingTextbook.html',
+            #               {'textbook': Textbook.objects.get(id=pk),
+            #                'error_message': "There cannot be a maximum price difference if the textbook is NOT exchangable."})
 
     except (KeyError, TextbookPost.DoesNotExist):
         return render(request, 'txtbook/addExistingTextbook.html', {
@@ -338,10 +349,21 @@ def addExistingTextbook(request,pk):
             if (float(new_maxdiff) > new_price):
                 return render(request, 'txtbook/addExistingTextbook.html', {'textbook': Textbook.objects.get(id=pk),
                                                                             'error_message': "Maximum price difference must be less than or equal to the price of the textbook."})
+            new_maxdiff = str(float(new_maxdiff))
+            if new_maxdiff[-2] == '.':
+                new_maxdiff += '0'
+            if new_maxdiff[0] == '.':
+                new_maxdiff = '0' + new_maxdiff
 
         if (new_email == ''):
             return render(request, 'txtbook/addExistingTextbook.html',
                           {'textbook': Textbook.objects.get(id=pk), 'error_message': "You must be logged in to post a textbook."})
+
+        if new_exchangable == 'No':
+            new_maxdiff = ''
+            # return render(request, 'txtbook/addExistingTextbook.html',
+            #               {'textbook': Textbook.objects.get(id=pk),
+            #                'error_message': "There cannot be a maximum price difference if the textbook is NOT exchangable."})
 
         tp = TextbookPost(
             textbook=Textbook.objects.get(id=pk),
@@ -415,6 +437,17 @@ def addTextbook(request):
                     return render(request, 'txtbook/addTextbook.html', {
                         'error_message': "Maximum price difference must be less than or equal to the price of the textbook."
                     })
+                new_maxdiff = str(float(new_maxdiff))
+                if new_maxdiff[-2] == '.':
+                    new_maxdiff += '0'
+                if new_maxdiff[0] == '.':
+                    new_maxdiff = '0' + new_maxdiff
+
+            if new_exchangable == 'No':
+                new_maxdiff = ''
+                # return render(request, 'txtbook/addTextbook.html', {
+                #     'error_message': "There cannot be a maximum price difference if the textbook is NOT exchangable."
+                # })
 
 
         except (KeyError, TextbookPost.DoesNotExist):
@@ -447,6 +480,17 @@ def addTextbook(request):
                     return render(request, 'txtbook/addTextbook.html', {
                         'error_message': "Maximum price difference must be less than or equal to the price of the textbook."
                     })
+                new_maxdiff = str(float(new_maxdiff))
+                if new_maxdiff[-2] == '.':
+                    new_maxdiff += '0'
+                if new_maxdiff[0] == '.':
+                    new_maxdiff = '0' + new_maxdiff
+
+            if new_exchangable == 'No':
+                new_maxdiff = ''
+                # return render(request, 'txtbook/addTextbook.html', {
+                #     'error_message': "There cannot be a maximum price difference if the textbook is NOT exchangable."
+                # })
 
             book = Textbook.objects.create(title=new_title, author=new_author, dept=new_dept, classnum=new_classnum,
                                            sect=new_sect, isbn=new_isbn, user_created=True)
@@ -755,8 +799,18 @@ def edit_post_database_text(request, pk):
                     'textbookpost': TextbookPost.objects.get(id=pk),
                     'error_message': "Maximum price difference must be less than or equal to the price of the textbook."
                 })
+            new_maxdiff = str(float(new_maxdiff))
+            if new_maxdiff[-2] == '.':
+                new_maxdiff += '0'
+            if new_maxdiff[0] == '.':
+                new_maxdiff = '0' + new_maxdiff
 
-
+        if new_exchangable == 'No':
+            new_maxdiff = ''
+            # return render(request, 'txtbook/edit_post_database_text.html', {
+            #     'textbookpost': TextbookPost.objects.get(id=pk),
+            #     'error_message': "There cannot be a maximum price difference if the textbook is NOT exchangable."
+            # })
 
     except (KeyError, Profile.DoesNotExist):
         return render(request, 'txtbook/edit_post_database_text.html', {
@@ -783,6 +837,18 @@ def edit_post_database_text(request, pk):
                     'textbookpost': TextbookPost.objects.get(id=pk),
                     'error_message': "Maximum price difference must be less than or equal to the price of the textbook."
                 })
+            new_maxdiff = str(float(new_maxdiff))
+            if new_maxdiff[-2] == '.':
+                new_maxdiff += '0'
+            if new_maxdiff[0] == '.':
+                new_maxdiff = '0' + new_maxdiff
+
+        if new_exchangable == 'No':
+            new_maxdiff = ''
+            # return render(request, 'txtbook/edit_post_database_text.html', {
+            #     'textbookpost': TextbookPost.objects.get(id=pk),
+            #     'error_message': "There cannot be a maximum price difference if the textbook is NOT exchangable."
+            # })
 
         tp.price = new_price
         tp.negotiable = new_negotiable
@@ -860,6 +926,18 @@ def edit_post_original_text(request, pk):
                     'textbookpost': TextbookPost.objects.get(id=pk),
                     'error_message': "Maximum price difference must be less than or equal to the price of the textbook."
                 })
+            new_maxdiff = str(float(new_maxdiff))
+            if new_maxdiff[-2] == '.':
+                new_maxdiff += '0'
+            if new_maxdiff[0] == '.':
+                new_maxdiff = '0' + new_maxdiff
+
+        if new_exchangable == 'No':
+            new_maxdiff = ''
+            # return render(request, 'txtbook/edit_post_original_text.html', {
+            #     'textbookpost': TextbookPost.objects.get(id=pk),
+            #     'error_message': "There cannot be a maximum price difference if the textbook is NOT exchangable."
+            # })
 
     except (KeyError, Profile.DoesNotExist):
         return render(request, 'txtbook/edit_post_original_text.html', {
@@ -892,6 +970,18 @@ def edit_post_original_text(request, pk):
                     'textbookpost': TextbookPost.objects.get(id=pk),
                     'error_message': "Maximum price difference must be less than or equal to the price of the textbook."
                 })
+            new_maxdiff = str(float(new_maxdiff))
+            if new_maxdiff[-2] == '.':
+                new_maxdiff += '0'
+            if new_maxdiff[0] == '.':
+                new_maxdiff = '0' + new_maxdiff
+
+        if new_exchangable == 'No':
+            new_maxdiff = ''
+            # return render(request, 'txtbook/edit_post_original_text.html', {
+            #     'textbookpost': TextbookPost.objects.get(id=pk),
+            #     'error_message': "There cannot be a maximum price difference if the textbook is NOT exchangable."
+            # })
 
         tp.textbook.title = new_title
         tp.textbook.author = new_author
